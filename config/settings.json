@@ -1,0 +1,47 @@
+{
+  "llm": {
+    "provider": "openai",
+    "model": "gpt-4",
+    "api_key": "YOUR_API_KEY_HERE",
+    "temperature": 0.2,
+    "max_tokens": 2000
+  },
+  "static_analysis": {
+    "infer": {
+      "enabled": true,
+      "path": "/usr/local/bin/infer",
+      "options": {
+        "enable-issue-type": [
+          "NULL_DEREFERENCE",
+          "MEMORY_LEAK",
+          "BUFFER_OVERRUN",
+          "UNINITIALIZED_VALUE"
+        ]
+      }
+    }
+  },
+  "dynamic_analysis": {
+    "valgrind": {
+      "enabled": true,
+      "path": "/usr/local/bin/valgrind",
+      "options": {
+        "leak-check": "full",
+        "show-leak-kinds": "all"
+      }
+    },
+    "test_generation": {
+      "enabled": true,
+      "max_tests_per_function": 10,
+      "timeout_seconds": 30
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/repair.log",
+    "console": true
+  },
+  "output": {
+    "save_intermediate_results": true,
+    "output_dir": "results"
+  }
+} 
