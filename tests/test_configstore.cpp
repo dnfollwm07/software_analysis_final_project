@@ -1,15 +1,24 @@
+#define TESTING 1
+
 #include <iostream>
 #include <cassert>
 #include <string>
 #include <vector>
 #include <memory>
-#include "../src/sample_code.cpp"
+#include <functional>
+
+// 根據TEST_CORRECT變量決定包含哪個版本的代碼
+#ifdef TEST_CORRECT
+#include "../src/correct_code.cpp"
+#else
+#include "../src/test_code.cpp"
+#endif
 
 /**
  * Simple test framework for ConfigStore
  * 
- * This test suite aims to trigger the bugs in the ConfigStore implementation
- * and validate that they are fixed after repair.
+ * This test suite aims to test both correct and buggy implementations
+ * of the ConfigStore class.
  */
 
 // Utility function to check if a specific test passes
@@ -70,29 +79,36 @@ bool testVectorStorage() {
 
 // Test for nonexistent key access (int)
 bool testNonexistentInt() {
-    // This test is expected to fail due to the bug with uninitialized buffer
     ConfigStore config;
     try {
         int value = config.getInt("nonexistent");
-        // If we get here, the function didn't throw, but we can't verify the value
-        // because it's reading from uninitialized memory
+        // For buggy implementation: we can't verify the value because it's reading from uninitialized memory
+        // For correct implementation: should return 0 as default
+        #ifdef TEST_CORRECT
+        return value == 0;
+        #else
         return false;
+        #endif
     } catch (const std::exception& e) {
-        // Expected behavior after fix would be to throw or return a default value
+        // For fixed implementation that throws
         return true;
     }
 }
 
 // Test for nonexistent key access (float)
 bool testNonexistentFloat() {
-    // This test is expected to fail due to the bug with uninitialized default_value
     ConfigStore config;
     try {
         float value = config.getFloat("nonexistent");
-        // If we get here, the function didn't throw, but returned an uninitialized value
+        // For buggy implementation: uninitialized value
+        // For correct implementation: should return 0.0f as default
+        #ifdef TEST_CORRECT
+        return value == 0.0f;
+        #else
         return false;
+        #endif
     } catch (const std::exception& e) {
-        // Expected behavior after fix would be to throw or return a default value
+        // For fixed implementation that throws
         return true;
     }
 }
@@ -124,11 +140,15 @@ bool testBufferProcessing() {
 bool testBufferProcessingOutOfBounds() {
     ConfigStore config;
     try {
-        // This should fail due to missing upper bound check
+        // This should fail due to missing upper bound check in buggy implementation
         config.processBuffer(15, 42); // Out of bounds for default buffer size (10)
-        return false; // Should not reach here if checks are fixed
+        #ifdef TEST_CORRECT
+        return false; // Should not reach here in correct implementation
+        #else
+        return false; // Should not reach here if buggy implementation is fixed
+        #endif
     } catch (const std::out_of_range& e) {
-        return true; // Expected exception after fix
+        return true; // Expected exception
     }
 }
 
@@ -144,37 +164,36 @@ bool testMemoryLeakOnOverwrite() {
 
 // Test for sumBuffer method
 bool testSumBuffer() {
-    // This test is expected to fail due to:
-    // 1. Uninitialized buffer values
-    // 2. Off-by-one error in the loop
-    
-    // After fix, it should initialize the buffer and fix the loop bounds
     ConfigStore config;
     try {
         int sum = config.sumBuffer();
-        // We can't verify the sum value due to uninitialized buffer
+        #ifdef TEST_CORRECT
+        // In correct implementation, all buffer values are 0, so sum should be 0
+        return sum == 0;
+        #else
+        // In buggy implementation, we have uninitialized values and off-by-one error
         return false;
+        #endif
     } catch (const std::exception& e) {
-        // If the fixed implementation detects and throws for out of bounds
+        // If the implementation detects and throws for out of bounds
         return true;
     }
 }
 
 // Test for processData function
 bool testProcessData() {
-    // This test checks the processData function for bugs:
-    // - Null check
-    // - Off-by-one error
-    // - Out of bounds access
-    // - Memory leaks
-    
     int data[5] = {1, 2, 3, 4, 5};
     try {
         processData(data, 5);
-        // Original implementation would cause undefined behavior
+        #ifdef TEST_CORRECT
+        // Correct implementation should compute sum and store it in the last element
+        return data[4] == 15;
+        #else
+        // Buggy implementation would cause undefined behavior
         return false;
+        #endif
     } catch (const std::exception& e) {
-        // Fixed implementation should detect and handle errors
+        // Fixed buggy implementation might detect and handle errors
         return true;
     }
 }
@@ -183,10 +202,13 @@ bool testProcessData() {
 bool testProcessDataNullPtr() {
     try {
         processData(nullptr, 5);
-        // Original implementation doesn't check for null
-        return false;
+        #ifdef TEST_CORRECT
+        return false; // Should throw in correct implementation
+        #else
+        return false; // Buggy implementation doesn't check for null
+        #endif
     } catch (const std::exception& e) {
-        // Fixed implementation should detect null pointer
+        // Correct implementation should detect null pointer
         return true;
     }
 }
@@ -221,11 +243,24 @@ int main() {
     total++; if (runTest("Process Data Null Pointer", testProcessDataNullPtr)) passed++;
     
     std::cout << "\nTest summary: " << passed << " passed out of " << total << " tests." << std::endl;
-    
+
+    #ifdef TEST_CORRECT
+    std::cout << "Testing CORRECT implementation." << std::endl;
     if (passed < total) {
-        std::cout << "Note: Some tests are expected to fail before bugs are fixed." << std::endl;
-        std::cout << "After successful repair, all tests should pass." << std::endl;
+        std::cout << "Some tests failed on the supposedly correct implementation!" << std::endl;
+        return 1;
+    } else {
+        std::cout << "All tests passed on the correct implementation." << std::endl;
+        return 0;
     }
-    
-    return (passed == total) ? 0 : 1;
+    #else
+    std::cout << "Testing BUGGY implementation." << std::endl;
+    if (passed < total) {
+        std::cout << "As expected, some tests failed on the buggy implementation." << std::endl;
+        return 1;
+    } else {
+        std::cout << "Unexpectedly, all tests passed on the buggy implementation!" << std::endl;
+        return 0;
+    }
+    #endif
 } 
