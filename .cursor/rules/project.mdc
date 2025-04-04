@@ -1,4 +1,8 @@
-# Cursor Rules for LLM-Assisted Code Repair Project
+---
+description: 
+globs: 
+alwaysApply: true
+---
 
 # Project Structure Rules
 project_structure:
