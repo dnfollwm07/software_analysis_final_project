@@ -1,18 +1,74 @@
-# LLM-Assisted Code Repair Project
+# 软件分析期末项目
 
-This project implements a framework for automated code repair using Large Language Models (LLMs) combined with static and dynamic analysis tools.
+## 项目结构
 
-## Project Structure
+```
+project/
+├── src/                  # 源代码目录
+│   ├── static_analysis/  # 静态分析工具集成
+│   ├── dynamic_analysis/ # 动态分析工具集成
+│   ├── llm/              # LLM集成和提示词
+│   ├── utils/            # 工具函数
+│   └── sample_code.cpp   # 示例代码（包含需要分析的bug）
+├── tests/                # 测试目录
+│   └── test_sample_code.cpp # 示例代码测试
+├── config/               # 配置文件目录
+├── docs/                 # 文档目录
+└── CMakeLists.txt        # CMake配置文件
+```
 
-- `src/`: Source code for the framework
-  - `static_analysis/`: Integration with static analysis tools (e.g., Infer)
-  - `dynamic_analysis/`: Test generation and dynamic analysis tools
-  - `llm/`: LLM integration for code repair
-  - `utils/`: Utility functions and helpers
-  - `sample_code.cpp`: Sample C++ code with intentional bugs for testing
-- `tests/`: Test cases and validation
-- `config/`: Configuration files and templates
-- `docs/`: Documentation
+## 构建与运行
+
+### 构建要求
+
+- CMake 3.10+
+- C++14兼容的编译器
+- Google Test（自动下载）
+
+### 构建步骤
+
+```bash
+# 创建构建目录
+mkdir build && cd build
+
+# 配置项目
+cmake ..
+
+# 构建
+cmake --build .
+
+# 运行测试
+ctest
+```
+
+## 测试框架
+
+本项目使用 Google Test 作为测试框架。测试文件位于 `tests/` 目录中。
+
+## 静态分析集成
+
+本项目计划集成 Infer 等静态分析工具，用于检测以下类型的 bug：
+
+- 空指针引用
+- 内存泄漏
+- 数组越界访问
+- 未初始化变量
+
+## 动态分析集成
+
+本项目计划集成动态分析工具，用于：
+
+- 测试用例生成
+- 符号执行
+- 覆盖率分析
+
+## LLM 集成
+
+本项目将整合 LLM 能力，用于：
+
+- 代码分析
+- Bug 修复建议
+- 测试用例生成
 
 ## Features
 
