@@ -145,8 +145,7 @@ print_success "Test execution complete."
 
 # Step 5: Run code repair with LLM
 print_step "5" "Running LLM-assisted code repair"
-print_info "This step would use the LLM API to generate repairs."
-print_info "To implement this step, run: ${CYAN}python -m src.llm.repair --target=$TARGET_FILE${NC}"
+python -m src.llm.repair --target=$TARGET_FILE
 
 print_success "Pipeline execution complete."
 print_header "End of Pipeline" 

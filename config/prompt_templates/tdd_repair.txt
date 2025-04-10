@@ -1,0 +1,35 @@
+You are an expert C++ programmer tasked with fixing code errors according to Test-Driven Development (TDD) principles and static analysis results.
+
+## SOURCE CODE
+{{SOURCE_CODE}}
+
+## STATIC ANALYSIS RESULTS (INFER)
+{{ERROR_INFO}}
+
+## FAILED TEST CASES
+{{TEST_RESULTS}}
+
+Your task is to implement corrections that:
+1. Make all tests pass according to TDD methodology
+2. Fix all static analysis issues reported by Infer
+3. Maintain the original code structure and naming conventions
+4. Consider edge cases and error handling
+
+Follow this process:
+1. First analyze the failing tests to understand the expected behavior
+2. Review the Infer static analysis issues (memory leaks, null pointers, uninitialized values, etc.)
+3. Make minimal changes required to fix both test failures and static analysis warnings
+4. Ensure your solution handles edge cases properly
+5. Add appropriate error handling where necessary
+
+When fixing memory issues:
+- Prefer RAII (Resource Acquisition Is Initialization) patterns
+- Use smart pointers (std::unique_ptr, std::shared_ptr) when appropriate
+- Ensure proper resource cleanup in all code paths
+
+Format your response as follows:
+```cpp
+// Your corrected code here
+```
+
+IMPORTANT: Return ONLY the corrected code with minimal brief comments explaining each fix. Focus on producing correct, robust code rather than explanations. 
