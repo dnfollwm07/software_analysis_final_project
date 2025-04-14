@@ -1,5 +1,6 @@
 """
 Dynamic Analysis module for code repair.
 
-This module provides tools for test case generation and execution to validate code repairs.
-""" 
+This module contains tools for running tests and dynamic analysis.
+"""
+from src.dynamic_analysis.test_runner import run_tests 
