@@ -8,6 +8,8 @@ from typing import Dict, List, Any, Optional, Tuple
 import os
 import json
 from pathlib import Path
+import openai
+
 
 
 class CodeRepairPrompt:
@@ -150,9 +152,27 @@ class CodeRepairManager:
         # TODO: Implement actual LLM API call
         # This is a placeholder for the actual implementation
         print("Sending prompt to LLM API...")
-        
-        # Placeholder for LLM response
-        return "// Placeholder for repaired code from LLM"
+
+
+        openai.api_key = self.llm_api_key
+
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-4",  
+                messages=[
+                    {"role": "system", "content": "You are an expert C++ software engineer. Your job is to fix code bugs and improve it."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.2
+            )
+
+            reply = response['choices'][0]['message']['content']
+            return reply.strip()
+
+        except Exception as e:
+            print(f"Error calling OpenAI API: {e}")
+            return "// Error occurred while calling LLM"
+
         
     def evaluate_repair(self, repaired_code: str, 
                        test_results: Dict[str, Any]) -> float:
