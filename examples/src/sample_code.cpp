@@ -32,7 +32,7 @@ public:
         // 复制构造函数，避免多次释放同一内存
         ConfigValue(const ConfigValue& other) : type(other.type), data(nullptr) {
             if (other.data != nullptr) {
-                switch (type) {
+                switch (other.type) {
                     case TYPE_INT:
                         data = new int(*static_cast<int*>(other.data));
                         break;
@@ -108,13 +108,12 @@ public:
 
 private:
     std::unordered_map<std::string, ConfigValue> config_map;
-    ConfigValue* temp_value;
     int buffer_size;
     int* buffer;
     bool initialized;
 
 public:
-    ConfigStore(int size = 10) : buffer_size(size), initialized(false), temp_value(nullptr) {
+    ConfigStore(int size = 10) : buffer_size(size), initialized(false) {
         buffer = new int[buffer_size];
         for (int i = 0; i < buffer_size; i++) {
             buffer[i] = 0;
@@ -123,7 +122,6 @@ public:
     }
     
     ~ConfigStore() {
-        delete temp_value;
         delete[] buffer;
         // 不需要手动清理config_map，ConfigValue的析构函数会处理数据清理
     }
@@ -325,6 +323,5 @@ int main() {
 
 
 void test() {
-  int *s = NULL;
-  *s = 42;
+  int s = 42;
 }
