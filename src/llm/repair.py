@@ -16,6 +16,9 @@ from src.llm.code_repair import CodeRepairPrompt, CodeRepairManager
 from src.static_analysis.analyzer import get_static_analysis_results
 from src.dynamic_analysis.test_runner import run_tests
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def parse_arguments():
     """Parse command line arguments."""
