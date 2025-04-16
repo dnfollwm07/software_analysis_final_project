@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Optional
 
 from src.static_analysis.infer_integration import run_infer_analysis
+from src.static_analysis.infer_processor import process_infer_output
 
 
 def get_static_analysis_results(target_file: str) -> Dict[str, Any]:
@@ -47,7 +48,35 @@ def analyze_cpp_file(target_file: str) -> Dict[str, Any]:
     Returns:
         Dictionary containing error information
     """
-    # Use Infer for C++ analysis
+    # Try to load processed results first
+    processed_results_path = Path("results/infer_processed.json")
+    if processed_results_path.exists():
+        try:
+            with open(processed_results_path, 'r') as f:
+                llm_friendly_results = json.load(f)
+                
+            # Filter results for the target file
+            target_file_results = [
+                result for result in llm_friendly_results
+                if result.get("location", {}).get("file", "").endswith(target_file)
+            ]
+            
+            if target_file_results:
+                print(f"Using processed Infer results for {target_file}")
+                return {
+                    "file_path": target_file,
+                    "language": "cpp",
+                    "errors": [],
+                    "warnings": [],
+                    "processed_issues": target_file_results,
+                    "total_issues": len(target_file_results),
+                    "using_enhanced_format": True
+                }
+        except Exception as e:
+            print(f"Error loading processed Infer results: {str(e)}")
+            print("Falling back to standard Infer results")
+    
+    # If processed results not available or failed to load, use standard Infer results
     infer_results = run_infer_analysis(target_file)
     
     # Process and categorize the results
@@ -56,7 +85,8 @@ def analyze_cpp_file(target_file: str) -> Dict[str, Any]:
         "language": "cpp",
         "errors": [],
         "warnings": [],
-        "total_issues": 0
+        "total_issues": 0,
+        "using_enhanced_format": False
     }
     
     if infer_results:

@@ -107,6 +107,16 @@ if command -v infer &> /dev/null; then
   infer run --skip-analysis-in-path "build/_deps" --skip-analysis-in-path "examples/tests" --reactive --compilation-database "$BUILD_DIR/compile_commands.json"
 
   print_success "Infer analysis complete. Results in 'infer-out' directory."
+  
+  # Process Infer output to make it LLM-friendly
+  print_info "Processing Infer output to make it more LLM-friendly..."
+  python -c "from src.static_analysis.infer_processor import process_infer_output, save_processed_results; save_processed_results(process_infer_output())"
+  
+  if [ -f "results/infer_processed.json" ]; then
+    print_success "Processed Infer results saved to 'results/infer_processed.json'"
+  else
+    print_warning "Failed to process Infer results. Using raw output."
+  fi
 else
   print_warning "Infer not found. Static analysis skipped."
   print_info "Please install Infer: https://fbinfer.com/"

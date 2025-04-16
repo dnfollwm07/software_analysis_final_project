@@ -51,14 +51,58 @@ class CodeRepairPrompt:
         Returns:
             Formatted prompt string to send to the LLM
         """
-        if "repair" not in self.templates:
+        # Check if we have the enhanced format
+        using_enhanced_format = error_info.get("using_enhanced_format", False)
+        
+        # Determine which template to use based on the format
+        template_name = "repair_enhanced" if using_enhanced_format and "repair_enhanced" in self.templates else "repair"
+        
+        if template_name not in self.templates:
             # Fallback template if no templates are loaded
-            prompt = (
-                "Please fix the following code:\n\n"
-                f"{source_code}\n\n"
-                "The static analysis tool found these errors:\n"
-                f"{json.dumps(error_info, indent=2)}\n\n"
-            )
+            if using_enhanced_format and "processed_issues" in error_info:
+                # Use enhanced format for the fallback template
+                prompt = (
+                    "Please fix the following code:\n\n"
+                    f"{source_code}\n\n"
+                    "The static analysis tool found these structured issues:\n"
+                )
+                
+                for issue in error_info["processed_issues"]:
+                    prompt += f"\n----- Issue: {issue['issue_type']} -----\n"
+                    prompt += f"Location: {issue['location']['file']}:{issue['location']['line']}\n"
+                    prompt += f"Description: {issue['description']}\n"
+                    
+                    # Add code context if available
+                    if "context" in issue and "target_line" in issue["context"]:
+                        prompt += "Code Context:\n"
+                        for line in issue["context"].get("before", []):
+                            prompt += f"    {line}\n"
+                        prompt += f">>> {issue['context']['target_line']}\n"  # Highlight the problem line
+                        for line in issue["context"].get("after", []):
+                            prompt += f"    {line}\n"
+                            
+                    # Add possible cause and implications
+                    if "analysis" in issue:
+                        if "possible_cause" in issue["analysis"]:
+                            prompt += f"Possible Cause: {issue['analysis']['possible_cause']}\n"
+                        if "implications" in issue["analysis"]:
+                            prompt += "Implications:\n"
+                            for implication in issue["analysis"]["implications"]:
+                                prompt += f"  - {implication}\n"
+                        if "fix_suggestions" in issue["analysis"]:
+                            prompt += "Fix Suggestions:\n"
+                            for suggestion in issue["analysis"]["fix_suggestions"]:
+                                prompt += f"  - {suggestion}\n"
+                    
+                    prompt += "\n"
+            else:
+                # Use standard format for the fallback template
+                prompt = (
+                    "Please fix the following code:\n\n"
+                    f"{source_code}\n\n"
+                    "The static analysis tool found these errors:\n"
+                    f"{json.dumps(error_info, indent=2)}\n\n"
+                )
             
             if test_results:
                 prompt += (
@@ -70,11 +114,18 @@ class CodeRepairPrompt:
             return prompt
             
         # Use the template if available
-        prompt = self.templates["repair"]
+        prompt = self.templates[template_name]
         
         # Replace placeholders in the template
         prompt = prompt.replace("{{SOURCE_CODE}}", source_code)
-        prompt = prompt.replace("{{ERROR_INFO}}", json.dumps(error_info, indent=2))
+        
+        if using_enhanced_format and "processed_issues" in error_info:
+            # Format the enhanced error info in a more readable way
+            formatted_errors = json.dumps(error_info["processed_issues"], indent=2)
+            prompt = prompt.replace("{{ERROR_INFO}}", formatted_errors)
+        else:
+            # Use the standard format
+            prompt = prompt.replace("{{ERROR_INFO}}", json.dumps(error_info, indent=2))
         
         if test_results:
             prompt = prompt.replace(
