@@ -16,8 +16,6 @@ from src.llm.code_repair import CodeRepairPrompt, CodeRepairManager
 from src.static_analysis.analyzer import get_static_analysis_results
 from src.dynamic_analysis.test_runner import run_tests
 
-from dotenv import load_dotenv
-load_dotenv()
 
 
 def parse_arguments():
@@ -58,11 +56,11 @@ def get_llm_api_key(provided_key: Optional[str] = None) -> str:
     if provided_key:
         return provided_key
         
-    api_key = os.environ.get("LLM_API_KEY")
-    if not api_key:
-        print("Error: LLM API key not provided and LLM_API_KEY environment variable not set")
-        sys.exit(1)
-    return api_key
+    # api_key = os.environ.get("LLM_API_KEY")
+    # if not api_key:
+    #     print("Error: LLM API key not provided and LLM_API_KEY environment variable not set")
+    #     sys.exit(1)
+    # return api_key
 
 
 def save_repaired_code(repaired_code: str, target_file: str, output_file: Optional[str] = None) -> str:
@@ -99,8 +97,9 @@ def main():
     
     # Initialize repair components
     prompt_generator = CodeRepairPrompt(template_dir=args.template_dir)
-    repair_manager = CodeRepairManager(llm_api_key=api_key, prompt_generator=prompt_generator)
-    
+    #repair_manager = CodeRepairManager(llm_api_key=api_key, prompt_generator=prompt_generator)
+    repair_manager = CodeRepairManager(prompt_generator=prompt_generator)
+
     # Get static analysis results
     try:
         print(f"Running static analysis on {target_file}...")

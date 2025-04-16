@@ -8,7 +8,8 @@ from typing import Dict, List, Any, Optional, Tuple
 import os
 import json
 from pathlib import Path
-import openai
+
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 
 
@@ -90,7 +91,7 @@ class CodeRepairPrompt:
 class CodeRepairManager:
     """Manager class for the code repair process."""
     
-    def __init__(self, llm_api_key: str, prompt_generator: CodeRepairPrompt):
+    def __init__(self, prompt_generator: CodeRepairPrompt, llm_api_key: Optional[str] = None):
         """
         Initialize the code repair manager.
         
@@ -138,40 +139,32 @@ class CodeRepairManager:
         })
         
         return repaired_code, confidence_score
-        
     def _get_llm_repair(self, prompt: str) -> str:
-        """
-        Get code repair from LLM.
-        
-        Args:
-            prompt: Prompt to send to the LLM
-            
-        Returns:
-            Repaired code from LLM
-        """
-        # TODO: Implement actual LLM API call
-        # This is a placeholder for the actual implementation
-        print("Sending prompt to LLM API...")
+        print("Running local LLM (TinyLlama) repair...")
 
+        model_id = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+        tokenizer = AutoTokenizer.from_pretrained(model_id)
+        model = AutoModelForCausalLM.from_pretrained(model_id)
 
-        openai.api_key = self.llm_api_key
+    # ✅ 토큰 길이 제한: 2048 기준 자르기
+        input_ids = tokenizer(prompt, return_tensors="pt").input_ids[0]
+        max_input_tokens = 2048 - 512  # 출력용 토큰 공간 확보
 
-        try:
-            response = openai.ChatCompletion.create(
-                model="gpt-4",  
-                messages=[
-                    {"role": "system", "content": "You are an expert C++ software engineer. Your job is to fix code bugs and improve it."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.2
-            )
+        if len(input_ids) > max_input_tokens:
+            print(f"[Warning] Prompt too long ({len(input_ids)} tokens), truncating...")
+            input_ids = input_ids[-max_input_tokens:]
+            prompt = tokenizer.decode(input_ids, skip_special_tokens=True)
 
-            reply = response['choices'][0]['message']['content']
-            return reply.strip()
+        generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
 
-        except Exception as e:
-            print(f"Error calling OpenAI API: {e}")
-            return "// Error occurred while calling LLM"
+    # ✅ 출력 길이 늘리기
+        result = generator(prompt, max_new_tokens=512, do_sample=False)
+
+    # ✅ prompt 부분 제거
+        generated = result[0]['generated_text']
+        if generated.startswith(prompt):
+            return generated[len(prompt):].strip()
+        return generated.strip()
 
         
     def evaluate_repair(self, repaired_code: str, 
