@@ -15,7 +15,9 @@ from typing import Dict, Any, Optional
 from src.llm.code_repair import CodeRepairPrompt, CodeRepairManager
 from src.static_analysis.analyzer import get_static_analysis_results
 from src.dynamic_analysis.test_runner import run_tests
+# src/llm/repair.py
 
+from src.static_analysis.infer_processor import process_infer_output
 
 
 def parse_arguments():

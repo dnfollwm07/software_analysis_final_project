@@ -110,8 +110,10 @@ if command -v infer &> /dev/null; then
   
   # Process Infer output to make it LLM-friendly
   print_info "Processing Infer output to make it more LLM-friendly..."
-  python -c "from src.static_analysis.infer_processor import process_infer_output, save_processed_results; save_processed_results(process_infer_output())"
-  
+  #python -c "from src.static_analysis.infer_processor import process_infer_output, save_processed_results; save_processed_results(process_infer_output())"
+  PYTHONPATH=/project python3 -c "from src.static_analysis.infer_processor import process_infer_output, save_processed_results; save_processed_results(process_infer_output())"
+
+
   if [ -f "results/infer_processed.json" ]; then
     print_success "Processed Infer results saved to 'results/infer_processed.json'"
   else
@@ -155,7 +157,7 @@ print_success "Test execution complete."
 
 # Step 5: Run code repair with LLM
 print_step "5" "Running LLM-assisted code repair"
-python3.8 -m src.llm.repair --target=$TARGET_FILE
+PYTHONPATH=/project python3.8 -m src.llm.repair --target=$TARGET_FILE
 
 print_success "Pipeline execution complete."
 print_header "End of Pipeline" 

@@ -1,63 +1,37 @@
 [
   {
-    "issue_id": "fe56c3e04bf814ae27755063db89b8fe",
-    "issue_type": "NULLPTR_DEREFERENCE",
+    "issue_id": "be44cf19c2393cdadfc83b53c68031ea",
+    "issue_type": "DEAD_STORE",
     "severity": "ERROR",
     "location": {
       "file": "examples/src/sample_code.cpp",
-      "line": 329,
+      "line": 326,
       "column": 3
     },
-    "description": "`s` could be null (null value originating from line 328) and is dereferenced.",
+    "description": "The value written to &s (type int) is never used.",
     "context": {
       "code": {
-        "full_context": "Error reading file: list index out of range",
-        "target_line": "Line 329 not accessible",
+        "full_context": "Error reading file: 'ascii' codec can't decode byte 0xe5 in position 736: ordinal not in range(128)",
+        "target_line": "Line 326 not accessible",
         "before": [],
         "after": []
       },
-      "variables": [
-        "s"
-      ]
+      "variables": []
     },
     "trace": [
       {
-        "description": "Variable is assigned null at line 328",
-        "file": "examples/src/sample_code.cpp",
-        "line": 328,
-        "column": 0,
-        "code_snippet": ""
-      },
-      {
-        "description": "is assigned to the null pointer",
+        "description": "Write of unused value",
         "file": "examples/src/sample_code.cpp",
         "line": 0,
-        "column": 0
-      },
-      {
-        "description": "assigned",
-        "file": "examples/src/sample_code.cpp",
-        "line": 0,
-        "column": 0
-      },
-      {
-        "description": "invalid access occurs here",
-        "file": "examples/src/sample_code.cpp",
-        "line": 329,
         "column": 0
       }
     ],
     "analysis": {
-      "possible_cause": "could be null (null value originating from line 328) and is dereferenced",
+      "possible_cause": "is never used",
       "implications": [
-        "Will cause segmentation fault (SIGSEGV) at runtime",
-        "Program will crash when this code path is executed",
-        "This is a critical issue that must be fixed"
+        "Can cause unexpected program behavior"
       ],
-      "fix_suggestions": [
-        "Consider using a sentinel value instead of null for s",
-        "Initialize s with a safe default value at line 328"
-      ]
+      "fix_suggestions": []
     }
   }
 ]

@@ -37,6 +37,23 @@ class CodeRepairPrompt:
             template_name = template_file.stem
             with open(template_file, 'r') as f:
                 self.templates[template_name] = f.read()
+
+    def _summarize_issues(self, issues: List[Dict[str, Any]], max_issues: int = 3) -> List[Dict[str, Any]]:
+        """
+        요약된 이슈 리스트를 반환합니다. 최대 max_issues개까지만 포함.
+        """
+        summarized = []
+        for i, issue in enumerate(issues):
+            if i >= max_issues:
+                break
+            summarized.append({
+                "issue_type": issue.get("issue_type"),
+                "location": issue.get("location"),
+                "description": issue.get("description"),
+                "possible_cause": issue.get("analysis", {}).get("possible_cause", ""),
+                "fix_suggestions": issue.get("analysis", {}).get("fix_suggestions", [])[:2],
+            })
+        return summarized
     
     def generate_repair_prompt(self, error_info: Dict[str, Any], 
                               source_code: str, 
@@ -122,8 +139,10 @@ class CodeRepairPrompt:
         
         if using_enhanced_format and "processed_issues" in error_info:
             # Format the enhanced error info in a more readable way
-            formatted_errors = json.dumps(error_info["processed_issues"], indent=2)
+            summarized_issues = self._summarize_issues(error_info["processed_issues"], max_issues=3)
+            formatted_errors = json.dumps(summarized_issues, indent=2)
             prompt = prompt.replace("{{ERROR_INFO}}", formatted_errors)
+
         else:
             # Use the standard format
             prompt = prompt.replace("{{ERROR_INFO}}", json.dumps(error_info, indent=2))
@@ -191,33 +210,38 @@ class CodeRepairManager:
         
         return repaired_code, confidence_score
     def _get_llm_repair(self, prompt: str) -> str:
-        print("Running local LLM (TinyLlama) repair...")
+        print("Running local LLM (Mistral-7B-Instruct) repair...")
 
         model_id = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
         tokenizer = AutoTokenizer.from_pretrained(model_id)
-        model = AutoModelForCausalLM.from_pretrained(model_id)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id,
+            device_map="auto",         # GPU 자동 매핑
+            torch_dtype="auto"         # mixed precision
+        )
 
-    # ✅ 토큰 길이 제한: 2048 기준 자르기
+        # 최대 입력 길이 설정 (Mistral은 8192 지원)
         input_ids = tokenizer(prompt, return_tensors="pt").input_ids[0]
-        max_input_tokens = 2048 - 512  # 출력용 토큰 공간 확보
+        max_input_tokens = 2048 - 512 # 출력 여유 확보
 
         if len(input_ids) > max_input_tokens:
             print(f"[Warning] Prompt too long ({len(input_ids)} tokens), truncating...")
             input_ids = input_ids[-max_input_tokens:]
             prompt = tokenizer.decode(input_ids, skip_special_tokens=True)
 
-        generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
+        generator = pipeline(
+            "text-generation",
+            model=model,
+            tokenizer=tokenizer,
+            max_new_tokens=1024,
+            do_sample=False
+        )
 
-    # ✅ 출력 길이 늘리기
-        result = generator(prompt, max_new_tokens=512, do_sample=False)
+        result = generator(prompt)[0]['generated_text']
 
-    # ✅ prompt 부분 제거
-        generated = result[0]['generated_text']
-        if generated.startswith(prompt):
-            return generated[len(prompt):].strip()
-        return generated.strip()
-
-        
+        if result.startswith(prompt):
+            return result[len(prompt):].strip()
+        return result.strip()
     def evaluate_repair(self, repaired_code: str, 
                        test_results: Dict[str, Any]) -> float:
         """
