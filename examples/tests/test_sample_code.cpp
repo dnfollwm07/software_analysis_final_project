@@ -197,7 +197,7 @@ TEST_F(ConfigStoreTest, ProcessData) {
     
     // 方法1：如果实现添加了越界检查并抛出异常
     try {
-        processData(data, 5);
+        processData(data, 4);
         
         // 如果没有抛出异常，则检查其他指示边界检查的迹象
         

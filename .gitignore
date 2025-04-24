@@ -1,3 +1,4 @@
-/infer-out
 /build
 __pycache__
+/output
+/run-examples

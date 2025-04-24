@@ -41,9 +41,18 @@ print_info() {
   echo -e "${MAGENTA}ℹ $1${NC}"
 }
 
-# Default target file
-TARGET_FILE="examples/src/sample_code.cpp"
+# Function to reset examples directory
+reset_examples() {
+  print_info "Resetting examples directory..."
+  rm -rf run-examples
+  cp -r examples run-examples
+  print_success "Examples directory reset complete"
+}
+
 BUILD_DIR="build"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OUTPUT_DIR="$PROJECT_ROOT/output"
+mkdir -p $OUTPUT_DIR
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -59,13 +68,18 @@ while [[ $# -gt 0 ]]; do
       shift
       shift
       ;;
+    -r|--reset)
+      reset_examples
+      shift
+      ;;
     -h|--help)
-      echo -e "${BOLD}${BLUE}Usage:${NC} $0 [-t|--target <target_file>] [-b|--build-dir <build_directory>]"
+      echo -e "${BOLD}${BLUE}Usage:${NC} $0 [-t|--target <target_file>] [-b|--build-dir <build_directory>] [-r|--reset]"
       echo -e "${BOLD}Run the LLM-assisted code repair pipeline using CMake${NC}"
       echo ""
       echo -e "${BOLD}${BLUE}Options:${NC}"
       echo -e "  ${CYAN}-t, --target${NC}      Target file to analyze and repair (default: src/sample_code.cpp)"
       echo -e "  ${CYAN}-b, --build-dir${NC}   Build directory (default: build)"
+      echo -e "  ${CYAN}-r, --reset${NC}       Reset examples directory (delete and recreate from run-examples)"
       echo -e "  ${CYAN}-h, --help${NC}        Show this help message"
       exit 0
       ;;
@@ -77,14 +91,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Ensure the target file exists
-if [ ! -f "$TARGET_FILE" ]; then
-  print_error "Error: Target file '$TARGET_FILE' not found"
-  exit 1
-fi
-
 print_header "LLM-Assisted Code Repair Pipeline"
-print_info "Target file: ${BOLD}$TARGET_FILE${NC}"
 print_info "Build directory: ${BOLD}$BUILD_DIR${NC}"
 
 # Create necessary directories
@@ -104,21 +111,17 @@ print_success "CMake configuration complete"
 print_step "2" "Running static analysis"
 if command -v infer &> /dev/null; then
   print_info "Running Infer static analyzer..."
-  infer run --skip-analysis-in-path "build/_deps" --skip-analysis-in-path "examples/tests" --reactive --compilation-database "$BUILD_DIR/compile_commands.json"
+  infer run --skip-analysis-in-path "build/_deps" \
+    --skip-analysis-in-path "run-examples/tests" \
+    --reactive \
+    --compilation-database "$BUILD_DIR/compile_commands.json" \
+    -o "$OUTPUT_DIR/infer-out"
 
   print_success "Infer analysis complete. Results in 'infer-out' directory."
   
   # Process Infer output to make it LLM-friendly
   print_info "Processing Infer output to make it more LLM-friendly..."
-  #python -c "from src.static_analysis.infer_processor import process_infer_output, save_processed_results; save_processed_results(process_infer_output())"
-  PYTHONPATH=/project python3 -c "from src.static_analysis.infer_processor import process_infer_output, save_processed_results; save_processed_results(process_infer_output())"
 
-
-  if [ -f "results/infer_processed.json" ]; then
-    print_success "Processed Infer results saved to 'results/infer_processed.json'"
-  else
-    print_warning "Failed to process Infer results. Using raw output."
-  fi
 else
   print_warning "Infer not found. Static analysis skipped."
   print_info "Please install Infer: https://fbinfer.com/"
@@ -132,32 +135,21 @@ print_success "Build successful"
 
 # Step 4: Run tests with CTest
 print_step "4" "Running tests"
-TARGET_BASENAME=$(basename "$TARGET_FILE" .cpp)
-# Determine the test name based on the target file
-if [[ "$TARGET_BASENAME" == "sample_code" ]]; then
-  TEST_FILTER="ConfigStoreTest"
-else
-  # This assumes test class names follow the pattern ClassNameTest
-  TEST_FILTER="${TARGET_BASENAME%.*}Test"
-fi
 
 cd "$BUILD_DIR"
-if [ -z "$TEST_FILTER" ]; then
-  # Run all tests
-  print_info "Running all tests..."
-  ctest -C Debug --output-on-failure
-else
-  # Run specific tests related to the target file
-  print_info "Running tests with filter: ${BOLD}$TEST_FILTER${NC}"
-  ctest -C Debug --output-on-failure -R "$TEST_FILTER"
-fi
+# Run all tests
+print_info "Running all tests..."
+ctest -C Debug --output-on-failure --output-junit "$OUTPUT_DIR/test-results.xml"
+# tee "$OUTPUT_DIR/test_output.txt"
+
 cd ..
 
 print_success "Test execution complete."
 
 # Step 5: Run code repair with LLM
 print_step "5" "Running LLM-assisted code repair"
-PYTHONPATH=/project python3.8 -m src.llm.repair --target=$TARGET_FILE
+# PYTHONPATH=/project python3.8 -m src.llm.repair --target=$TARGET_FILE
+# .venv/bin/python -m src.llm.repair --target=$TARGET_FILE
 
 print_success "Pipeline execution complete."
 print_header "End of Pipeline" 

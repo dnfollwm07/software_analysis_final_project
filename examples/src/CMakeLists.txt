@@ -8,4 +8,4 @@ set(SOURCES
 add_library(sample_code_lib STATIC ${SOURCES})
 
 # 可选：创建可执行文件（如果需要独立运行）
-add_executable(sample_code sample_code.cpp)
+add_executable(sample_code ${SOURCES})

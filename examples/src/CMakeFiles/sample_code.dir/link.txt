@@ -1,1 +1,0 @@
-/usr/bin/afl-g++     CMakeFiles/sample_code.dir/sample_code.cpp.o  -o sample_code 

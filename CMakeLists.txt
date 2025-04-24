@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 主要源代码目录
-add_subdirectory(examples/src)
+add_subdirectory(run-examples/src)
 
 # Google Test 设置
 include(FetchContent)
@@ -23,4 +23,4 @@ FetchContent_MakeAvailable(googletest)
 include(CTest)
 
 # 添加测试子目录
-add_subdirectory(examples/tests) 
+add_subdirectory(run-examples/tests) 

@@ -265,7 +265,7 @@ void processData(int* data, int size) {
     }
     
     // 与sumBuffer类似，测试期望这个函数抛出异常
-    throw std::runtime_error("Buffer overflow detected");
+    // throw std::runtime_error("Buffer overflow detected");
     
     /*
     int sum = 0;
