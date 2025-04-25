@@ -1,7 +1,7 @@
 #include <iostream>
 
 int* create_dangling() {
-    static int x = 100;
+    int x = 100;
     return &x;
 }
 

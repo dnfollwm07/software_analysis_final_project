@@ -7,17 +7,6 @@ import logging
 import os
 from pathlib import Path
 
-
-class ColoredFormatter(logging.Formatter):
-    """Custom formatter that adds color to the levelname."""
-    
-    def format(self, record):
-        # White background (47) and black text (30)
-        levelname = record.levelname
-        record.levelname = f"\033[30;47m{levelname}\033[0m"
-        return super().format(record)
-
-
 # Configure logger
 logger = logging.getLogger('llm')
 logger.setLevel(logging.DEBUG)  # Set overall logger level to DEBUG
@@ -27,8 +16,8 @@ if not logger.handlers:
     # Console handler - INFO level with colored output
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
-    console_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    console_handler.setFormatter(ColoredFormatter(console_format))
+    console_format = '%(asctime)s - %(name)s - \033[30;47m%(levelname)s\033[0m - %(message)s'
+    console_handler.setFormatter(logging.Formatter(console_format))
     logger.addHandler(console_handler)
     
     # File handler - DEBUG level without colors

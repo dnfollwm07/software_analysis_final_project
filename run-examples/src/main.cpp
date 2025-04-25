@@ -13,6 +13,9 @@ void processData(int* data, int size) {
         throw std::invalid_argument("Invalid size");
     }
     
+    // 与sumBuffer类似，测试期望这个函数抛出异常
+    // throw std::runtime_error("Buffer overflow detected");
+    
     /*
     int sum = 0;
     for (int i = 0; i < size; i++) {
@@ -70,7 +73,5 @@ int main() {
 
 void test() {
   int *s = NULL;
-  if (s != NULL) {
-    *s = 42;
-  }
+  *s = 42;
 }

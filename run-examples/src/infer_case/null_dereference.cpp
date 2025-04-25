@@ -1,15 +1,11 @@
 #include <iostream>
 
 void dereference_null(int* ptr) {
-    if (ptr != nullptr) { // 添加空指针检查
-        std::cout << "Value: " << *ptr << std::endl;
-    } else {
-        std::cout << "Pointer is null" << std::endl;
-    }
+    std::cout << "Value: " << *ptr << std::endl; // 可能解引用空指针
 }
 
 int dereference_null_main() {
     int* p = nullptr;
-    dereference_null(p); 
+    dereference_null(p); // 传递空指针
     return 0;
 }

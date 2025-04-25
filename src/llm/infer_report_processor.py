@@ -103,7 +103,8 @@ def process_infer_report(report_path):
         for entry in entries:
             line_num = entry.get('line')
             qualifier = entry.get('qualifier')
-            
+            bug_type_hum = entry.get('bug_type_hum')
+
             if line_num is None or qualifier is None:
                 continue
                 
@@ -130,7 +131,8 @@ def process_infer_report(report_path):
             
             # Apply modifications to the copy
             for line_idx, qualifier in modified_lines.items():
-                modified_content[line_idx] = modified_content[line_idx].rstrip() + f" {comment_prefix} INFER_WARNING: {qualifier}\n"
+                marked_info = f" {comment_prefix} [INFER_WARNING] {bug_type_hum}:{qualifier}\n"
+                modified_content[line_idx] = modified_content[line_idx].rstrip() + marked_info
             
             # Store the modified content
             modified_files[file_path] = ''.join(modified_content)

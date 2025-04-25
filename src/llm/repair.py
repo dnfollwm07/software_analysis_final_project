@@ -23,7 +23,8 @@ def repair_file(file_path: str, modified_content: str) -> Optional[str]:
     """
     language = "C++"
     prompt = f"""
-As a senior code quality engineer, carefully inspect the following code file with Infer static analysis warnings. Each warning is marked with an end-of-line comment containing 'INFER_WARNING: <RULE_MESSAGE>'.
+As a senior code quality engineer, carefully inspect the following code file with Infer static analysis warnings. 
+Each warning is marked with an end-of-line comment containing '//[INFER_WARNING] <bug_type_hum>:<Mqualifier>'.
 
 Requirements:
 1. Resolve all warnings while strictly preserving original functionality
