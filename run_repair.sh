@@ -139,7 +139,7 @@ print_step "4" "Running tests"
 cd "$BUILD_DIR"
 # Run all tests
 print_info "Running all tests..."
-ctest -C Debug --output-on-failure --output-junit "$OUTPUT_DIR/test-results.xml"
+ctest -C Debug --output-on-failure --output-junit "$OUTPUT_DIR/test-results.xml" || true
 # tee "$OUTPUT_DIR/test_output.txt"
 
 cd ..
@@ -149,7 +149,7 @@ print_success "Test execution complete."
 # Step 5: Run code repair with LLM
 print_step "5" "Running LLM-assisted code repair"
 # PYTHONPATH=/project python3.8 -m src.llm.repair --target=$TARGET_FILE
-# .venv/bin/python -m src.llm.repair --target=$TARGET_FILE
+python3 -m src.llm.repair output/infer-out/report.json
 
 print_success "Pipeline execution complete."
 print_header "End of Pipeline" 

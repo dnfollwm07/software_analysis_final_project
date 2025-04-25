@@ -5,7 +5,11 @@ This module provides functionality to parse JUnit XML test results and extract f
 """
 
 import xml.etree.ElementTree as ET
+import sys
+import logging
 from typing import Dict, List, Optional
+
+from src.llm import logger
 
 
 class TestResultsParser:
@@ -141,24 +145,23 @@ def parse_test_results(xml_file_path: str) -> Dict:
 
 if __name__ == "__main__":
     # Example usage
-    import sys
     
     if len(sys.argv) < 2:
-        print("Usage: python test_results_parser.py <path_to_xml_file>")
+        logger.error("Usage: python test_results_parser.py <path_to_xml_file>")
         sys.exit(1)
     
     xml_file = sys.argv[1]
     parser = TestResultsParser(xml_file)
     
-    print("Test Summary:")
-    print(parser.get_test_summary())
+    logger.info("Test Summary:")
+    logger.info(parser.get_test_summary())
     
-    print("\nFailed Tests:")
+    logger.info("\nFailed Tests:")
     failed_tests = parser.get_detailed_failed_test_info()
-    print(failed_tests)
+    logger.info(failed_tests)
     
     for i, test in enumerate(failed_tests, 1):
-        print(f"\n{i}. {test['name']} ({test['classname']})")
-        print("-" * 50)
-        print(test['filtered_output'])
-        print("-" * 50) 
+        logger.info(f"\n{i}. {test['name']} ({test['classname']})")
+        logger.info("-" * 50)
+        logger.info(test['filtered_output'])
+        logger.info("-" * 50) 

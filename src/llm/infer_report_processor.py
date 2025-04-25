@@ -1,8 +1,11 @@
 import json
 import os
 import argparse
+import logging
 from collections import defaultdict
 from pathlib import Path
+
+from src.llm import logger
 
 def get_comment_syntax(file_path):
     """
@@ -47,7 +50,6 @@ def process_infer_report(report_path):
     
     Args:
         report_path: Path to the infer report.json file
-        dry_run: If True, only print what would be done without making changes
         
     Returns:
         A dictionary mapping file paths to their modified content
@@ -63,7 +65,7 @@ def process_infer_report(report_path):
         if file_path:
             file_groups[file_path].append(entry)
     
-    print(f"Found issues in {len(file_groups)} files")
+    logger.info(f"Found issues in {len(file_groups)} files")
     
     # Store modified content
     modified_files = {}
@@ -72,7 +74,7 @@ def process_infer_report(report_path):
     for file_path, entries in file_groups.items():
         # Check if file exists
         if not os.path.exists(file_path):
-            print(f"Warning: File not found: {file_path}")
+            logger.warning(f"Warning: File not found: {file_path}")
             continue
         
         # Determine comment syntax for this file
@@ -91,7 +93,7 @@ def process_infer_report(report_path):
                 continue
         
         if file_content is None:
-            print(f"Error: Could not read {file_path} with any of the attempted encodings")
+            logger.error(f"Error: Could not read {file_path} with any of the attempted encodings")
             continue
         
         # Track modified lines to avoid multiple modifications to the same line
@@ -110,12 +112,12 @@ def process_infer_report(report_path):
             
             # Skip if line index is out of range
             if line_idx < 0 or line_idx >= len(file_content):
-                print(f"Warning: Line {line_num} out of range for {file_path}")
+                logger.warning(f"Warning: Line {line_num} out of range for {file_path}")
                 continue
                 
             # Skip if this line was already modified
             if line_idx in modified_lines:
-                print(f"Warning: Multiple issues on line {line_num} in {file_path}")
+                logger.warning(f"Warning: Multiple issues on line {line_num} in {file_path}")
                 continue
                 
             # Store the line and qualifier
@@ -128,36 +130,21 @@ def process_infer_report(report_path):
             
             # Apply modifications to the copy
             for line_idx, qualifier in modified_lines.items():
-                modified_content[line_idx] = modified_content[line_idx].rstrip() + f" {comment_prefix} {qualifier}\n"
+                modified_content[line_idx] = modified_content[line_idx].rstrip() + f" {comment_prefix} INFER_WARNING: {qualifier}\n"
             
             # Store the modified content
             modified_files[file_path] = ''.join(modified_content)
-            print(f"Processed {file_path}: modified {len(modified_lines)} lines")
+            logger.info(f"Processed {file_path}: modified {len(modified_lines)} lines")
     
     return modified_files
 
-def main():
-    parser = argparse.ArgumentParser(description='Process Infer report and annotate source files with qualifiers')
-    parser.add_argument('--report', default="output/infer-out/report.json", 
-                        help='Path to the Infer report.json file (default: output/infer-out/report.json)')
-    
-    args = parser.parse_args()
-    
-    if not os.path.exists(args.report):
-        print(f"Error: Report file not found: {args.report}")
-        return
-        
-    modified_files = process_infer_report(args.report)
-    
-    
+if __name__ == "__main__":
+    modified_files = process_infer_report("output/infer-out/report.json")
     # Print summary of modifications
     if modified_files:
-        print(f"\nSuccessfully processed {len(modified_files)} files")
+        logger.info(f"\nSuccessfully processed {len(modified_files)} files")
         for file_path in modified_files.keys():
-            print(f"  - {file_path}")
-            print(modified_files[file_path])
+            logger.info(f"  - {file_path}")
+            logger.debug(modified_files[file_path])
     else:
-        print("No files were modified")
-
-if __name__ == "__main__":
-    main() 
+        logger.info("No files were modified")
