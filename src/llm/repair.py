@@ -3,14 +3,35 @@ import argparse
 import time
 import logging
 import difflib
+import json
+import re
 from pathlib import Path
-from typing import Dict, Optional, List
+from typing import Dict, Optional, List, Set
 
 from src.llm import logger
 from .infer_report_processor import process_infer_report
 from .llm import get_code_from_result, request_llm
 
-def repair_file(file_path: str, modified_content: str) -> Optional[str]:
+def load_config(config_path: str = "config.json") -> Dict:
+    """
+    Load configuration from JSON file
+    
+    Args:
+        config_path: Path to the config JSON file
+        
+    Returns:
+        Dictionary containing the configuration
+    """
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            config = json.load(f)
+        logger.info(f"Loaded configuration from {config_path}")
+        return config
+    except Exception as e:
+        logger.warning(f"Failed to load configuration from {config_path}: {e}")
+        return {"rules": []}
+
+def repair_file(file_path: str, modified_content: Dict) -> Optional[str]:
     """
     Use LLM to repair a file based on the Infer issues.
     
@@ -22,6 +43,27 @@ def repair_file(file_path: str, modified_content: str) -> Optional[str]:
         Fixed content if successful, None otherwise
     """
     language = "C++"
+    
+    # Extract bug types from the modified content
+    bug_types = modified_content['lintList']
+    
+    # Load custom fix prompts from config
+    config_rules = load_config().get("rules", [])
+    custom_fix_prompts = ""
+    
+    # Match bug types with configured lintTypes and collect fix prompts
+    for bug_type in bug_types:
+        bug_type_hum = bug_type['bug_type_hum']
+        for rule in config_rules:
+            if rule.get("lintType") == bug_type_hum:
+                custom_fix_prompts += f"- For '{bug_type_hum}' issues: {rule.get('fixPrompt')}\n"
+    logger.info(f"Custom fix prompts:\n{custom_fix_prompts}")
+    
+    # Add custom fix prompts to the main prompt if any were found
+    custom_prompts_section = ""
+    if custom_fix_prompts:
+        custom_prompts_section = "Custom fix guidelines:\n" + custom_fix_prompts + "\n\n"
+    
     prompt = f"""
 As a senior code quality engineer, carefully inspect the following code file with Infer static analysis warnings. 
 Each warning is marked with an end-of-line comment containing '//[INFER_WARNING] <bug_type_hum>:<Mqualifier>'.
@@ -34,11 +76,13 @@ Requirements:
 5. Validate solutions against the original code's intent
 6. You should only fix marked warnings, do not change other parts of the code
 
+{custom_prompts_section}
+
 Language: {language}  # Added context for language-specific fixes
 
 # File content with warnings
 ```cpp
-{modified_content}
+{modified_content['content']}
 ```
 
 **Important:**

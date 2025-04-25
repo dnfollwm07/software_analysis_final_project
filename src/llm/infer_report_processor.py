@@ -98,6 +98,7 @@ def process_infer_report(report_path):
         
         # Track modified lines to avoid multiple modifications to the same line
         modified_lines = {}  # line_idx -> qualifier
+        lint_list = []
         
         # Process each entry for this file
         for entry in entries:
@@ -120,6 +121,12 @@ def process_infer_report(report_path):
             if line_idx in modified_lines:
                 logger.warning(f"Warning: Multiple issues on line {line_num} in {file_path}")
                 continue
+            
+            lint_list.append({
+                'line_num': line_num,
+                'qualifier': qualifier,
+                'bug_type_hum': bug_type_hum,
+            })
                 
             # Store the line and qualifier
             modified_lines[line_idx] = qualifier
@@ -135,7 +142,11 @@ def process_infer_report(report_path):
                 modified_content[line_idx] = modified_content[line_idx].rstrip() + marked_info
             
             # Store the modified content
-            modified_files[file_path] = ''.join(modified_content)
+
+            modified_files[file_path] = {
+                'content': ''.join(modified_content),
+                'lintList': lint_list,
+            }
             logger.info(f"Processed {file_path}: modified {len(modified_lines)} lines")
     
     return modified_files
