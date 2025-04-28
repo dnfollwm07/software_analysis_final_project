@@ -42,7 +42,7 @@ print_info() {
 }
 
 # Default target file
-TARGET_FILE="examples/src/sample_code.cpp"
+TARGET_FILE="examples/src/sample_code2.cpp"
 BUILD_DIR="build"
 
 # Parse command line arguments

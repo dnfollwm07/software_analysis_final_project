@@ -1,5 +1,67 @@
 [
   {
+    "issue_id": "8d10482c657b981b7c9f60ade46cd5cf",
+    "issue_type": "USE_AFTER_FREE",
+    "severity": "ERROR",
+    "location": {
+      "file": "examples/src/sample_code2.cpp",
+      "line": 309,
+      "column": 5
+    },
+    "description": "pointer `data` last assigned on line 307 was freed by call to `delete()` at line 308, column 5 and is dereferenced or freed at line 309, column 5.",
+    "context": {
+      "code": {
+        "full_context": "Error reading file: 'ascii' codec can't decode byte 0xe5 in position 759: ordinal not in range(128)",
+        "target_line": "Line 309 not accessible",
+        "before": [],
+        "after": []
+      },
+      "variables": [
+        "data"
+      ]
+    },
+    "trace": [
+      {
+        "description": "start of procedure double_free()",
+        "file": "examples/src/sample_code2.cpp",
+        "line": 0,
+        "column": 0
+      },
+      {
+        "description": "",
+        "file": "examples/src/sample_code2.cpp",
+        "line": 0,
+        "column": 0
+      },
+      {
+        "description": "",
+        "file": "examples/src/sample_code2.cpp",
+        "line": 0,
+        "column": 0
+      },
+      {
+        "description": "",
+        "file": "examples/src/sample_code2.cpp",
+        "line": 0,
+        "column": 0
+      }
+    ],
+    "analysis": {
+      "possible_cause": "Using memory after it has been freed",
+      "implications": [
+        "Will cause memory corruption at runtime",
+        "Can lead to crashes or security vulnerabilities",
+        "The memory location may have been reallocated for other purposes",
+        "Can be exploited for use-after-free attacks"
+      ],
+      "fix_suggestions": [
+        "Set pointers to null after freeing",
+        "Use smart pointers to manage object lifetime",
+        "Restructure code to avoid accessing freed memory"
+      ]
+    }
+  },
+  {
     "issue_id": "be44cf19c2393cdadfc83b53c68031ea",
     "issue_type": "DEAD_STORE",
     "severity": "ERROR",
