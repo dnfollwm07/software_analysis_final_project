@@ -1,0 +1,1595 @@
+[2579][environment] CWD = /project
+[2579][environment] No .inferconfig file found
+[2579][environment] Project root = /project
+[2579][environment] INFER_ARGS =   @/tmp/args.tmp.4553d5  ++Contents of '/tmp/args.tmp.4553d5':
+[2579][environment]                                         run --skip-analysis-in-path
+[2579][environment]                                         build/_deps --skip-analysis-in-path
+[2579][environment]                                         examples/tests --reactive
+[2579][environment]                                         --compilation-database
+[2579][environment]                                         /project/build/compile_commands.json
+[2579][environment]                                       
+[2579][environment] command line arguments:   infer run --skip-analysis-in-path build/_deps
+[2579][environment]                           --skip-analysis-in-path examples/tests --reactive
+[2579][environment]                           --compilation-database build/compile_commands.jsonActive checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2579][environment] Infer log identifier is 
+Infer version v0.17.0
+[2579][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[2579][environment] 
+[2579][   progress] Capturing using compilation database...
+[2579][      debug] parsing compilation database from /project/build/compile_commands.json
+[2579][      debug] created database with 6 entries
+[2579][      debug] Starting translating and linting 6 files
+[2579][      debug] 
+[2579][   progress] Starting translating and linting 6 files
+[2579][   progress] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[2597][environment] CWD = /project/build/_deps/googletest-build/googletest
+[2597][environment] No .inferconfig file found
+[2597][environment] Project root = /project
+[2597][environment] INFER_ARGS =   @/tmp/args.tmp.a79d5a  ++Contents of '/tmp/args.tmp.a79d5a':
+[2597][environment]                                         @/tmp/args.tmp.4553d5
+[2597][environment]                                         @/tmp/cdb_clang_args.tmp.b1a3f7.txt
+[2597][environment]                                         -fsyntax-only
+[2597][environment]                                         ++Contents of '/tmp/args.tmp.4553d5':
+[2597][environment]                                           run --skip-analysis-in-path
+[2597][environment]                                           build/_deps --skip-analysis-in-path
+[2597][environment]                                           examples/tests --reactive
+[2597][environment]                                           --compilation-database
+[2597][environment]                                           /project/build/compile_commands.json
+[2597][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.b1a3f7.txt':
+[2597][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[2597][environment]                                         
+[2597][environment]                                       
+[2597][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2597][environment]                           @/tmp/cdb_clang_args.tmp.b1a3f7.txt -fsyntax-only
+[2597][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.b1a3f7.txt':
+[2597][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[2597][environment]   
+[2597][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2596][environment] CWD = /project/build/_deps/googletest-build/googletest
+[2596][environment] No .inferconfig file found
+[2596][environment] Project root = /project
+[2596][environment] INFER_ARGS =   @/tmp/args.tmp.bcfbb9  ++Contents of '/tmp/args.tmp.bcfbb9':
+[2596][environment]                                         @/tmp/args.tmp.4553d5
+[2596][environment]                                         @/tmp/cdb_clang_args.tmp.7f397d.txt
+[2596][environment]                                         -fsyntax-only
+[2596][environment]                                         ++Contents of '/tmp/args.tmp.4553d5':
+[2596][environment]                                           run --skip-analysis-in-path
+[2596][environment]                                           build/_deps --skip-analysis-in-path
+[2596][environment]                                           examples/tests --reactive
+[2596][environment]                                           --compilation-database
+[2596][environment]                                           /project/build/compile_commands.json
+[2596][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.7f397d.txt':
+[2596][environment]                                             -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[2596][environment]                                         
+[2596][environment]                                       
+[2596][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2596][environment]                           @/tmp/cdb_clang_args.tmp.7f397d.txt -fsyntax-only
+[2596][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.7f397d.txt':
+[2596][environment]       -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[2596][environment]   
+[2596][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2598][environment] CWD = /project/build/examples/src
+[2598][environment] No .inferconfig file found
+[2598][environment] Project root = /project
+[2598][environment] INFER_ARGS =   @/tmp/args.tmp.979ddd  ++Contents of '/tmp/args.tmp.979ddd':
+[2598][environment]                                         @/tmp/args.tmp.4553d5
+[2598][environment]                                         @/tmp/cdb_clang_args.tmp.4b41c1.txt
+[2598][environment]                                         -fsyntax-only
+[2598][environment]                                         ++Contents of '/tmp/args.tmp.4553d5':
+[2598][environment]                                           run --skip-analysis-in-path
+[2598][environment]                                           build/_deps --skip-analysis-in-path
+[2598][environment]                                           examples/tests --reactive
+[2598][environment]                                           --compilation-database
+[2598][environment]                                           /project/build/compile_commands.json
+[2598][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.4b41c1.txt':
+[2598][environment]                                              -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code2.cpp.o -c /project/examples/src/sample_code2.cpp
+[2598][environment]                                         
+[2598][environment]                                       
+[2598][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2598][environment]                           @/tmp/cdb_clang_args.tmp.4b41c1.txt -fsyntax-only
+[2598][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.4b41c1.txt':
+[2598][environment]        -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code2.cpp.o -c /project/examples/src/sample_code2.cpp
+[2598][environment]   
+[2598][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2594][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[2594][environment] No .inferconfig file found
+[2594][environment] Project root = /project
+[2594][environment] INFER_ARGS =   @/tmp/args.tmp.2031ee  ++Contents of '/tmp/args.tmp.2031ee':
+[2594][environment]                                         @/tmp/args.tmp.4553d5
+[2594][environment]                                         @/tmp/cdb_clang_args.tmp.2071ec.txt
+[2594][environment]                                         -fsyntax-only
+[2594][environment]                                         ++Contents of '/tmp/args.tmp.4553d5':
+[2594][environment]                                           run --skip-analysis-in-path
+[2594][environment]                                           build/_deps --skip-analysis-in-path
+[2594][environment]                                           examples/tests --reactive
+[2594][environment]                                           --compilation-database
+[2594][environment]                                           /project/build/compile_commands.json
+[2594][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.2071ec.txt':
+[2594][environment]                                             -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[2594][environment]                                         
+[2594][environment]                                       
+[2594][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2594][environment]                           @/tmp/cdb_clang_args.tmp.2071ec.txt -fsyntax-only
+[2594][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.2071ec.txt':
+[2594][environment]       -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[2594][environment]   
+[2594][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2595][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[2595][environment] No .inferconfig file found
+[2595][environment] Project root = /project
+[2595][environment] INFER_ARGS =   @/tmp/args.tmp.280e80  ++Contents of '/tmp/args.tmp.280e80':
+[2595][environment]                                         @/tmp/args.tmp.4553d5
+[2595][environment]                                         @/tmp/cdb_clang_args.tmp.bc1a2b.txt
+[2595][environment]                                         -fsyntax-only
+[2595][environment]                                         ++Contents of '/tmp/args.tmp.4553d5':
+[2595][environment]                                           run --skip-analysis-in-path
+[2595][environment]                                           build/_deps --skip-analysis-in-path
+[2595][environment]                                           examples/tests --reactive
+[2595][environment]                                           --compilation-database
+[2595][environment]                                           /project/build/compile_commands.json
+[2595][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.bc1a2b.txt':
+[2595][environment]                                             -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[2595][environment]                                         
+[2595][environment]                                       
+[2595][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2595][environment]                           @/tmp/cdb_clang_args.tmp.bc1a2b.txt -fsyntax-only
+[2595][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.bc1a2b.txt':
+[2595][environment]       -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[2595][environment]   
+[2595][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2599][environment] CWD = /project/build/examples/tests
+[2599][environment] No .inferconfig file found
+[2599][environment] Project root = /project
+[2599][environment] INFER_ARGS =   @/tmp/args.tmp.a805fb  ++Contents of '/tmp/args.tmp.a805fb':
+[2599][environment]                                         @/tmp/args.tmp.4553d5
+[2599][environment]                                         @/tmp/cdb_clang_args.tmp.7e6571.txt
+[2599][environment]                                         -fsyntax-only
+[2599][environment]                                         ++Contents of '/tmp/args.tmp.4553d5':
+[2599][environment]                                           run --skip-analysis-in-path
+[2599][environment]                                           build/_deps --skip-analysis-in-path
+[2599][environment]                                           examples/tests --reactive
+[2599][environment]                                           --compilation-database
+[2599][environment]                                           /project/build/compile_commands.json
+[2599][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.7e6571.txt':
+[2599][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[2599][environment]                                         
+[2599][environment]                                       
+[2599][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2599][environment]                           @/tmp/cdb_clang_args.tmp.7e6571.txt -fsyntax-only
+[2599][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.7e6571.txt':
+[2599][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[2599][environment]   
+[2599][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2598][      debug] 
+[2598][      debug] *** Beginning capture of file /project/examples/src/sample_code2.cpp ***
+[2598][      debug] Clang frontend action is translating and linting
+[2598][      debug] Loading the following linters files: /root/infer/lib/infer/infer/bin/../lib/linter_rules/linters.al
+[2598][      debug] Elapsed: 70.255ms.
+[2598][      debug] 
+[2598][ extern err] Error: the following clang command did not run successfully:
+[2598][ extern err]     /root/infer/lib/infer/facebook-clang-plugins/clang/install/bin/clang-8
+[2598][ extern err]     @/tmp/clang_command_.tmp.16a42f.txt  ++Contents of '/tmp/clang_command_.tmp.16a42f.txt':
+[2598][ extern err]                                            "-cc1" "-load"
+[2598][ extern err]                                            "/root/infer/lib/infer/infer/bin/../../facebook-clang-plugins/libtooling/build/FacebookClangPlugin.dylib"
+[2598][ extern err]                                            "-add-plugin" "BiniouASTExporter"
+[2598][ extern err]                                            "-plugin-arg-BiniouASTExporter"
+[2598][ extern err]                                            "-"
+[2598][ extern err]                                            "-plugin-arg-BiniouASTExporter"
+[2598][ extern err]                                            "PREPEND_CURRENT_DIR=1"
+[2598][ extern err]                                            "-plugin-arg-BiniouASTExporter"
+[2598][ extern err]                                            "MAX_STRING_SIZE=65535" "-cc1"
+[2598][ extern err]                                            "-triple"
+[2598][ extern err]                                            "x86_64-unknown-linux-gnu"
+[2598][ extern err]                                            "-fsyntax-only" "-disable-free"
+[2598][ extern err]                                            "-disable-llvm-verifier"
+[2598][ extern err]                                            "-discard-value-names"
+[2598][ extern err]                                            "-main-file-name"
+[2598][ extern err]                                            "sample_code2.cpp"
+[2598][ extern err]                                            "-mrelocation-model" "static"
+[2598][ extern err]                                            "-mthread-model" "posix"
+[2598][ extern err]                                            "-mdisable-fp-elim" "-fmath-errno"
+[2598][ extern err]                                            "-masm-verbose"
+[2598][ extern err]                                            "-mconstructor-aliases"
+[2598][ extern err]                                            "-munwind-tables"
+[2598][ extern err]                                            "-fuse-init-array" "-target-cpu"
+[2598][ extern err]                                            "x86-64" "-dwarf-column-info"
+[2598][ extern err]                                            "-debugger-tuning=gdb"
+[2598][ extern err]                                            "-resource-dir"
+[2598][ extern err]                                            "/root/infer/lib/infer/facebook-clang-plugins/clang/install/lib/clang/8.0.0"
+[2598][ extern err]                                            "-include"
+[2598][ extern err]                                            "/root/infer/lib/infer/infer/bin/../lib/clang_wrappers/global_defines.h"
+[2598][ extern err]                                            "-internal-isystem"
+[2598][ extern err]                                            "/usr/lib/gcc/x86_64-linux-gnu/7.5.0/../../../../include/c++/7.5.0"
+[2598][ extern err]                                            "-internal-isystem"
+[2598][ extern err]                                            "/usr/lib/gcc/x86_64-linux-gnu/7.5.0/../../../../include/x86_64-linux-gnu/c++/7.5.0"
+[2598][ extern err]                                            "-internal-isystem"
+[2598][ extern err]                                            "/usr/lib/gcc/x86_64-linux-gnu/7.5.0/../../../../include/x86_64-linux-gnu/c++/7.5.0"
+[2598][ extern err]                                            "-internal-isystem"
+[2598][ extern err]                                            "/usr/lib/gcc/x86_64-linux-gnu/7.5.0/../../../../include/c++/7.5.0/backward"
+[2598][ extern err]                                            "-internal-isystem"
+[2598][ extern err]                                            "/usr/local/include"
+[2598][ extern err]                                            "-internal-isystem"
+[2598][ extern err]                                            "/root/infer/lib/infer/facebook-clang-plugins/clang/install/lib/clang/8.0.0/include"
+[2598][ extern err]                                            "-internal-externc-isystem"
+[2598][ extern err]                                            "/usr/include/x86_64-linux-gnu"
+[2598][ extern err]                                            "-internal-externc-isystem"
+[2598][ extern err]                                            "/include"
+[2598][ extern err]                                            "-internal-externc-isystem"
+[2598][ extern err]                                            "/usr/include"
+[2598][ extern err]                                            "-Wno-ignored-optimization-argument"
+[2598][ extern err]                                            "-Wno-everything" "-std=gnu++14"
+[2598][ extern err]                                            "-fdeprecated-macro"
+[2598][ extern err]                                            "-fdebug-compilation-dir"
+[2598][ extern err]                                            "/project/build/examples/src"
+[2598][ extern err]                                            "-ferror-limit" "19"
+[2598][ extern err]                                            "-fmessage-length" "0"
+[2598][ extern err]                                            "-fobjc-runtime=gcc"
+[2598][ extern err]                                            "-fcxx-exceptions" "-fexceptions"
+[2598][ extern err]                                            "-fdiagnostics-show-option" "-x"
+[2598][ extern err]                                            "c++"
+[2598][ extern err]                                            "/project/examples/src/sample_code2.cpp"
+[2598][ extern err]                                            "-O0" "-include"
+[2598][ extern err]                                            "/root/infer/lib/infer/infer/bin/../lib/clang_wrappers/global_defines.h"
+[2598][ extern err]                                            "-Wno-everything"
+[2598][ extern err]                                          
+[2598][ extern err] 
+[2598][environment] Infer log identifier is 
+[2587][ extern err] Error running compilation for 'examples/src/sample_code2.cpp':   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+                                                                 @/tmp/cdb_clang_args.tmp.4b41c1.txt
+                                                                 -fsyntax-only
+  ++Contents of '/tmp/cdb_clang_args.tmp.4b41c1.txt':
+       -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code2.cpp.o -c /project/examples/src/sample_code2.cpp
+  
+:
+exited with code 1
+
+[2587][ extern err] Raised at file "string.ml", line 114, characters 19-34
+Called from file "string.ml" (inlined), line 115, characters 36-61
+Called from file "string.ml" (inlined), line 176, characters 15-34
+Called from file "string.ml", line 179, characters 19-38
+
+
+[2579][ intern err] Subprocess 5: see backtrace above
+[2579][ intern err] Raised at file "src/core_unix.ml" (inlined), line 50, characters 4-43
+Called from file "src/core_unix.ml" (inlined), line 930, characters 4-246
+Called from file "src/core_unix.ml" (inlined), line 959, characters 2-34
+Called from file "base/ProcessPool.ml", line 149, characters 10-30
+
+[2599][      debug] 
+[2599][      debug] *** Beginning capture of file /project/examples/tests/test_sample_code.cpp ***
+[2599][      debug] 
+[2599][      debug]  Skip the analysis of source file /project/examples/tests/test_sample_code.cpp
+[2599][      debug] 
+[2599][      debug] 
+[2599][ extern err] Error: the following clang command did not run successfully:
+[2599][ extern err]     /root/infer/lib/infer/facebook-clang-plugins/clang/install/bin/clang-8
+[2599][ extern err]     @/tmp/clang_command_.tmp.6523ef.txt  ++Contents of '/tmp/clang_command_.tmp.6523ef.txt':
+[2599][ extern err]                                            "-cc1" "-triple"
+[2599][ extern err]                                            "x86_64-unknown-linux-gnu"
+[2599][ extern err]                                            "-fsyntax-only" "-disable-free"
+[2599][ extern err]                                            "-disable-llvm-verifier"
+[2599][ extern err]                                            "-discard-value-names"
+[2599][ extern err]                                            "-main-file-name"
+[2599][ extern err]                                            "test_sample_code.cpp"
+[2599][ extern err]                                            "-mrelocation-model" "static"
+[2599][ extern err]                                            "-mthread-model" "posix"
+[2599][ extern err]                                            "-mdisable-fp-elim" "-fmath-errno"
+[2599][ extern err]                                            "-masm-verbose"
+[2599][ extern err]                                            "-mconstructor-aliases"
+[2599][ extern err]                                            "-munwind-tables"
+[2599][ extern err]                                            "-fuse-init-array" "-target-cpu"
+[2599][ extern err]                                            "x86-64" "-dwarf-column-info"
+[2599][ extern err]                                            "-debugger-tuning=gdb"
+[2599][ extern err]                                            "-resource-dir"
+[2599][ extern err]                                            "/root/infer/lib/infer/facebook-clang-plugins/clang/install/lib/clang/8.0.0"
+[2599][ extern err]                                            "-isystem"
+[2599][ extern err]                                            "/project/build/_deps/googletest-src/googletest/include"
+[2599][ extern err]                                            "-isystem"
+[2599][ extern err]                                            "/project/build/_deps/googletest-src/googletest"
+[2599][ extern err]                                            "-isystem"
+[2599][ extern err]                                            "/project/build/_deps/googletest-src/googlemock/include"
+[2599][ extern err]                                            "-isystem"
+[2599][ extern err]                                            "/project/build/_deps/googletest-src/googlemock"
+[2599][ extern err]                                            "-include"
+[2599][ extern err]                                            "/root/infer/lib/infer/infer/bin/../lib/clang_wrappers/global_defines.h"
+[2599][ extern err]                                            "-internal-isystem"
+[2599][ extern err]                                            "/usr/lib/gcc/x86_64-linux-gnu/7.5.0/../../../../include/c++/7.5.0"
+[2599][ extern err]                                            "-internal-isystem"
+[2599][ extern err]                                            "/usr/lib/gcc/x86_64-linux-gnu/7.5.0/../../../../include/x86_64-linux-gnu/c++/7.5.0"
+[2599][ extern err]                                            "-internal-isystem"
+[2599][ extern err]                                            "/usr/lib/gcc/x86_64-linux-gnu/7.5.0/../../../../include/x86_64-linux-gnu/c++/7.5.0"
+[2599][ extern err]                                            "-internal-isystem"
+[2599][ extern err]                                            "/usr/lib/gcc/x86_64-linux-gnu/7.5.0/../../../../include/c++/7.5.0/backward"
+[2599][ extern err]                                            "-internal-isystem"
+[2599][ extern err]                                            "/usr/local/include"
+[2599][ extern err]                                            "-internal-isystem"
+[2599][ extern err]                                            "/root/infer/lib/infer/facebook-clang-plugins/clang/install/lib/clang/8.0.0/include"
+[2599][ extern err]                                            "-internal-externc-isystem"
+[2599][ extern err]                                            "/usr/include/x86_64-linux-gnu"
+[2599][ extern err]                                            "-internal-externc-isystem"
+[2599][ extern err]                                            "/include"
+[2599][ extern err]                                            "-internal-externc-isystem"
+[2599][ extern err]                                            "/usr/include"
+[2599][ extern err]                                            "-Wno-ignored-optimization-argument"
+[2599][ extern err]                                            "-Wno-everything" "-std=gnu++14"
+[2599][ extern err]                                            "-fdeprecated-macro"
+[2599][ extern err]                                            "-fdebug-compilation-dir"
+[2599][ extern err]                                            "/project/build/examples/tests"
+[2599][ extern err]                                            "-ferror-limit" "19"
+[2599][ extern err]                                            "-fmessage-length" "0"
+[2599][ extern err]                                            "-fobjc-runtime=gcc"
+[2599][ extern err]                                            "-fcxx-exceptions" "-fexceptions"
+[2599][ extern err]                                            "-fdiagnostics-show-option" "-x"
+[2599][ extern err]                                            "c++"
+[2599][ extern err]                                            "/project/examples/tests/test_sample_code.cpp"
+[2599][ extern err]                                            "-include"
+[2599][ extern err]                                            "/root/infer/lib/infer/infer/bin/../lib/clang_wrappers/global_defines.h"
+[2599][ extern err]                                            "-Wno-everything"
+[2599][ extern err]                                          
+[2599][ extern err] 
+[2599][environment] Infer log identifier is 
+[2597][      debug] 
+[2597][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc ***
+[2597][      debug] 
+[2597][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[2597][      debug] 
+[2597][      debug] 
+[2597][environment] Infer log identifier is 
+[2594][      debug] 
+[2594][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc ***
+[2594][      debug] 
+[2594][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[2594][      debug] 
+[2594][      debug] 
+[2594][environment] Infer log identifier is 
+[2595][      debug] 
+[2595][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc ***
+[2595][      debug] 
+[2595][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[2595][      debug] 
+[2595][      debug] 
+[2595][environment] Infer log identifier is 
+[2596][      debug] 
+[2596][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc ***
+[2596][      debug] 
+[2596][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[2596][      debug] 
+[2596][      debug] 
+[2596][environment] Infer log identifier is 
+
+[2674][      phase] ============================================================
+[2674][      phase] = New infer execution begins
+[2674][      phase] ============================================================
+[2674][environment] CWD = /project
+[2674][environment] No .inferconfig file found
+[2674][environment] Project root = /project
+[2674][environment] INFER_ARGS =   @/tmp/args.tmp.89e00c  ++Contents of '/tmp/args.tmp.89e00c':
+[2674][environment]                                         run --skip-analysis-in-path
+[2674][environment]                                         build/_deps --skip-analysis-in-path
+[2674][environment]                                         examples/tests --reactive
+[2674][environment]                                         --compilation-database
+[2674][environment]                                         /project/build/compile_commands.json
+[2674][environment]                                       
+[2674][environment] command line arguments:   infer run --skip-analysis-in-path build/_deps
+[2674][environment]                           --skip-analysis-in-path examples/tests --reactive
+[2674][environment]                           --compilation-database build/compile_commands.jsonActive checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2674][environment] Infer log identifier is 
+Infer version v0.17.0
+[2674][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[2674][environment] 
+[2674][   progress] Capturing using compilation database...
+[2674][      debug] parsing compilation database from /project/build/compile_commands.json
+[2674][      debug] created database with 6 entries
+[2674][      debug] Starting translating and linting 6 files
+[2674][      debug] 
+[2674][   progress] Starting translating and linting 6 files
+[2674][   progress] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[2693][environment] CWD = /project/build/examples/src
+[2693][environment] No .inferconfig file found
+[2693][environment] Project root = /project
+[2693][environment] INFER_ARGS =   @/tmp/args.tmp.88ab7f  ++Contents of '/tmp/args.tmp.88ab7f':
+[2693][environment]                                         @/tmp/args.tmp.89e00c
+[2693][environment]                                         @/tmp/cdb_clang_args.tmp.6a3094.txt
+[2693][environment]                                         -fsyntax-only
+[2693][environment]                                         ++Contents of '/tmp/args.tmp.89e00c':
+[2693][environment]                                           run --skip-analysis-in-path
+[2693][environment]                                           build/_deps --skip-analysis-in-path
+[2693][environment]                                           examples/tests --reactive
+[2693][environment]                                           --compilation-database
+[2693][environment]                                           /project/build/compile_commands.json
+[2693][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.6a3094.txt':
+[2693][environment]                                              -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code2.cpp.o -c /project/examples/src/sample_code2.cpp
+[2693][environment]                                         
+[2693][environment]                                       
+[2693][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2693][environment]                           @/tmp/cdb_clang_args.tmp.6a3094.txt -fsyntax-only
+[2693][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.6a3094.txt':
+[2693][environment]        -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code2.cpp.o -c /project/examples/src/sample_code2.cpp
+[2693][environment]   
+[2693][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2691][environment] CWD = /project/build/_deps/googletest-build/googletest
+[2691][environment] No .inferconfig file found
+[2691][environment] Project root = /project
+[2691][environment] INFER_ARGS =   @/tmp/args.tmp.bfb4a5  ++Contents of '/tmp/args.tmp.bfb4a5':
+[2691][environment]                                         @/tmp/args.tmp.89e00c
+[2691][environment]                                         @/tmp/cdb_clang_args.tmp.773c0e.txt
+[2691][environment]                                         -fsyntax-only
+[2691][environment]                                         ++Contents of '/tmp/args.tmp.89e00c':
+[2691][environment]                                           run --skip-analysis-in-path
+[2691][environment]                                           build/_deps --skip-analysis-in-path
+[2691][environment]                                           examples/tests --reactive
+[2691][environment]                                           --compilation-database
+[2691][environment]                                           /project/build/compile_commands.json
+[2691][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.773c0e.txt':
+[2691][environment]                                             -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[2691][environment]                                         
+[2691][environment]                                       
+[2691][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2691][environment]                           @/tmp/cdb_clang_args.tmp.773c0e.txt -fsyntax-only
+[2691][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.773c0e.txt':
+[2691][environment]       -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[2691][environment]   
+[2691][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2692][environment] CWD = /project/build/_deps/googletest-build/googletest
+[2692][environment] No .inferconfig file found
+[2692][environment] Project root = /project
+[2692][environment] INFER_ARGS =   @/tmp/args.tmp.a3af91  ++Contents of '/tmp/args.tmp.a3af91':
+[2692][environment]                                         @/tmp/args.tmp.89e00c
+[2692][environment]                                         @/tmp/cdb_clang_args.tmp.ca5244.txt
+[2692][environment]                                         -fsyntax-only
+[2692][environment]                                         ++Contents of '/tmp/args.tmp.89e00c':
+[2692][environment]                                           run --skip-analysis-in-path
+[2692][environment]                                           build/_deps --skip-analysis-in-path
+[2692][environment]                                           examples/tests --reactive
+[2692][environment]                                           --compilation-database
+[2692][environment]                                           /project/build/compile_commands.json
+[2692][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.ca5244.txt':
+[2692][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[2692][environment]                                         
+[2692][environment]                                       
+[2692][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2692][environment]                           @/tmp/cdb_clang_args.tmp.ca5244.txt -fsyntax-only
+[2692][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.ca5244.txt':
+[2692][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[2692][environment]   
+[2692][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2694][environment] CWD = /project/build/examples/tests
+[2694][environment] No .inferconfig file found
+[2694][environment] Project root = /project
+[2694][environment] INFER_ARGS =   @/tmp/args.tmp.7426ac  ++Contents of '/tmp/args.tmp.7426ac':
+[2694][environment]                                         @/tmp/args.tmp.89e00c
+[2694][environment]                                         @/tmp/cdb_clang_args.tmp.17d1a5.txt
+[2694][environment]                                         -fsyntax-only
+[2694][environment]                                         ++Contents of '/tmp/args.tmp.89e00c':
+[2694][environment]                                           run --skip-analysis-in-path
+[2694][environment]                                           build/_deps --skip-analysis-in-path
+[2694][environment]                                           examples/tests --reactive
+[2694][environment]                                           --compilation-database
+[2694][environment]                                           /project/build/compile_commands.json
+[2694][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.17d1a5.txt':
+[2694][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[2694][environment]                                         
+[2694][environment]                                       
+[2694][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2694][environment]                           @/tmp/cdb_clang_args.tmp.17d1a5.txt -fsyntax-only
+[2694][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.17d1a5.txt':
+[2694][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[2694][environment]   
+[2694][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2689][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[2689][environment] No .inferconfig file found
+[2689][environment] Project root = /project
+[2689][environment] INFER_ARGS =   @/tmp/args.tmp.0f8c55  ++Contents of '/tmp/args.tmp.0f8c55':
+[2689][environment]                                         @/tmp/args.tmp.89e00c
+[2689][environment]                                         @/tmp/cdb_clang_args.tmp.e5b53b.txt
+[2689][environment]                                         -fsyntax-only
+[2689][environment]                                         ++Contents of '/tmp/args.tmp.89e00c':
+[2689][environment]                                           run --skip-analysis-in-path
+[2689][environment]                                           build/_deps --skip-analysis-in-path
+[2689][environment]                                           examples/tests --reactive
+[2689][environment]                                           --compilation-database
+[2689][environment]                                           /project/build/compile_commands.json
+[2689][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.e5b53b.txt':
+[2689][environment]                                             -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[2689][environment]                                         
+[2689][environment]                                       
+[2689][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2689][environment]                           @/tmp/cdb_clang_args.tmp.e5b53b.txt -fsyntax-only
+[2689][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.e5b53b.txt':
+[2689][environment]       -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[2689][environment]   
+[2689][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2690][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[2690][environment] No .inferconfig file found
+[2690][environment] Project root = /project
+[2690][environment] INFER_ARGS =   @/tmp/args.tmp.7352fc  ++Contents of '/tmp/args.tmp.7352fc':
+[2690][environment]                                         @/tmp/args.tmp.89e00c
+[2690][environment]                                         @/tmp/cdb_clang_args.tmp.283268.txt
+[2690][environment]                                         -fsyntax-only
+[2690][environment]                                         ++Contents of '/tmp/args.tmp.89e00c':
+[2690][environment]                                           run --skip-analysis-in-path
+[2690][environment]                                           build/_deps --skip-analysis-in-path
+[2690][environment]                                           examples/tests --reactive
+[2690][environment]                                           --compilation-database
+[2690][environment]                                           /project/build/compile_commands.json
+[2690][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.283268.txt':
+[2690][environment]                                             -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[2690][environment]                                         
+[2690][environment]                                       
+[2690][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[2690][environment]                           @/tmp/cdb_clang_args.tmp.283268.txt -fsyntax-only
+[2690][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.283268.txt':
+[2690][environment]       -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[2690][environment]   
+[2690][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[2692][      debug] 
+[2692][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc ***
+[2692][      debug] 
+[2692][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[2692][      debug] 
+[2692][      debug] 
+[2692][environment] Infer log identifier is 
+[2694][      debug] 
+[2694][      debug] *** Beginning capture of file /project/examples/tests/test_sample_code.cpp ***
+[2694][      debug] 
+[2694][      debug]  Skip the analysis of source file /project/examples/tests/test_sample_code.cpp
+[2694][      debug] 
+[2694][      debug] 
+[2694][environment] Infer log identifier is 
+[2689][      debug] 
+[2689][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc ***
+[2689][      debug] 
+[2689][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[2689][      debug] 
+[2689][      debug] 
+[2689][environment] Infer log identifier is 
+[2693][      debug] 
+[2693][      debug] *** Beginning capture of file /project/examples/src/sample_code2.cpp ***
+[2693][      debug] Clang frontend action is translating and linting
+[2693][      debug] Loading the following linters files: /root/infer/lib/infer/infer/bin/../lib/linter_rules/linters.al
+[2693][      debug] Elapsed: 1.342s.
+[2693][      debug] 
+[2693][environment] Infer log identifier is 
+[2691][      debug] 
+[2691][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc ***
+[2691][      debug] 
+[2691][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[2691][      debug] 
+[2691][      debug] 
+[2691][environment] Infer log identifier is 
+[2690][      debug] 
+[2690][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc ***
+[2690][      debug] 
+[2690][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[2690][      debug] 
+[2690][      debug] 
+[2690][environment] Infer log identifier is 
+
+[2674][   progress] Found 1 (out of 1) source file to analyze in /project/infer-out
+[2674][environment] Parallel jobs: 12
+[2731][   progress] examples/src/sample_code2.cpp starting
+[2731][   progress] examples/src/sample_code2.cpp DONE
+[2674][   progress] 
+[2674][   progress] Analysis finished in 4.222ss
+[2674][      debug] collected stats:
+[2674][      debug] Backend stats:
+[2674][      debug]   summary_file_try_load= 1796
+[2674][      debug]   summary_read_from_disk= 4
+[2674][      debug]   summary_cache_hits= 424 (32%)
+[2674][      debug]   summary_cache_misses= 898
+[2674][      debug]   summary_has_model_queries= 0
+[2674][      debug]   ondemand_procs_analyzed= 23
+[2674][      debug]   ondemand_local_cache_hits= 767 (93%)
+[2674][      debug]   ondemand_local_cache_misses= 55
+[2674][      debug]   
+[2674][      debug] 
+
+[53][      phase] ============================================================
+[53][      phase] = New infer execution begins
+[53][      phase] ============================================================
+[53][environment] CWD = /project
+[53][environment] No .inferconfig file found
+[53][environment] Project root = /project
+[53][environment] INFER_ARGS =   @/tmp/args.tmp.56c0a7  ++Contents of '/tmp/args.tmp.56c0a7':
+[53][environment]                                         run --skip-analysis-in-path
+[53][environment]                                         build/_deps --skip-analysis-in-path
+[53][environment]                                         examples/tests --reactive
+[53][environment]                                         --compilation-database
+[53][environment]                                         /project/build/compile_commands.json
+[53][environment]                                       
+[53][environment] command line arguments:   infer run --skip-analysis-in-path build/_deps
+[53][environment]                           --skip-analysis-in-path examples/tests --reactive
+[53][environment]                           --compilation-database build/compile_commands.jsonActive checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[53][environment] Infer log identifier is 
+Infer version v0.17.0
+[53][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[53][environment] 
+[53][   progress] Capturing using compilation database...
+[53][      debug] parsing compilation database from /project/build/compile_commands.json
+[53][      debug] created database with 6 entries
+[53][      debug] Starting translating and linting 6 files
+[53][      debug] 
+[53][   progress] Starting translating and linting 6 files
+[53][   progress] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[68][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[68][environment] No .inferconfig file found
+[68][environment] Project root = /project
+[68][environment] INFER_ARGS =   @/tmp/args.tmp.1cb934  ++Contents of '/tmp/args.tmp.1cb934':
+[68][environment]                                         @/tmp/args.tmp.56c0a7
+[68][environment]                                         @/tmp/cdb_clang_args.tmp.56d8f1.txt
+[68][environment]                                         -fsyntax-only
+[68][environment]                                         ++Contents of '/tmp/args.tmp.56c0a7':
+[68][environment]                                           run --skip-analysis-in-path
+[68][environment]                                           build/_deps --skip-analysis-in-path
+[68][environment]                                           examples/tests --reactive
+[68][environment]                                           --compilation-database
+[68][environment]                                           /project/build/compile_commands.json
+[68][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.56d8f1.txt':
+[68][environment]                                             -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[68][environment]                                         
+[68][environment]                                       
+[68][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[68][environment]                           @/tmp/cdb_clang_args.tmp.56d8f1.txt -fsyntax-only
+[68][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.56d8f1.txt':
+[68][environment]       -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[68][environment]   
+[68][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[71][environment] CWD = /project/build/_deps/googletest-build/googletest
+[71][environment] No .inferconfig file found
+[71][environment] Project root = /project
+[71][environment] INFER_ARGS =   @/tmp/args.tmp.250a77  ++Contents of '/tmp/args.tmp.250a77':
+[71][environment]                                         @/tmp/args.tmp.56c0a7
+[71][environment]                                         @/tmp/cdb_clang_args.tmp.35db33.txt
+[71][environment]                                         -fsyntax-only
+[71][environment]                                         ++Contents of '/tmp/args.tmp.56c0a7':
+[71][environment]                                           run --skip-analysis-in-path
+[71][environment]                                           build/_deps --skip-analysis-in-path
+[71][environment]                                           examples/tests --reactive
+[71][environment]                                           --compilation-database
+[71][environment]                                           /project/build/compile_commands.json
+[71][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.35db33.txt':
+[71][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[71][environment]                                         
+[71][environment]                                       
+[71][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[71][environment]                           @/tmp/cdb_clang_args.tmp.35db33.txt -fsyntax-only
+[71][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.35db33.txt':
+[71][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[71][environment]   
+[71][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[70][environment] CWD = /project/build/_deps/googletest-build/googletest
+[70][environment] No .inferconfig file found
+[70][environment] Project root = /project
+[70][environment] INFER_ARGS =   @/tmp/args.tmp.55a270  ++Contents of '/tmp/args.tmp.55a270':
+[70][environment]                                         @/tmp/args.tmp.56c0a7
+[70][environment]                                         @/tmp/cdb_clang_args.tmp.387ac3.txt
+[70][environment]                                         -fsyntax-only
+[70][environment]                                         ++Contents of '/tmp/args.tmp.56c0a7':
+[70][environment]                                           run --skip-analysis-in-path
+[70][environment]                                           build/_deps --skip-analysis-in-path
+[70][environment]                                           examples/tests --reactive
+[70][environment]                                           --compilation-database
+[70][environment]                                           /project/build/compile_commands.json
+[70][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.387ac3.txt':
+[70][environment]                                             -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[70][environment]                                         
+[70][environment]                                       
+[70][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[70][environment]                           @/tmp/cdb_clang_args.tmp.387ac3.txt -fsyntax-only
+[70][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.387ac3.txt':
+[70][environment]       -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[70][environment]   
+[70][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[72][environment] CWD = /project/build/examples/src
+[72][environment] No .inferconfig file found
+[72][environment] Project root = /project
+[72][environment] INFER_ARGS =   @/tmp/args.tmp.516377  ++Contents of '/tmp/args.tmp.516377':
+[72][environment]                                         @/tmp/args.tmp.56c0a7
+[72][environment]                                         @/tmp/cdb_clang_args.tmp.56f7fb.txt
+[72][environment]                                         -fsyntax-only
+[72][environment]                                         ++Contents of '/tmp/args.tmp.56c0a7':
+[72][environment]                                           run --skip-analysis-in-path
+[72][environment]                                           build/_deps --skip-analysis-in-path
+[72][environment]                                           examples/tests --reactive
+[72][environment]                                           --compilation-database
+[72][environment]                                           /project/build/compile_commands.json
+[72][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.56f7fb.txt':
+[72][environment]                                              -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code2.cpp.o -c /project/examples/src/sample_code2.cpp
+[72][environment]                                         
+[72][environment]                                       
+[72][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[72][environment]                           @/tmp/cdb_clang_args.tmp.56f7fb.txt -fsyntax-only
+[72][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.56f7fb.txt':
+[72][environment]        -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code2.cpp.o -c /project/examples/src/sample_code2.cpp
+[72][environment]   
+[72][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[73][environment] CWD = /project/build/examples/tests
+[73][environment] No .inferconfig file found
+[73][environment] Project root = /project
+[73][environment] INFER_ARGS =   @/tmp/args.tmp.96114b  ++Contents of '/tmp/args.tmp.96114b':
+[73][environment]                                         @/tmp/args.tmp.56c0a7
+[73][environment]                                         @/tmp/cdb_clang_args.tmp.4a9963.txt
+[73][environment]                                         -fsyntax-only
+[73][environment]                                         ++Contents of '/tmp/args.tmp.56c0a7':
+[73][environment]                                           run --skip-analysis-in-path
+[73][environment]                                           build/_deps --skip-analysis-in-path
+[73][environment]                                           examples/tests --reactive
+[73][environment]                                           --compilation-database
+[73][environment]                                           /project/build/compile_commands.json
+[73][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.4a9963.txt':
+[73][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[73][environment]                                         
+[73][environment]                                       
+[73][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[73][environment]                           @/tmp/cdb_clang_args.tmp.4a9963.txt -fsyntax-only
+[73][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.4a9963.txt':
+[73][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[73][environment]   
+[73][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[69][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[69][environment] No .inferconfig file found
+[69][environment] Project root = /project
+[69][environment] INFER_ARGS =   @/tmp/args.tmp.7ead51  ++Contents of '/tmp/args.tmp.7ead51':
+[69][environment]                                         @/tmp/args.tmp.56c0a7
+[69][environment]                                         @/tmp/cdb_clang_args.tmp.bd9dd7.txt
+[69][environment]                                         -fsyntax-only
+[69][environment]                                         ++Contents of '/tmp/args.tmp.56c0a7':
+[69][environment]                                           run --skip-analysis-in-path
+[69][environment]                                           build/_deps --skip-analysis-in-path
+[69][environment]                                           examples/tests --reactive
+[69][environment]                                           --compilation-database
+[69][environment]                                           /project/build/compile_commands.json
+[69][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.bd9dd7.txt':
+[69][environment]                                             -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[69][environment]                                         
+[69][environment]                                       
+[69][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[69][environment]                           @/tmp/cdb_clang_args.tmp.bd9dd7.txt -fsyntax-only
+[69][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.bd9dd7.txt':
+[69][environment]       -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[69][environment]   
+[69][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[71][      debug] 
+[71][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc ***
+[71][      debug] 
+[71][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[71][      debug] 
+[71][      debug] 
+[71][environment] Infer log identifier is 
+[73][      debug] 
+[73][      debug] *** Beginning capture of file /project/examples/tests/test_sample_code.cpp ***
+[73][      debug] 
+[73][      debug]  Skip the analysis of source file /project/examples/tests/test_sample_code.cpp
+[73][      debug] 
+[73][      debug] 
+[73][environment] Infer log identifier is 
+[72][      debug] 
+[72][      debug] *** Beginning capture of file /project/examples/src/sample_code2.cpp ***
+[72][      debug] Clang frontend action is translating and linting
+[72][      debug] Loading the following linters files: /root/infer/lib/infer/infer/bin/../lib/linter_rules/linters.al
+[72][      debug] Elapsed: 2.183s.
+[72][      debug] 
+[72][environment] Infer log identifier is 
+[68][      debug] 
+[68][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc ***
+[68][      debug] 
+[68][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[68][      debug] 
+[68][      debug] 
+[68][environment] Infer log identifier is 
+[69][      debug] 
+[69][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc ***
+[69][      debug] 
+[69][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[69][      debug] 
+[69][      debug] 
+[69][environment] Infer log identifier is 
+[70][      debug] 
+[70][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc ***
+[70][      debug] 
+[70][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[70][      debug] 
+[70][      debug] 
+[70][environment] Infer log identifier is 
+
+[53][   progress] Found 1 (out of 1) source file to analyze in /project/infer-out
+[53][environment] Parallel jobs: 12
+[110][   progress] examples/src/sample_code2.cpp starting
+[110][   progress] examples/src/sample_code2.cpp DONE
+[53][   progress] 
+[53][   progress] Analysis finished in 8.61ss
+[53][      debug] collected stats:
+[53][      debug] Backend stats:
+[53][      debug]   summary_file_try_load= 1796
+[53][      debug]   summary_read_from_disk= 4
+[53][      debug]   summary_cache_hits= 424 (32%)
+[53][      debug]   summary_cache_misses= 898
+[53][      debug]   summary_has_model_queries= 0
+[53][      debug]   ondemand_procs_analyzed= 23
+[53][      debug]   ondemand_local_cache_hits= 767 (93%)
+[53][      debug]   ondemand_local_cache_misses= 55
+[53][      debug]   
+[53][      debug] 
+
+[201][      phase] ============================================================
+[201][      phase] = New infer execution begins
+[201][      phase] ============================================================
+[201][environment] CWD = /project
+[201][environment] No .inferconfig file found
+[201][environment] Project root = /project
+[201][environment] INFER_ARGS =   @/tmp/args.tmp.c95584  ++Contents of '/tmp/args.tmp.c95584':
+[201][environment]                                         run --skip-analysis-in-path
+[201][environment]                                         build/_deps --skip-analysis-in-path
+[201][environment]                                         examples/tests --reactive
+[201][environment]                                         --compilation-database
+[201][environment]                                         /project/build/compile_commands.json
+[201][environment]                                       
+[201][environment] command line arguments:   infer run --skip-analysis-in-path build/_deps
+[201][environment]                           --skip-analysis-in-path examples/tests --reactive
+[201][environment]                           --compilation-database build/compile_commands.jsonActive checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[201][environment] Infer log identifier is 
+Infer version v0.17.0
+[201][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[201][environment] 
+[201][   progress] Capturing using compilation database...
+[201][      debug] parsing compilation database from /project/build/compile_commands.json
+[201][      debug] created database with 6 entries
+[201][      debug] Starting translating and linting 6 files
+[201][      debug] 
+[201][   progress] Starting translating and linting 6 files
+[201][   progress] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[221][environment] CWD = /project/build/examples/tests
+[221][environment] No .inferconfig file found
+[221][environment] Project root = /project
+[221][environment] INFER_ARGS =   @/tmp/args.tmp.e9052d  ++Contents of '/tmp/args.tmp.e9052d':
+[221][environment]                                         @/tmp/args.tmp.c95584
+[221][environment]                                         @/tmp/cdb_clang_args.tmp.c6d26b.txt
+[221][environment]                                         -fsyntax-only
+[221][environment]                                         ++Contents of '/tmp/args.tmp.c95584':
+[221][environment]                                           run --skip-analysis-in-path
+[221][environment]                                           build/_deps --skip-analysis-in-path
+[221][environment]                                           examples/tests --reactive
+[221][environment]                                           --compilation-database
+[221][environment]                                           /project/build/compile_commands.json
+[221][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.c6d26b.txt':
+[221][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[221][environment]                                         
+[221][environment]                                       
+[221][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[221][environment]                           @/tmp/cdb_clang_args.tmp.c6d26b.txt -fsyntax-only
+[221][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.c6d26b.txt':
+[221][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[221][environment]   
+[221][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[220][environment] CWD = /project/build/examples/src
+[220][environment] No .inferconfig file found
+[220][environment] Project root = /project
+[220][environment] INFER_ARGS =   @/tmp/args.tmp.2ffb3f  ++Contents of '/tmp/args.tmp.2ffb3f':
+[220][environment]                                         @/tmp/args.tmp.c95584
+[220][environment]                                         @/tmp/cdb_clang_args.tmp.46ca0b.txt
+[220][environment]                                         -fsyntax-only
+[220][environment]                                         ++Contents of '/tmp/args.tmp.c95584':
+[220][environment]                                           run --skip-analysis-in-path
+[220][environment]                                           build/_deps --skip-analysis-in-path
+[220][environment]                                           examples/tests --reactive
+[220][environment]                                           --compilation-database
+[220][environment]                                           /project/build/compile_commands.json
+[220][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.46ca0b.txt':
+[220][environment]                                              -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code1.cpp.o -c /project/examples/src/sample_code1.cpp
+[220][environment]                                         
+[220][environment]                                       
+[220][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[220][environment]                           @/tmp/cdb_clang_args.tmp.46ca0b.txt -fsyntax-only
+[220][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.46ca0b.txt':
+[220][environment]        -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code1.cpp.o -c /project/examples/src/sample_code1.cpp
+[220][environment]   
+[220][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[217][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[217][environment] No .inferconfig file found
+[217][environment] Project root = /project
+[217][environment] INFER_ARGS =   @/tmp/args.tmp.77aea9  ++Contents of '/tmp/args.tmp.77aea9':
+[217][environment]                                         @/tmp/args.tmp.c95584
+[217][environment]                                         @/tmp/cdb_clang_args.tmp.b8ec28.txt
+[217][environment]                                         -fsyntax-only
+[217][environment]                                         ++Contents of '/tmp/args.tmp.c95584':
+[217][environment]                                           run --skip-analysis-in-path
+[217][environment]                                           build/_deps --skip-analysis-in-path
+[217][environment]                                           examples/tests --reactive
+[217][environment]                                           --compilation-database
+[217][environment]                                           /project/build/compile_commands.json
+[217][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.b8ec28.txt':
+[217][environment]                                             -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[217][environment]                                         
+[217][environment]                                       
+[217][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[217][environment]                           @/tmp/cdb_clang_args.tmp.b8ec28.txt -fsyntax-only
+[217][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.b8ec28.txt':
+[217][environment]       -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[217][environment]   
+[217][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[219][environment] CWD = /project/build/_deps/googletest-build/googletest
+[219][environment] No .inferconfig file found
+[219][environment] Project root = /project
+[219][environment] INFER_ARGS =   @/tmp/args.tmp.11aac8  ++Contents of '/tmp/args.tmp.11aac8':
+[219][environment]                                         @/tmp/args.tmp.c95584
+[219][environment]                                         @/tmp/cdb_clang_args.tmp.7b98c7.txt
+[219][environment]                                         -fsyntax-only
+[219][environment]                                         ++Contents of '/tmp/args.tmp.c95584':
+[219][environment]                                           run --skip-analysis-in-path
+[219][environment]                                           build/_deps --skip-analysis-in-path
+[219][environment]                                           examples/tests --reactive
+[219][environment]                                           --compilation-database
+[219][environment]                                           /project/build/compile_commands.json
+[219][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.7b98c7.txt':
+[219][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[219][environment]                                         
+[219][environment]                                       
+[219][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[219][environment]                           @/tmp/cdb_clang_args.tmp.7b98c7.txt -fsyntax-only
+[219][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.7b98c7.txt':
+[219][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[219][environment]   
+[219][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[216][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[216][environment] No .inferconfig file found
+[216][environment] Project root = /project
+[216][environment] INFER_ARGS =   @/tmp/args.tmp.417f51  ++Contents of '/tmp/args.tmp.417f51':
+[216][environment]                                         @/tmp/args.tmp.c95584
+[216][environment]                                         @/tmp/cdb_clang_args.tmp.8d6cb5.txt
+[216][environment]                                         -fsyntax-only
+[216][environment]                                         ++Contents of '/tmp/args.tmp.c95584':
+[216][environment]                                           run --skip-analysis-in-path
+[216][environment]                                           build/_deps --skip-analysis-in-path
+[216][environment]                                           examples/tests --reactive
+[216][environment]                                           --compilation-database
+[216][environment]                                           /project/build/compile_commands.json
+[216][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.8d6cb5.txt':
+[216][environment]                                             -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[216][environment]                                         
+[216][environment]                                       
+[216][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[216][environment]                           @/tmp/cdb_clang_args.tmp.8d6cb5.txt -fsyntax-only
+[216][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.8d6cb5.txt':
+[216][environment]       -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[216][environment]   
+[216][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[218][environment] CWD = /project/build/_deps/googletest-build/googletest
+[218][environment] No .inferconfig file found
+[218][environment] Project root = /project
+[218][environment] INFER_ARGS =   @/tmp/args.tmp.e05c13  ++Contents of '/tmp/args.tmp.e05c13':
+[218][environment]                                         @/tmp/args.tmp.c95584
+[218][environment]                                         @/tmp/cdb_clang_args.tmp.0fb39c.txt
+[218][environment]                                         -fsyntax-only
+[218][environment]                                         ++Contents of '/tmp/args.tmp.c95584':
+[218][environment]                                           run --skip-analysis-in-path
+[218][environment]                                           build/_deps --skip-analysis-in-path
+[218][environment]                                           examples/tests --reactive
+[218][environment]                                           --compilation-database
+[218][environment]                                           /project/build/compile_commands.json
+[218][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.0fb39c.txt':
+[218][environment]                                             -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[218][environment]                                         
+[218][environment]                                       
+[218][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[218][environment]                           @/tmp/cdb_clang_args.tmp.0fb39c.txt -fsyntax-only
+[218][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.0fb39c.txt':
+[218][environment]       -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[218][environment]   
+[218][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[219][      debug] 
+[219][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc ***
+[219][      debug] 
+[219][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[219][      debug] 
+[219][      debug] 
+[219][environment] Infer log identifier is 
+[221][      debug] 
+[221][      debug] *** Beginning capture of file /project/examples/tests/test_sample_code.cpp ***
+[221][      debug] 
+[221][      debug]  Skip the analysis of source file /project/examples/tests/test_sample_code.cpp
+[221][      debug] 
+[221][      debug] 
+[221][environment] Infer log identifier is 
+[220][      debug] 
+[220][      debug] *** Beginning capture of file /project/examples/src/sample_code1.cpp ***
+[220][      debug] Clang frontend action is translating and linting
+[220][      debug] Loading the following linters files: /root/infer/lib/infer/infer/bin/../lib/linter_rules/linters.al
+[220][      debug] Elapsed: 2.197s.
+[220][      debug] 
+[220][environment] Infer log identifier is 
+[217][      debug] 
+[217][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc ***
+[217][      debug] 
+[217][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[217][      debug] 
+[217][      debug] 
+[217][environment] Infer log identifier is 
+[216][      debug] 
+[216][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc ***
+[216][      debug] 
+[216][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[216][      debug] 
+[216][      debug] 
+[216][environment] Infer log identifier is 
+[218][      debug] 
+[218][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc ***
+[218][      debug] 
+[218][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[218][      debug] 
+[218][      debug] 
+[218][environment] Infer log identifier is 
+
+[201][   progress] Found 1 (out of 2) source file to analyze in /project/infer-out
+[201][environment] Parallel jobs: 12
+[258][   progress] examples/src/sample_code1.cpp starting
+[258][   progress] examples/src/sample_code1.cpp DONE
+[201][   progress] 
+[201][   progress] Analysis finished in 7.741ss
+[201][      debug] collected stats:
+[201][      debug] Backend stats:
+[201][      debug]   summary_file_try_load= 1800
+[201][      debug]   summary_read_from_disk= 4
+[201][      debug]   summary_cache_hits= 431 (32%)
+[201][      debug]   summary_cache_misses= 900
+[201][      debug]   summary_has_model_queries= 0
+[201][      debug]   ondemand_procs_analyzed= 24
+[201][      debug]   ondemand_local_cache_hits= 765 (93%)
+[201][      debug]   ondemand_local_cache_misses= 56
+[201][      debug]   
+[201][      debug] 
+
+[386][      phase] ============================================================
+[386][      phase] = New infer execution begins
+[386][      phase] ============================================================
+[386][environment] CWD = /project
+[386][environment] No .inferconfig file found
+[386][environment] Project root = /project
+[386][environment] INFER_ARGS =   @/tmp/args.tmp.b5a15a  ++Contents of '/tmp/args.tmp.b5a15a':
+[386][environment]                                         run --skip-analysis-in-path
+[386][environment]                                         build/_deps --skip-analysis-in-path
+[386][environment]                                         examples/tests --reactive
+[386][environment]                                         --compilation-database
+[386][environment]                                         /project/build/compile_commands.json
+[386][environment]                                       
+[386][environment] command line arguments:   infer run --skip-analysis-in-path build/_deps
+[386][environment]                           --skip-analysis-in-path examples/tests --reactive
+[386][environment]                           --compilation-database build/compile_commands.jsonActive checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[386][environment] Infer log identifier is 
+Infer version v0.17.0
+[386][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[386][environment] 
+[386][   progress] Capturing using compilation database...
+[386][      debug] parsing compilation database from /project/build/compile_commands.json
+[386][      debug] created database with 6 entries
+[386][      debug] Starting translating and linting 6 files
+[386][      debug] 
+[386][   progress] Starting translating and linting 6 files
+[386][   progress] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[403][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[403][environment] No .inferconfig file found
+[403][environment] Project root = /project
+[403][environment] INFER_ARGS =   @/tmp/args.tmp.cd95c9  ++Contents of '/tmp/args.tmp.cd95c9':
+[403][environment]                                         @/tmp/args.tmp.b5a15a
+[403][environment]                                         @/tmp/cdb_clang_args.tmp.6aad5c.txt
+[403][environment]                                         -fsyntax-only
+[403][environment]                                         ++Contents of '/tmp/args.tmp.b5a15a':
+[403][environment]                                           run --skip-analysis-in-path
+[403][environment]                                           build/_deps --skip-analysis-in-path
+[403][environment]                                           examples/tests --reactive
+[403][environment]                                           --compilation-database
+[403][environment]                                           /project/build/compile_commands.json
+[403][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.6aad5c.txt':
+[403][environment]                                             -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[403][environment]                                         
+[403][environment]                                       
+[403][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[403][environment]                           @/tmp/cdb_clang_args.tmp.6aad5c.txt -fsyntax-only
+[403][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.6aad5c.txt':
+[403][environment]       -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[403][environment]   
+[403][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[402][environment] CWD = /project/build/_deps/googletest-build/googletest
+[402][environment] No .inferconfig file found
+[402][environment] Project root = /project
+[402][environment] INFER_ARGS =   @/tmp/args.tmp.225881  ++Contents of '/tmp/args.tmp.225881':
+[402][environment]                                         @/tmp/args.tmp.b5a15a
+[402][environment]                                         @/tmp/cdb_clang_args.tmp.3bf64d.txt
+[402][environment]                                         -fsyntax-only
+[402][environment]                                         ++Contents of '/tmp/args.tmp.b5a15a':
+[402][environment]                                           run --skip-analysis-in-path
+[402][environment]                                           build/_deps --skip-analysis-in-path
+[402][environment]                                           examples/tests --reactive
+[402][environment]                                           --compilation-database
+[402][environment]                                           /project/build/compile_commands.json
+[402][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.3bf64d.txt':
+[402][environment]                                             -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[402][environment]                                         
+[402][environment]                                       
+[402][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[402][environment]                           @/tmp/cdb_clang_args.tmp.3bf64d.txt -fsyntax-only
+[402][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.3bf64d.txt':
+[402][environment]       -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[402][environment]   
+[402][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[406][environment] CWD = /project/build/examples/tests
+[406][environment] No .inferconfig file found
+[406][environment] Project root = /project
+[406][environment] INFER_ARGS =   @/tmp/args.tmp.21e2b0  ++Contents of '/tmp/args.tmp.21e2b0':
+[406][environment]                                         @/tmp/args.tmp.b5a15a
+[406][environment]                                         @/tmp/cdb_clang_args.tmp.b762c4.txt
+[406][environment]                                         -fsyntax-only
+[406][environment]                                         ++Contents of '/tmp/args.tmp.b5a15a':
+[406][environment]                                           run --skip-analysis-in-path
+[406][environment]                                           build/_deps --skip-analysis-in-path
+[406][environment]                                           examples/tests --reactive
+[406][environment]                                           --compilation-database
+[406][environment]                                           /project/build/compile_commands.json
+[406][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.b762c4.txt':
+[406][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[406][environment]                                         
+[406][environment]                                       
+[406][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[406][environment]                           @/tmp/cdb_clang_args.tmp.b762c4.txt -fsyntax-only
+[406][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.b762c4.txt':
+[406][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[406][environment]   
+[406][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[405][environment] CWD = /project/build/examples/src
+[405][environment] No .inferconfig file found
+[405][environment] Project root = /project
+[405][environment] INFER_ARGS =   @/tmp/args.tmp.471d3f  ++Contents of '/tmp/args.tmp.471d3f':
+[405][environment]                                         @/tmp/args.tmp.b5a15a
+[405][environment]                                         @/tmp/cdb_clang_args.tmp.99acc5.txt
+[405][environment]                                         -fsyntax-only
+[405][environment]                                         ++Contents of '/tmp/args.tmp.b5a15a':
+[405][environment]                                           run --skip-analysis-in-path
+[405][environment]                                           build/_deps --skip-analysis-in-path
+[405][environment]                                           examples/tests --reactive
+[405][environment]                                           --compilation-database
+[405][environment]                                           /project/build/compile_commands.json
+[405][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.99acc5.txt':
+[405][environment]                                              -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code.cpp.o -c /project/examples/src/sample_code.cpp
+[405][environment]                                         
+[405][environment]                                       
+[405][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[405][environment]                           @/tmp/cdb_clang_args.tmp.99acc5.txt -fsyntax-only
+[405][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.99acc5.txt':
+[405][environment]        -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code.cpp.o -c /project/examples/src/sample_code.cpp
+[405][environment]   
+[405][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[401][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[401][environment] No .inferconfig file found
+[401][environment] Project root = /project
+[401][environment] INFER_ARGS =   @/tmp/args.tmp.50e005  ++Contents of '/tmp/args.tmp.50e005':
+[401][environment]                                         @/tmp/args.tmp.b5a15a
+[401][environment]                                         @/tmp/cdb_clang_args.tmp.da6e23.txt
+[401][environment]                                         -fsyntax-only
+[401][environment]                                         ++Contents of '/tmp/args.tmp.b5a15a':
+[401][environment]                                           run --skip-analysis-in-path
+[401][environment]                                           build/_deps --skip-analysis-in-path
+[401][environment]                                           examples/tests --reactive
+[401][environment]                                           --compilation-database
+[401][environment]                                           /project/build/compile_commands.json
+[401][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.da6e23.txt':
+[401][environment]                                             -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[401][environment]                                         
+[401][environment]                                       
+[401][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[401][environment]                           @/tmp/cdb_clang_args.tmp.da6e23.txt -fsyntax-only
+[401][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.da6e23.txt':
+[401][environment]       -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[401][environment]   
+[401][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[404][environment] CWD = /project/build/_deps/googletest-build/googletest
+[404][environment] No .inferconfig file found
+[404][environment] Project root = /project
+[404][environment] INFER_ARGS =   @/tmp/args.tmp.ae3070  ++Contents of '/tmp/args.tmp.ae3070':
+[404][environment]                                         @/tmp/args.tmp.b5a15a
+[404][environment]                                         @/tmp/cdb_clang_args.tmp.fbd231.txt
+[404][environment]                                         -fsyntax-only
+[404][environment]                                         ++Contents of '/tmp/args.tmp.b5a15a':
+[404][environment]                                           run --skip-analysis-in-path
+[404][environment]                                           build/_deps --skip-analysis-in-path
+[404][environment]                                           examples/tests --reactive
+[404][environment]                                           --compilation-database
+[404][environment]                                           /project/build/compile_commands.json
+[404][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.fbd231.txt':
+[404][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[404][environment]                                         
+[404][environment]                                       
+[404][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[404][environment]                           @/tmp/cdb_clang_args.tmp.fbd231.txt -fsyntax-only
+[404][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.fbd231.txt':
+[404][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[404][environment]   
+[404][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[404][      debug] 
+[404][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc ***
+[404][      debug] 
+[404][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[404][      debug] 
+[404][      debug] 
+[404][environment] Infer log identifier is 
+[406][      debug] 
+[406][      debug] *** Beginning capture of file /project/examples/tests/test_sample_code.cpp ***
+[406][      debug] 
+[406][      debug]  Skip the analysis of source file /project/examples/tests/test_sample_code.cpp
+[406][      debug] 
+[406][      debug] 
+[406][environment] Infer log identifier is 
+[405][      debug] 
+[405][      debug] *** Beginning capture of file /project/examples/src/sample_code.cpp ***
+[405][      debug] Clang frontend action is translating and linting
+[405][      debug] Loading the following linters files: /root/infer/lib/infer/infer/bin/../lib/linter_rules/linters.al
+[405][      debug] Elapsed: 2.322s.
+[405][      debug] 
+[405][environment] Infer log identifier is 
+[403][      debug] 
+[403][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc ***
+[403][      debug] 
+[403][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[403][      debug] 
+[403][      debug] 
+[403][environment] Infer log identifier is 
+[401][      debug] 
+[401][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc ***
+[401][      debug] 
+[401][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[401][      debug] 
+[401][      debug] 
+[401][environment] Infer log identifier is 
+[402][      debug] 
+[402][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc ***
+[402][      debug] 
+[402][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[402][      debug] 
+[402][      debug] 
+[402][environment] Infer log identifier is 
+
+[386][   progress] Found 1 (out of 3) source file to analyze in /project/infer-out
+[386][environment] Parallel jobs: 12
+[443][   progress] examples/src/sample_code.cpp starting
+[443][   progress] examples/src/sample_code.cpp DONE
+[386][   progress] 
+[386][   progress] Analysis finished in 7.566ss
+[386][      debug] collected stats:
+[386][      debug] Backend stats:
+[386][      debug]   summary_file_try_load= 1800
+[386][      debug]   summary_read_from_disk= 4
+[386][      debug]   summary_cache_hits= 431 (32%)
+[386][      debug]   summary_cache_misses= 900
+[386][      debug]   summary_has_model_queries= 0
+[386][      debug]   ondemand_procs_analyzed= 24
+[386][      debug]   ondemand_local_cache_hits= 765 (93%)
+[386][      debug]   ondemand_local_cache_misses= 56
+[386][      debug]   
+[386][      debug] 
+
+[570][      phase] ============================================================
+[570][      phase] = New infer execution begins
+[570][      phase] ============================================================
+[570][environment] CWD = /project
+[570][environment] No .inferconfig file found
+[570][environment] Project root = /project
+[570][environment] INFER_ARGS =   @/tmp/args.tmp.d9b3eb  ++Contents of '/tmp/args.tmp.d9b3eb':
+[570][environment]                                         run --skip-analysis-in-path
+[570][environment]                                         build/_deps --skip-analysis-in-path
+[570][environment]                                         examples/tests --reactive
+[570][environment]                                         --compilation-database
+[570][environment]                                         /project/build/compile_commands.json
+[570][environment]                                       
+[570][environment] command line arguments:   infer run --skip-analysis-in-path build/_deps
+[570][environment]                           --skip-analysis-in-path examples/tests --reactive
+[570][environment]                           --compilation-database build/compile_commands.jsonActive checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[570][environment] Infer log identifier is 
+Infer version v0.17.0
+[570][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[570][environment] 
+[570][   progress] Capturing using compilation database...
+[570][      debug] parsing compilation database from /project/build/compile_commands.json
+[570][      debug] created database with 6 entries
+[570][      debug] Starting translating and linting 6 files
+[570][      debug] 
+[570][   progress] Starting translating and linting 6 files
+[570][   progress] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[587][environment] CWD = /project/build/_deps/googletest-build/googletest
+[587][environment] No .inferconfig file found
+[587][environment] Project root = /project
+[587][environment] INFER_ARGS =   @/tmp/args.tmp.3e7d87  ++Contents of '/tmp/args.tmp.3e7d87':
+[587][environment]                                         @/tmp/args.tmp.d9b3eb
+[587][environment]                                         @/tmp/cdb_clang_args.tmp.ec23f1.txt
+[587][environment]                                         -fsyntax-only
+[587][environment]                                         ++Contents of '/tmp/args.tmp.d9b3eb':
+[587][environment]                                           run --skip-analysis-in-path
+[587][environment]                                           build/_deps --skip-analysis-in-path
+[587][environment]                                           examples/tests --reactive
+[587][environment]                                           --compilation-database
+[587][environment]                                           /project/build/compile_commands.json
+[587][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.ec23f1.txt':
+[587][environment]                                             -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[587][environment]                                         
+[587][environment]                                       
+[587][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[587][environment]                           @/tmp/cdb_clang_args.tmp.ec23f1.txt -fsyntax-only
+[587][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.ec23f1.txt':
+[587][environment]       -I/project/build/_deps/googletest-src/googletest/include -I/project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[587][environment]   
+[587][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[590][environment] CWD = /project/build/examples/tests
+[590][environment] No .inferconfig file found
+[590][environment] Project root = /project
+[590][environment] INFER_ARGS =   @/tmp/args.tmp.bd384f  ++Contents of '/tmp/args.tmp.bd384f':
+[590][environment]                                         @/tmp/args.tmp.d9b3eb
+[590][environment]                                         @/tmp/cdb_clang_args.tmp.3f4d83.txt
+[590][environment]                                         -fsyntax-only
+[590][environment]                                         ++Contents of '/tmp/args.tmp.d9b3eb':
+[590][environment]                                           run --skip-analysis-in-path
+[590][environment]                                           build/_deps --skip-analysis-in-path
+[590][environment]                                           examples/tests --reactive
+[590][environment]                                           --compilation-database
+[590][environment]                                           /project/build/compile_commands.json
+[590][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.3f4d83.txt':
+[590][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[590][environment]                                         
+[590][environment]                                       
+[590][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[590][environment]                           @/tmp/cdb_clang_args.tmp.3f4d83.txt -fsyntax-only
+[590][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.3f4d83.txt':
+[590][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -std=gnu++14 -o CMakeFiles/test_sample_code.dir/test_sample_code.cpp.o -c /project/examples/tests/test_sample_code.cpp
+[590][environment]   
+[590][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+
+[585][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[585][environment] No .inferconfig file found
+[585][environment] Project root = /project
+[585][environment] INFER_ARGS =   @/tmp/args.tmp.4915ee  ++Contents of '/tmp/args.tmp.4915ee':
+[585][environment]                                         @/tmp/args.tmp.d9b3eb
+[585][environment]                                         @/tmp/cdb_clang_args.tmp.c9b9ba.txt
+[585][environment]                                         -fsyntax-only
+[585][environment]                                         ++Contents of '/tmp/args.tmp.d9b3eb':
+[585][environment]                                           run --skip-analysis-in-path
+[585][environment]                                           build/_deps --skip-analysis-in-path
+[585][environment]                                           examples/tests --reactive
+[585][environment]                                           --compilation-database
+[585][environment]                                           /project/build/compile_commands.json
+[585][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.c9b9ba.txt':
+[585][environment]                                             -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[585][environment]                                         
+[585][environment]                                       
+[585][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[585][environment]                           @/tmp/cdb_clang_args.tmp.c9b9ba.txt -fsyntax-only
+[585][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.c9b9ba.txt':
+[585][environment]       -isystem /project/build/_deps/googletest-src/googlemock/include -isystem /project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[585][environment]   
+[585][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[589][environment] CWD = /project/build/examples/src
+[589][environment] No .inferconfig file found
+[589][environment] Project root = /project
+[589][environment] INFER_ARGS =   @/tmp/args.tmp.7137e0  ++Contents of '/tmp/args.tmp.7137e0':
+[589][environment]                                         @/tmp/args.tmp.d9b3eb
+[589][environment]                                         @/tmp/cdb_clang_args.tmp.9bfca5.txt
+[589][environment]                                         -fsyntax-only
+[589][environment]                                         ++Contents of '/tmp/args.tmp.d9b3eb':
+[589][environment]                                           run --skip-analysis-in-path
+[589][environment]                                           build/_deps --skip-analysis-in-path
+[589][environment]                                           examples/tests --reactive
+[589][environment]                                           --compilation-database
+[589][environment]                                           /project/build/compile_commands.json
+[589][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.9bfca5.txt':
+[589][environment]                                              -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code.cpp.o -c /project/examples/src/sample_code.cpp
+[589][environment]                                         
+[589][environment]                                       
+[589][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[589][environment]                           @/tmp/cdb_clang_args.tmp.9bfca5.txt -fsyntax-only
+[589][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.9bfca5.txt':
+[589][environment]        -std=gnu++14 -o CMakeFiles/sample_code.dir/sample_code.cpp.o -c /project/examples/src/sample_code.cpp
+[589][environment]   
+[589][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[586][environment] CWD = /project/build/_deps/googletest-build/googlemock
+[586][environment] No .inferconfig file found
+[586][environment] Project root = /project
+[586][environment] INFER_ARGS =   @/tmp/args.tmp.75c529  ++Contents of '/tmp/args.tmp.75c529':
+[586][environment]                                         @/tmp/args.tmp.d9b3eb
+[586][environment]                                         @/tmp/cdb_clang_args.tmp.868815.txt
+[586][environment]                                         -fsyntax-only
+[586][environment]                                         ++Contents of '/tmp/args.tmp.d9b3eb':
+[586][environment]                                           run --skip-analysis-in-path
+[586][environment]                                           build/_deps --skip-analysis-in-path
+[586][environment]                                           examples/tests --reactive
+[586][environment]                                           --compilation-database
+[586][environment]                                           /project/build/compile_commands.json
+[586][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.868815.txt':
+[586][environment]                                             -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[586][environment]                                         
+[586][environment]                                       
+[586][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[586][environment]                           @/tmp/cdb_clang_args.tmp.868815.txt -fsyntax-only
+[586][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.868815.txt':
+[586][environment]       -I/project/build/_deps/googletest-src/googlemock/include -I/project/build/_deps/googletest-src/googlemock -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[586][environment]   
+[586][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[588][environment] CWD = /project/build/_deps/googletest-build/googletest
+[588][environment] No .inferconfig file found
+[588][environment] Project root = /project
+[588][environment] INFER_ARGS =   @/tmp/args.tmp.2316d0  ++Contents of '/tmp/args.tmp.2316d0':
+[588][environment]                                         @/tmp/args.tmp.d9b3eb
+[588][environment]                                         @/tmp/cdb_clang_args.tmp.6507f1.txt
+[588][environment]                                         -fsyntax-only
+[588][environment]                                         ++Contents of '/tmp/args.tmp.d9b3eb':
+[588][environment]                                           run --skip-analysis-in-path
+[588][environment]                                           build/_deps --skip-analysis-in-path
+[588][environment]                                           examples/tests --reactive
+[588][environment]                                           --compilation-database
+[588][environment]                                           /project/build/compile_commands.json
+[588][environment]                                         ++Contents of '/tmp/cdb_clang_args.tmp.6507f1.txt':
+[588][environment]                                             -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[588][environment]                                         
+[588][environment]                                       
+[588][environment] command line arguments:   /root/infer/lib/infer/infer/bin/../lib/wrappers/clang++
+[588][environment]                           @/tmp/cdb_clang_args.tmp.6507f1.txt -fsyntax-only
+[588][environment]   ++Contents of '/tmp/cdb_clang_args.tmp.6507f1.txt':
+[588][environment]       -isystem /project/build/_deps/googletest-src/googletest/include -isystem /project/build/_deps/googletest-src/googletest -std=c++14 -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[588][environment]   
+[588][environment] Active checkers: biabduction (C/C++/ObjC, Java), fragment retains view (Java), inefficient keyset iterator (Java), liveness (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC), Starvation analysis (C/C++/ObjC, Java)
+[588][      debug] 
+[588][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc ***
+[588][      debug] 
+[588][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest_main.cc
+[588][      debug] 
+[588][      debug] 
+[588][environment] Infer log identifier is 
+[590][      debug] 
+[590][      debug] *** Beginning capture of file /project/examples/tests/test_sample_code.cpp ***
+[590][      debug] 
+[590][      debug]  Skip the analysis of source file /project/examples/tests/test_sample_code.cpp
+[590][      debug] 
+[590][      debug] 
+[590][environment] Infer log identifier is 
+[589][      debug] 
+[589][      debug] *** Beginning capture of file /project/examples/src/sample_code.cpp ***
+[589][      debug] Clang frontend action is translating and linting
+[589][      debug] Loading the following linters files: /root/infer/lib/infer/infer/bin/../lib/linter_rules/linters.al
+[589][      debug] Elapsed: 2.5s.
+[589][      debug] 
+[589][environment] Infer log identifier is 
+[585][      debug] 
+[585][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc ***
+[585][      debug] 
+[585][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock_main.cc
+[585][      debug] 
+[585][      debug] 
+[585][environment] Infer log identifier is 
+[586][      debug] 
+[586][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc ***
+[586][      debug] 
+[586][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googlemock/src/gmock-all.cc
+[586][      debug] 
+[586][      debug] 
+[586][environment] Infer log identifier is 
+[587][      debug] 
+[587][      debug] *** Beginning capture of file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc ***
+[587][      debug] 
+[587][      debug]  Skip the analysis of source file /project/build/_deps/googletest-src/googletest/src/gtest-all.cc
+[587][      debug] 
+[587][      debug] 
+[587][environment] Infer log identifier is 
+
+[570][   progress] Found 1 (out of 3) source file to analyze in /project/infer-out
+[570][environment] Parallel jobs: 12
+[627][   progress] examples/src/sample_code.cpp starting
+[627][   progress] examples/src/sample_code.cpp DONE
+[570][   progress] 
+[570][   progress] Analysis finished in 7.484ss
+[570][      debug] collected stats:
+[570][      debug] Backend stats:
+[570][      debug]   summary_file_try_load= 1800
+[570][      debug]   summary_read_from_disk= 4
+[570][      debug]   summary_cache_hits= 429 (32%)
+[570][      debug]   summary_cache_misses= 900
+[570][      debug]   summary_has_model_queries= 0
+[570][      debug]   ondemand_procs_analyzed= 24
+[570][      debug]   ondemand_local_cache_hits= 765 (93%)
+[570][      debug]   ondemand_local_cache_misses= 56
+[570][      debug]   
+[570][      debug] 

@@ -1,0 +1,20 @@
+Found 2 issues
+
+examples/src/sample_code2.cpp:309: error: USE_AFTER_FREE
+  pointer `data` last assigned on line 307 was freed by call to `delete()` at line 308, column 5 and is dereferenced or freed at line 309, column 5.
+  307.       int* data = new int(42);
+  308.       delete data;
+  309. >     delete data;  
+  310.   }
+  311.   
+
+examples/src/sample_code.cpp:326: error: DEAD_STORE
+  The value written to &s (type int) is never used.
+  324.   
+  325.   void test() {
+  326. >   int s = 42;
+
+Summary of the reports
+
+  USE_AFTER_FREE: 1
+      DEAD_STORE: 1
