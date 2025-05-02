@@ -89,13 +89,18 @@ def request_llm(prompt: str) -> str:
     
     logger.debug("Running local LLM (Mistral-7B-Instruct) repair...")
 
-    model_id = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    
+    
+    model_dir = "/home/ddh8jk/models--mistralai--Mistral-7B-Instruct-v0.2/snapshots/3ad372fc79158a2148299e3318516c786aeded6c"
+
+
+    tokenizer = AutoTokenizer.from_pretrained(model_dir, use_fast=False)
+
     model = AutoModelForCausalLM.from_pretrained(
-        model_id,
-        device_map="auto",         # GPU 자동 매핑
-        torch_dtype="auto"         # mixed precision
-    )
+    model_dir,
+    device_map="auto",
+    torch_dtype="auto"
+     )
 
     # 최대 입력 길이 설정 (Mistral은 8192 지원)
     input_ids = tokenizer(prompt, return_tensors="pt").input_ids[0]
