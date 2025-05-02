@@ -1,0 +1,8 @@
+{
+    "rules": [
+        {
+            "lintType": "Stack Variable Address Escape",
+            "fixPrompt": "std::make_shared fixed"
+        }
+    ]
+}
