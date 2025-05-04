@@ -31,7 +31,7 @@ def load_config(config_path: str = "config.json") -> Dict:
         logger.warning(f"Failed to load configuration from {config_path}: {e}")
         return {"rules": []}
 
-def repair_file(file_path: str, modified_content: Dict, failed_tests: Optional[List[str]] = None) -> Optional[str]:
+def repair_file(file_path: str, modified_content: Dict, failed_tests: Optional[List[str]] = None, use_infer: bool = True) -> Optional[str]:
     """
     Use LLM to repair a file based on the Infer issues and failed tests.
     
@@ -39,14 +39,17 @@ def repair_file(file_path: str, modified_content: Dict, failed_tests: Optional[L
         file_path: Path to the file to repair
         modified_content: Content of the file with Infer issue comments
         failed_tests: List of failed test names
+        use_infer: Whether to include Infer results in the prompt
         
     Returns:
         Fixed content if successful, None otherwise
     """
     language = "C++"
     
-    # Extract bug types from the modified content
-    bug_types = modified_content['lintList']
+    # Extract bug types from the modified content if using Infer
+    bug_types = []
+    if use_infer:
+        bug_types = modified_content['lintList']
     
     # Load custom fix prompts from config
     config_rules = load_config().get("rules", [])
@@ -75,12 +78,18 @@ Failed Tests:
 Please ensure your fixes address these test failures while maintaining the original functionality.
 """
     
-    prompt = f"""
-As a senior code quality engineer, carefully inspect the following code file with Infer static analysis warnings. 
+    # Add Infer warnings section if using Infer
+    infer_warnings_section = ""
+    if use_infer:
+        infer_warnings_section = """
 Each warning is marked with an end-of-line comment containing '//[INFER_WARNING] <bug_type_hum>:<Mqualifier>'.
+"""
+    
+    prompt = f"""
+As a senior code quality engineer, carefully inspect the following code file.{infer_warnings_section}
 
 Requirements:
-1. Resolve all warnings while strictly preserving original functionality
+1. Resolve all issues while strictly preserving original functionality
 2. Maintain existing code style and formatting
 3. Prioritize safe fixes that prevent potential runtime errors
 4. Use minimal code changes to address each issue
@@ -145,7 +154,7 @@ def print_colored_diff(diff_content: str, file_path: str) -> None:
         new_result += "\n"
     logger.info("\n" + new_result)
 
-def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = None, failed_tests_path: Optional[str] = None) -> Dict[str, str]:
+def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = None, failed_tests_path: Optional[str] = None, use_infer: bool = True) -> Dict[str, str]:
     """
     Repair all files with Infer issues using LLM.
     
@@ -153,6 +162,7 @@ def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = Non
         modified_files: Dictionary mapping file paths to content with Infer comments
         output_dir: Directory to write fixed files to (if None, overwrite original)
         failed_tests_path: Path to file containing failed test names
+        use_infer: Whether to include Infer results in the prompt
         
     Returns:
         Dictionary mapping file paths to fixed content
@@ -181,7 +191,7 @@ def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = Non
         except Exception as e:
             logger.warning(f"Could not read original file for diff: {e}")
         
-        fixed_content = repair_file(file_path, modified_content, failed_tests)
+        fixed_content = repair_file(file_path, modified_content, failed_tests, use_infer)
         
         repair_time = time.time() - start_time
         
@@ -242,29 +252,35 @@ def generate_diff(file_path: str, original_content: str, fixed_content: str) -> 
 
 def main():
     parser = argparse.ArgumentParser(description='Repair code based on Infer report')
-    parser.add_argument('report_path', help='Path to Infer report.json file')
+    parser.add_argument('report_path', nargs='?', help='Path to Infer report.json file')
     parser.add_argument('--output-dir', help='Directory to write fixed files to (if not provided, will overwrite original files)')
     parser.add_argument('--failed-tests', help='Path to file containing failed test names')
+    parser.add_argument('--use-infer', action='store_true', help='Whether to use Infer results in the repair process')
     
     args = parser.parse_args()
     
     total_start_time = time.time()
     
-    # Process Infer report
-    logger.info(f"Processing Infer report: {args.report_path}")
-    process_start_time = time.time()
-    modified_files = process_infer_report(args.report_path)
-    process_time = time.time() - process_start_time
-    
-    if not modified_files:
-        logger.info(f"No issues found to repair (processing took {process_time:.2f}s)")
-        return
-    
-    logger.info(f"Found {len(modified_files)} files with issues (processing took {process_time:.2f}s)")
+    # Process Infer report if using Infer
+    modified_files = {}
+    process_time = 0
+    if args.report_path and args.use_infer:
+        logger.info(f"Processing Infer report: {args.report_path}")
+        process_start_time = time.time()
+        modified_files = process_infer_report(args.report_path)
+        process_time = time.time() - process_start_time
+        
+        if not modified_files:
+            logger.info(f"No issues found to repair (processing took {process_time:.2f}s)")
+            return
+        
+        logger.info(f"Found {len(modified_files)} files with issues (processing took {process_time:.2f}s)")
+    else:
+        logger.info("Skipping Infer report processing")
     
     # Repair files with issues
     repair_start_time = time.time()
-    fixed_files = repair_files(modified_files, args.output_dir, args.failed_tests)
+    fixed_files = repair_files(modified_files, args.output_dir, args.failed_tests, args.use_infer)
     repair_time = time.time() - repair_start_time
     
     # Print summary

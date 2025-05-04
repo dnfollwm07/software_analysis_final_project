@@ -72,14 +72,24 @@ while [[ $# -gt 0 ]]; do
       reset_examples
       shift
       ;;
+    --use-infer)
+      USE_INFER=true
+      shift
+      ;;
+    --include-infer-in-prompt)
+      INCLUDE_INFER_IN_PROMPT=true
+      shift
+      ;;
     -h|--help)
-      echo -e "${BOLD}${BLUE}Usage:${NC} $0 [-t|--target <target_file>] [-b|--build-dir <build_directory>] [-r|--reset]"
+      echo -e "${BOLD}${BLUE}Usage:${NC} $0 [-t|--target <target_file>] [-b|--build-dir <build_directory>] [-r|--reset] [--use-infer] [--include-infer-in-prompt]"
       echo -e "${BOLD}Run the LLM-assisted code repair pipeline using CMake${NC}"
       echo ""
       echo -e "${BOLD}${BLUE}Options:${NC}"
       echo -e "  ${CYAN}-t, --target${NC}      Target file to analyze and repair (default: src/sample_code.cpp)"
       echo -e "  ${CYAN}-b, --build-dir${NC}   Build directory (default: build)"
       echo -e "  ${CYAN}-r, --reset${NC}       Reset examples directory (delete and recreate from run-examples)"
+      echo -e "  ${CYAN}--use-infer${NC}       Enable Infer static analysis (default: false)"
+      echo -e "  ${CYAN}--include-infer-in-prompt${NC}  Include Infer results in LLM prompt (default: false)"
       echo -e "  ${CYAN}-h, --help${NC}        Show this help message"
       exit 0
       ;;
@@ -91,8 +101,14 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Set default values for new options
+USE_INFER=${USE_INFER:-false}
+INCLUDE_INFER_IN_PROMPT=${INCLUDE_INFER_IN_PROMPT:-false}
+
 print_header "LLM-Assisted Code Repair Pipeline"
 print_info "Build directory: ${BOLD}$BUILD_DIR${NC}"
+print_info "Use Infer: ${BOLD}$USE_INFER${NC}"
+print_info "Include Infer in prompt: ${BOLD}$INCLUDE_INFER_IN_PROMPT${NC}"
 
 # Create necessary directories
 mkdir -p results logs
@@ -109,22 +125,24 @@ print_success "CMake configuration complete"
 
 # Step 2: Static Analysis
 print_step "2" "Running static analysis"
-if command -v infer &> /dev/null; then
-  print_info "Running Infer static analyzer..."
-  infer run --skip-analysis-in-path "build/_deps" \
-    --skip-analysis-in-path "run-examples/tests" \
-    --reactive \
-    --compilation-database "$BUILD_DIR/compile_commands.json" \
-    -o "$OUTPUT_DIR/infer-out"
+if [[ "$USE_INFER" == "true" ]]; then
+  if command -v infer &> /dev/null; then
+    print_info "Running Infer static analyzer..."
+    infer run --skip-analysis-in-path "build/_deps" \
+      --reactive \
+      --compilation-database "$BUILD_DIR/compile_commands.json" \
+      -o "$OUTPUT_DIR/infer-out"
 
-  print_success "Infer analysis complete. Results in 'infer-out' directory."
-  
-  # Process Infer output to make it LLM-friendly
-  print_info "Processing Infer output to make it more LLM-friendly..."
-
+    print_success "Infer analysis complete. Results in 'infer-out' directory."
+    
+    # Process Infer output to make it LLM-friendly
+    print_info "Processing Infer output to make it more LLM-friendly..."
+  else
+    print_warning "Infer not found. Static analysis skipped."
+    print_info "Please install Infer: https://fbinfer.com/"
+  fi
 else
-  print_warning "Infer not found. Static analysis skipped."
-  print_info "Please install Infer: https://fbinfer.com/"
+  print_info "Skipping Infer static analysis as requested"
 fi
 
 # Step 3: Build the project with CMake
@@ -157,7 +175,11 @@ cd ..
 
 # Step 5: Run code repair with LLM
 print_step "5" "Running LLM-assisted code repair"
-python3 -m src.llm.repair output/infer-out/report.json --failed-tests "$OUTPUT_DIR/failed_tests.txt"
+if [[ "$USE_INFER" == "true" && "$INCLUDE_INFER_IN_PROMPT" == "true" ]]; then
+  python3 -m src.llm.repair output/infer-out/report.json --failed-tests "$OUTPUT_DIR/failed_tests.txt"
+else
+  python3 -m src.llm.repair --failed-tests "$OUTPUT_DIR/failed_tests.txt"
+fi
 
 # Step 6: Verify fixes with tests
 print_step "6" "Verifying fixes with tests"
