@@ -31,5 +31,12 @@ if not logger.handlers:
     logger.addHandler(file_handler)
     
     logger.info(f"Logging to console (INFO) and {log_file.absolute()} (DEBUG)")
+from dotenv import load_dotenv
+# Check if .env.local exists
+env_local = Path('.env.local')
+if env_local.exists():
+    logger.info(".env.local found, will load it")
+    load_dotenv('.env.local')
 
-from src.llm.repair import main as repair_main 
+from src.llm.repair import main as repair_main
+

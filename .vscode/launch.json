@@ -1,0 +1,52 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "python: repair-infer",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.llm.repair",
+            "args": [
+                "--targets",
+                "run-examples/src/config_store_memory_leak.cpp",
+                "run-examples/src/config_store_null_ptr.cpp",
+                "run-examples/src/config_store_uninit_var.cpp",
+
+                "--test-classes",
+                "ConfigStoreMemoryLeakTest",
+                "ConfigStoreNullPtrTest",
+                "ConfigStoreUninitVarTest",
+
+                "--infer-report-path",
+                "output/infer-out/report.json",
+                "--failed-tests",
+                "output/test-results.xml",
+                "--use-infer",
+                "--include-infer-in-prompt"
+            ],
+        },
+        {
+            "name": "python: repair",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.llm.repair",
+            "args": [
+                "--targets",
+                "run-examples/src/config_store_memory_leak.cpp",
+                "run-examples/src/config_store_null_ptr.cpp",
+                "run-examples/src/config_store_uninit_var.cpp",
+                
+                "--test-classes",
+                "ConfigStoreMemoryLeakTest",
+                "ConfigStoreNullPtrTest",
+                "ConfigStoreUninitVarTest",
+
+                "--failed-tests",
+                "output/test-results.xml"
+            ],
+        }
+    ]
+}
