@@ -5,6 +5,7 @@ set(SOURCES
     config_store_null_ptr.cpp
     config_store_uninit_var.cpp
     config_store_memory_leak.cpp
+    calendar_format.cpp
 )
 
 # 创建静态库，而不是可执行文件
