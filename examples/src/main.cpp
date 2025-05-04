@@ -40,7 +40,6 @@ void processData(int* data, int size) {
 }
 
 // Example usage
-#ifndef TESTING
 int main() {
     ConfigStore config;
     
@@ -68,4 +67,3 @@ int main() {
     delete[] values;
     return 0;
 } 
-#endif // TESTING

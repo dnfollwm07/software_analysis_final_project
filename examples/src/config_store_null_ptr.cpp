@@ -1,9 +1,9 @@
-#include "config_store.h"
+#include "config_store_null_ptr.h"
 
 // ConfigValue implementation
-ConfigStore::ConfigValue::ConfigValue() : type(TYPE_INT), data(nullptr) {}
+ConfigStoreNullPtr::ConfigValue::ConfigValue() : type(TYPE_INT), data(nullptr) {}
 
-ConfigStore::ConfigValue::ConfigValue(const ConfigValue& other) : type(other.type), data(nullptr) {
+ConfigStoreNullPtr::ConfigValue::ConfigValue(const ConfigValue& other) : type(other.type), data(nullptr) {
     if (other.data != nullptr) {
         switch (other.type) {
             case TYPE_INT:
@@ -22,7 +22,7 @@ ConfigStore::ConfigValue::ConfigValue(const ConfigValue& other) : type(other.typ
     }
 }
 
-ConfigStore::ConfigValue& ConfigStore::ConfigValue::operator=(const ConfigValue& other) {
+ConfigStoreNullPtr::ConfigValue& ConfigStoreNullPtr::ConfigValue::operator=(const ConfigValue& other) {
     if (this != &other) {
         // 释放当前资源
         cleanup();
@@ -52,7 +52,7 @@ ConfigStore::ConfigValue& ConfigStore::ConfigValue::operator=(const ConfigValue&
     return *this;
 }
 
-void ConfigStore::ConfigValue::cleanup() {
+void ConfigStoreNullPtr::ConfigValue::cleanup() {
     if (data != nullptr) {
         switch (type) {
             case TYPE_INT:
@@ -72,32 +72,34 @@ void ConfigStore::ConfigValue::cleanup() {
     }
 }
 
-ConfigStore::ConfigValue::~ConfigValue() {
+ConfigStoreNullPtr::ConfigValue::~ConfigValue() {
     cleanup();
 }
 
-// ConfigStore implementation
-ConfigStore::ConfigStore(int size) : buffer_size(size), initialized(false) {
-    buffer = new int[buffer_size];
-    for (int i = 0; i < buffer_size; i++) {
-        buffer[i] = 0;
-    }
+// ConfigStoreNullPtr implementation
+ConfigStoreNullPtr::ConfigStoreNullPtr(int size) : buffer_size(size), initialized(false) {
+    // FIXME: 取消注释
+    // buffer = new int[buffer_size];
+    // for (int i = 0; i < buffer_size; i++) {
+    //     buffer[i] = 0;
+    // }
+    buffer = nullptr;
     initialized = true;
 }
 
-ConfigStore::~ConfigStore() {
+ConfigStoreNullPtr::~ConfigStoreNullPtr() {
     delete[] buffer;
     // 不需要手动清理config_map，ConfigValue的析构函数会处理数据清理
 }
 
-void ConfigStore::setInt(const std::string& key, int value) {
+void ConfigStoreNullPtr::setInt(const std::string& key, int value) {
     ConfigValue config_value;
     config_value.type = TYPE_INT;
     config_value.data = new int(value);
     config_map[key] = config_value;
 }
 
-int ConfigStore::getInt(const std::string& key) {
+int ConfigStoreNullPtr::getInt(const std::string& key) {
     auto it = config_map.find(key);
     if (it == config_map.end()) {
         throw std::runtime_error("Key not found");
@@ -114,14 +116,14 @@ int ConfigStore::getInt(const std::string& key) {
     return *static_cast<int*>(it->second.data);
 }
 
-void ConfigStore::setFloat(const std::string& key, float value) {
+void ConfigStoreNullPtr::setFloat(const std::string& key, float value) {
     ConfigValue config_value;
     config_value.type = TYPE_FLOAT;
     config_value.data = new float(value);
     config_map[key] = config_value;
 }
 
-float ConfigStore::getFloat(const std::string& key) {
+float ConfigStoreNullPtr::getFloat(const std::string& key) {
     auto it = config_map.find(key);
     if (it == config_map.end()) {
         throw std::runtime_error("Key not found");
@@ -138,14 +140,19 @@ float ConfigStore::getFloat(const std::string& key) {
     return *static_cast<float*>(it->second.data);
 }
 
-void ConfigStore::setString(const std::string& key, const std::string& value) {
+void ConfigStoreNullPtr::setString(const std::string& key, const std::string* value) {
+    // FIXME: 判空
+    if (value->empty()) {
+    // if (value == nullptr && value->empty()) {
+        return;
+    }
     ConfigValue config_value;
     config_value.type = TYPE_STRING;
-    config_value.data = new std::string(value);
+    config_value.data = new std::string(*value);
     config_map[key] = config_value;
 }
 
-std::string ConfigStore::getString(const std::string& key) {
+std::string ConfigStoreNullPtr::getString(const std::string& key) {
     auto it = config_map.find(key);
     if (it == config_map.end()) {
         return "";
@@ -162,14 +169,14 @@ std::string ConfigStore::getString(const std::string& key) {
     return *static_cast<std::string*>(it->second.data);
 }
 
-void ConfigStore::setVector(const std::string& key, const std::vector<int>& value) {
+void ConfigStoreNullPtr::setVector(const std::string& key, const std::vector<int>& value) {
     ConfigValue config_value;
     config_value.type = TYPE_VECTOR;
     config_value.data = new std::vector<int>(value);
     config_map[key] = config_value;
 }
 
-std::vector<int> ConfigStore::getVector(const std::string& key) {
+std::vector<int> ConfigStoreNullPtr::getVector(const std::string& key) {
     auto it = config_map.find(key);
     if (it == config_map.end()) {
         return std::vector<int>();
@@ -186,7 +193,7 @@ std::vector<int> ConfigStore::getVector(const std::string& key) {
     return *static_cast<std::vector<int>*>(it->second.data);
 }
 
-void ConfigStore::processBuffer(int index, int value) {
+void ConfigStoreNullPtr::processBuffer(int index, int value) {
     int c = 0;
 
     if (index < 0 || index >= buffer_size) {
@@ -196,7 +203,7 @@ void ConfigStore::processBuffer(int index, int value) {
     }
 }
 
-int ConfigStore::sumBuffer(int start, int end) {
+int ConfigStoreNullPtr::sumBuffer(int start, int end) {
     if (!initialized) {
         throw std::runtime_error("Buffer not initialized");
     }
@@ -215,3 +222,15 @@ int ConfigStore::sumBuffer(int start, int end) {
     }
     return sum;
 } 
+
+
+// TODO: 
+static void dereference_null(int* ptr) {
+    std::cout << "Value: " << *ptr << std::endl; // 可能解引用空指针
+}
+
+static int dereference_null_main() {
+    int* p = nullptr;
+    dereference_null(p); // 传递空指针
+    return 0;
+}
