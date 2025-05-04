@@ -25,7 +25,7 @@ def request_llm(prompt: str) -> str:
         }
         
         payload = {
-            "model": "qwen-plus",
+            "model": os.getenv("OPENAI_MODEL", "qwen-plus"),
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7
         }

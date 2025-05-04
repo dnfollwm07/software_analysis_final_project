@@ -1,131 +1,112 @@
-# 软件分析期末项目
+# LLM-Assisted Code Repair Pipeline
 
-## 项目结构
+This project provides an automated pipeline for code repair using Large Language Models (LLMs). The pipeline combines static analysis, testing, and LLM-assisted code repair to automatically fix bugs in C++ code.
 
-```
-project/
-├── src/                  # 源代码目录
-│   ├── static_analysis/  # 静态分析工具集成
-│   ├── dynamic_analysis/ # 动态分析工具集成
-│   ├── llm/              # LLM集成和提示词
-│   ├── utils/            # 工具函数
-│   └── sample_code.cpp   # 示例代码（包含需要分析的bug）
-├── tests/                # 测试目录
-│   └── test_sample_code.cpp # 示例代码测试
-├── config/               # 配置文件目录
-├── docs/                 # 文档目录
-└── CMakeLists.txt        # CMake配置文件
-```
+## Prerequisites
 
-## 构建与运行
+- CMake (version 3.10 or higher)
+- C++ compiler with C++17 support
+- Python 3.x
+- (Optional) Infer static analyzer
+- OpenAI API access
 
-### 构建要求
+### Environment Configuration
 
-- CMake 3.10+
-- C++14兼容的编译器
-- Google Test（自动下载）
+Before running the pipeline, you need to configure the OpenAI API settings:
 
-### 构建步骤
+1. Create a `.env.local` file in the project root directory
+2. Add the following content to the file:
+   ```
+   # OpenAI API Configuration
+   OPENAI_API_URL=https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+   OPENAI_MODEL=qwen-plus
+   OPENAI_API_KEY=your_api_key_here
+   ```
+3. Replace `your_api_key_here` with your actual OpenAI API key
+
+Note: The `.env.local` file should not be committed to version control for security reasons.
+
+## Usage
+
+The main script `run_repair.sh` provides a complete pipeline for code repair. Here's how to use it:
 
 ```bash
-# 创建构建目录
-mkdir build && cd build
-
-# 配置项目
-cmake ..
-
-# 构建
-cmake --build .
-
-# 运行测试
-ctest
+./run_repair.sh [options]
 ```
 
-## 测试框架
+### Available Options
 
-本项目使用 Google Test 作为测试框架。测试文件位于 `tests/` 目录中。
+| Option | Description |
+|--------|-------------|
+| `-b, --build-dir <build_directory>` | Specify the build directory (default: build) |
+| `-r, --reset` | Reset the examples directory by deleting and recreating from run-examples |
+| `--use-infer` | Enable Infer static analysis (default: false) |
+| `--include-infer-in-prompt` | Include Infer results in LLM prompt (default: false) |
+| `--sync` | Synchronize examples directory and exit |
+| `-h, --help` | Show help message |
 
-## 静态分析集成
+### Pipeline Steps
 
-本项目计划集成 Infer 等静态分析工具，用于检测以下类型的 bug：
+The script executes the following steps in sequence:
 
-- 空指针引用
-- 内存泄漏
-- 数组越界访问
-- 未初始化变量
+1. **CMake Configure**
+   - Generates build system and compilation database
 
-## 动态分析集成
+2. **Static Analysis** (Optional)
+   - Runs Infer static analyzer if enabled
+   - Processes Infer output for LLM consumption
 
-本项目计划集成动态分析工具，用于：
+3. **Build Project**
+   - Compiles the code using CMake
 
-- 测试用例生成
-- 符号执行
-- 覆盖率分析
+4. **Run Tests**
+   - Executes all tests using CTest
+   - Generates test results in XML format
 
-## LLM 集成
+5. **LLM-Assisted Code Repair**
+   - Uses LLM to analyze and fix code issues in the following files:
+     - `run-examples/src/config_store_memory_leak.cpp`
+     - `run-examples/src/config_store_null_ptr.cpp`
+     - `run-examples/src/config_store_uninit_var.cpp`
+   - Incorporates static analysis results if enabled
 
-本项目将整合 LLM 能力，用于：
+6. **Verify Fixes**
+   - Rebuilds and retests the code
+   - Validates that fixes resolved the issues
 
-- 代码分析
-- Bug 修复建议
-- 测试用例生成
+### Example Usage
 
-## Features
+Basic usage:
+```bash
+# Reset the examples directory
+./run_repair.sh -r
+# Using current examples directory
+./run_repair.sh
 
-The framework combines three key components:
+```
 
-1. **Static Analysis**: Uses tools like Infer to identify potential bugs in code
-2. **Dynamic Analysis**: Generates test cases to validate code behavior
-3. **LLM Integration**: Uses LLMs to suggest code repairs based on analysis results
+With Infer static analysis:
+```bash
+./run_repair.sh --use-infer --include-infer-in-prompt
+```
 
-## Getting Started
+Specify build directory:
+```bash
+./run_repair.sh -b my_build
+```
 
-### Prerequisites
+## Output
 
-- Python 3.8+
-- C++ compiler (for sample code)
-- Infer static analyzer
-- Valgrind (optional, for memory analysis)
+The pipeline generates output in the following locations:
 
-### Installation
+- `output/` - Contains test results and analysis reports
+- `logs/` - Contains detailed logs of the pipeline execution
+- `build/` - Contains build artifacts and compilation database
 
-1. Clone the repository
-2. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-3. Configure your LLM API key in `config/settings.json`
+## Notes
 
-### Usage
-
-1. Run static analysis on sample code:
-   ```
-   python -m src.static_analysis.run --target=src/sample_code.cpp
-   ```
-
-2. Generate and run tests:
-   ```
-   python -m src.dynamic_analysis.run --target=src/sample_code.cpp
-   ```
-
-3. Generate code repairs:
-   ```
-   python -m src.llm.repair --target=src/sample_code.cpp
-   ```
-
-## Example
-
-The `src/sample_code.cpp` file contains a `ConfigStore` class with intentional bugs:
-- Memory leaks
-- Null pointer dereferences
-- Array bounds violations
-- Uninitialized variables
-
-The framework:
-1. Identifies these bugs using static analysis
-2. Validates the issues using dynamic analysis/testing
-3. Generates fixes using LLM suggestions
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
+- The script requires proper permissions to execute
+- Make sure all dependencies are installed before running
+- For best results with Infer, ensure it's properly installed and configured
+- The script will automatically create necessary directories if they don't exist
+- The script processes a fixed set of example files in the `run-examples/src/` directory

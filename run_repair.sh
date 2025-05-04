@@ -62,11 +62,6 @@ mkdir -p $OUTPUT_DIR
 while [[ $# -gt 0 ]]; do
   key="$1"
   case $key in
-    -t|--target)
-      TARGET_FILE="$2"
-      shift
-      shift
-      ;;
     -b|--build-dir)
       BUILD_DIR="$2"
       shift
@@ -90,11 +85,10 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
     -h|--help)
-      echo -e "${BOLD}${BLUE}Usage:${NC} $0 [-t|--target <target_file>] [-b|--build-dir <build_directory>] [-r|--reset] [--use-infer] [--include-infer-in-prompt] [--sync]"
+      echo -e "${BOLD}${BLUE}Usage:${NC} $0 [-b|--build-dir <build_directory>] [-r|--reset] [--use-infer] [--include-infer-in-prompt] [--sync]"
       echo -e "${BOLD}Run the LLM-assisted code repair pipeline using CMake${NC}"
       echo ""
       echo -e "${BOLD}${BLUE}Options:${NC}"
-      echo -e "  ${CYAN}-t, --target${NC}      Target file to analyze and repair (default: src/sample_code.cpp)"
       echo -e "  ${CYAN}-b, --build-dir${NC}   Build directory (default: build)"
       echo -e "  ${CYAN}-r, --reset${NC}       Reset examples directory (delete and recreate from run-examples)"
       echo -e "  ${CYAN}--use-infer${NC}       Enable Infer static analysis (default: false)"
