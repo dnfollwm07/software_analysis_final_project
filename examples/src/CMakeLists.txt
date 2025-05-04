@@ -7,6 +7,7 @@ set(SOURCES
     infer_case/loop_leak.cpp
     infer_case/null_dereference.cpp
     infer_case/uninitialized_variable.cpp
+    # infer_case/config_store_bugg.cpp
 )
 
 # 创建静态库，而不是可执行文件
