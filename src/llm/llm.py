@@ -29,9 +29,12 @@ def request_llm(prompt: str) -> str:
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7
         }
+
+        print(prompt)
         
         try:
-            response = requests.post(OPENAI_API_URL, headers=headers, json=payload)
+            # response = requests.post(OPENAI_API_URL, headers=headers, json=payload)
+            response = null
             response.raise_for_status()
             
             result = response.json()
