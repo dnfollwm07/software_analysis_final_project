@@ -2,11 +2,9 @@
 set(SOURCES
     main.cpp
     config_store.cpp
-    infer_case/dangling_pointer.cpp
-    infer_case/leak_memory.cpp
-    infer_case/loop_leak.cpp
-    infer_case/null_dereference.cpp
-    infer_case/uninitialized_variable.cpp
+    config_store_null_ptr.cpp
+    config_store_uninit_var.cpp
+    config_store_memory_leak.cpp
 )
 
 # 创建静态库，而不是可执行文件

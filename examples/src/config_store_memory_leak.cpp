@@ -91,10 +91,6 @@ ConfigStoreMemoryLeak::~ConfigStoreMemoryLeak() {
 }
 
 void ConfigStoreMemoryLeak::setInt(const std::string& key, int value) {
-    // FIXME: 内存泄漏
-    int* p;
-    p = (int*)malloc(sizeof(int));
-
     ConfigValue config_value;
     config_value.type = TYPE_INT;
     config_value.data = new int(value);
@@ -143,7 +139,7 @@ float ConfigStoreMemoryLeak::getFloat(const std::string& key) {
 }
 
 void ConfigStoreMemoryLeak::setString(const std::string& key, const std::string* value) {
-    if (value == nullptr && value->empty()) {
+    if (value == nullptr || value->empty()) {
         return;
     }
     ConfigValue config_value;
@@ -194,7 +190,9 @@ std::vector<int> ConfigStoreMemoryLeak::getVector(const std::string& key) {
 }
 
 void ConfigStoreMemoryLeak::processBuffer(int index, int value) {
-    int c = 0;
+    // FIXME: 内存泄漏
+    int* p;
+    p = (int*)malloc(sizeof(int));
 
     if (index < 0 || index >= buffer_size) {
         throw std::out_of_range("Index out of bounds");

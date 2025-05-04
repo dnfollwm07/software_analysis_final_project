@@ -91,7 +91,6 @@ ConfigStoreNullPtr::~ConfigStoreNullPtr() {
 }
 
 void ConfigStoreNullPtr::setInt(const std::string& key, int value) {
-    // FIXME: 空指针 int* p = (int*)malloc(sizeof(int));
     int* p = nullptr;
     *p = value;
 

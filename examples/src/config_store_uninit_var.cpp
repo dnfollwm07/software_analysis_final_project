@@ -139,7 +139,7 @@ float ConfigStoreUninitVar::getFloat(const std::string& key) {
 }
 
 void ConfigStoreUninitVar::setString(const std::string& key, const std::string* value) {
-    if (value == nullptr && value->empty()) {
+    if (value == nullptr || value->empty()) {
         return;
     }
     ConfigValue config_value;
@@ -211,8 +211,9 @@ int ConfigStoreUninitVar::sumBuffer(int start, int end) {
     if (end > buffer_size) {
         throw std::runtime_error("Buffer overflow detected");
     }
-    // FIXME: 未初始化变量
-    // int sum = 0;
+    /* FIXME: 未初始化变量
+    int sum = 0;
+     */
     int sum;
     for (int i = start; i < end; i++) {
         sum += buffer[i];

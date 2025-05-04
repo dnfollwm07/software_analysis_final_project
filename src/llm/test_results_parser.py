@@ -124,7 +124,22 @@ class TestResultsParser:
             })
         
         return detailed_info
-
+    
+    def get_failed_test_info_by_test_class(self, test_class: str) -> List[Dict[str, str]]:
+        """Get failed test info by test class.
+        
+        Returns:
+            Dictionary with test class name as key and list of failed test info as value.
+        """
+        failed_tests = self.get_detailed_failed_test_info()
+        failed_tests_by_test_class = []
+        
+        for test in failed_tests:
+            if test["classname"].split(".")[0] == test_class:
+                failed_tests_by_test_class.append(test)
+        
+        return failed_tests_by_test_class
+    
 if __name__ == "__main__":
     # Example usage
     

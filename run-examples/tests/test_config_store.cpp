@@ -7,8 +7,9 @@
 #include <functional>
 
 // 定义TESTING宏，以便在包含sample_code.cpp时屏蔽其main函数
-#define TESTING
+// #define TESTING
 #include "../src/config_store.h"
+using ConfigStoreImpl = ConfigStore;
 
 /**
  * Google Test测试套件，用于测试ConfigStore实现
@@ -30,7 +31,7 @@ protected:
 
 // 测试基本整数存储和检索
 TEST_F(ConfigStoreTest, IntStorage) {
-    ConfigStore config;
+    ConfigStoreImpl config;
     config.setInt("test_key", 42);
     int value = config.getInt("test_key");
     EXPECT_EQ(value, 42);
@@ -38,7 +39,7 @@ TEST_F(ConfigStoreTest, IntStorage) {
 
 // 测试基本浮点数存储和检索
 TEST_F(ConfigStoreTest, FloatStorage) {
-    ConfigStore config;
+    ConfigStoreImpl config;
     config.setFloat("test_key", 3.14f);
     float value = config.getFloat("test_key");
     EXPECT_NEAR(value, 3.14f, 0.001f);
@@ -46,7 +47,7 @@ TEST_F(ConfigStoreTest, FloatStorage) {
 
 // 测试基本字符串存储和检索
 TEST_F(ConfigStoreTest, StringStorage) {
-    ConfigStore config;
+    ConfigStoreImpl config;
     config.setString("test_key", "test_value");
     std::string value = config.getString("test_key");
     EXPECT_EQ(value, "test_value");
@@ -54,17 +55,18 @@ TEST_F(ConfigStoreTest, StringStorage) {
 
 // 测试基本向量存储和检索
 TEST_F(ConfigStoreTest, VectorStorage) {
-    ConfigStore config;
+    ConfigStoreImpl config;
     std::vector<int> test_vec = {1, 2, 3, 4, 5};
     config.setVector("test_key", test_vec);
     std::vector<int> value = config.getVector("test_key");
+    EXPECT_FALSE(test_vec.data() == value.data()) << "test_vec.data() == value.data()";
     EXPECT_EQ(value, test_vec);
 }
 
 // 测试不存在的键访问（整数）
 TEST_F(ConfigStoreTest, NonexistentInt) {
     // 由于未初始化缓冲区的bug，预期此测试会失败
-    ConfigStore config;
+    ConfigStoreImpl config;
     try {
         int value = config.getInt("nonexistent");
         // 如果执行到这里，函数没有抛出异常，但我们无法验证其值
@@ -79,7 +81,7 @@ TEST_F(ConfigStoreTest, NonexistentInt) {
 // 测试不存在的键访问（浮点数）
 TEST_F(ConfigStoreTest, NonexistentFloat) {
     // 由于未初始化的default_value bug，预期此测试会失败
-    ConfigStore config;
+    ConfigStoreImpl config;
     try {
         float value = config.getFloat("nonexistent");
         // 如果执行到这里，函数没有抛出异常，但返回了未初始化的值
@@ -92,7 +94,7 @@ TEST_F(ConfigStoreTest, NonexistentFloat) {
 
 // 测试getInt中的类型不匹配
 TEST_F(ConfigStoreTest, TypeMismatchInt) {
-    ConfigStore config;
+    ConfigStoreImpl config;
     config.setString("test_key", "not_an_int");
     try {
         int value = config.getInt("test_key");
@@ -104,7 +106,7 @@ TEST_F(ConfigStoreTest, TypeMismatchInt) {
 
 // 测试buffer处理（边界内索引）
 TEST_F(ConfigStoreTest, BufferProcessing) {
-    ConfigStore config;
+    ConfigStoreImpl config;
     // 使用边界内的有效索引应该成功执行
     bool result = true;
     try {
@@ -117,7 +119,7 @@ TEST_F(ConfigStoreTest, BufferProcessing) {
 
 // 测试buffer处理（越界索引）
 TEST_F(ConfigStoreTest, BufferProcessingOutOfBounds) {
-    ConfigStore config;
+    ConfigStoreImpl config;
     
     // 注意：在C++中，数组越界访问不会自动抛出异常，而是导致未定义行为
     // 我们需要测试ConfigStore是否实现了边界检查
@@ -147,7 +149,7 @@ TEST_F(ConfigStoreTest, BufferProcessingOutOfBounds) {
 // 测试set方法中的内存泄漏
 TEST_F(ConfigStoreTest, MemoryLeakOnOverwrite) {
     // 此测试无法直接验证内存泄漏，但可以帮助使用Valgrind等工具进行手动验证
-    ConfigStore config;
+    ConfigStoreImpl config;
     config.setInt("test_key", 42);
     config.setInt("test_key", 43); // 覆盖应该清理旧值
     EXPECT_EQ(config.getInt("test_key"), 43);
@@ -160,11 +162,11 @@ TEST_F(ConfigStoreTest, SumBuffer) {
     // 2. 循环中的越界错误
     
     // 注意：在C++中数组越界不会自动抛出异常
-    ConfigStore config;
+    ConfigStoreImpl config;
     
     // 方法1：如果实现添加了边界检查并抛出异常
     try {
-        int sum = config.sumBuffer();
+        int sum = config.sumBuffer(0, 11);
         
         // 如果没有抛出异常，无法直接验证结果的正确性
         // 因为原始实现有未初始化内存访问和越界问题

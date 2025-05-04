@@ -47,6 +47,9 @@ reset_examples() {
   rm -rf output
   rm -rf run-examples
   cp -r examples run-examples
+
+  sed -i '/\/\*.*FIXME/,/\*\//d' run-examples/src/*.cpp
+  sed -i '/\/\/.*FIXME/d' run-examples/src/*.cpp
   print_success "Examples directory reset complete"
 }
 
@@ -81,8 +84,13 @@ while [[ $# -gt 0 ]]; do
       INCLUDE_INFER_IN_PROMPT=true
       shift
       ;;
+    --sync)
+      reset_examples
+      print_success "Examples directory synchronized successfully"
+      exit 0
+      ;;
     -h|--help)
-      echo -e "${BOLD}${BLUE}Usage:${NC} $0 [-t|--target <target_file>] [-b|--build-dir <build_directory>] [-r|--reset] [--use-infer] [--include-infer-in-prompt]"
+      echo -e "${BOLD}${BLUE}Usage:${NC} $0 [-t|--target <target_file>] [-b|--build-dir <build_directory>] [-r|--reset] [--use-infer] [--include-infer-in-prompt] [--sync]"
       echo -e "${BOLD}Run the LLM-assisted code repair pipeline using CMake${NC}"
       echo ""
       echo -e "${BOLD}${BLUE}Options:${NC}"
@@ -91,6 +99,7 @@ while [[ $# -gt 0 ]]; do
       echo -e "  ${CYAN}-r, --reset${NC}       Reset examples directory (delete and recreate from run-examples)"
       echo -e "  ${CYAN}--use-infer${NC}       Enable Infer static analysis (default: false)"
       echo -e "  ${CYAN}--include-infer-in-prompt${NC}  Include Infer results in LLM prompt (default: false)"
+      echo -e "  ${CYAN}--sync${NC}            Synchronize examples directory and exit"
       echo -e "  ${CYAN}-h, --help${NC}        Show this help message"
       exit 0
       ;;
@@ -130,6 +139,7 @@ if [[ "$USE_INFER" == "true" ]]; then
   if command -v infer &> /dev/null; then
     print_info "Running Infer static analyzer..."
     infer run --skip-analysis-in-path "build/_deps" \
+      --skip-analysis-in-path "run-examples/tests" \
       --reactive \
       --compilation-database "$BUILD_DIR/compile_commands.json" \
       -o "$OUTPUT_DIR/infer-out"
@@ -165,26 +175,31 @@ if grep -q "failures=\"0\"" "$OUTPUT_DIR/test-results.xml"; then
     print_success "All tests passed! No need for code repair."
     print_header "End of Pipeline"
     exit 0
-else
-    print_warning "Some tests failed. Proceeding to code repair..."
-    # Extract failed test information for LLM
-    failed_tests=$(grep -A 1 "failure" "$OUTPUT_DIR/test-results.xml" | grep "testcase" | sed 's/.*name="\([^"]*\).*/\1/')
-    echo "$failed_tests" > "$OUTPUT_DIR/failed_tests.txt"
 fi
 
-# TODO: 补充examples/src/infer_case的单测
 cd ..
 
 # Step 5: Run code repair with LLM
 print_step "5" "Running LLM-assisted code repair"
 if [[ "$USE_INFER" == "true" && "$INCLUDE_INFER_IN_PROMPT" == "true" ]]; then
-    python3 -m src.llm.repair output/infer-out/report.json --failed-tests "$OUTPUT_DIR/failed_tests.txt" --use-infer --include-infer-in-prompt
+    python3 -m src.llm.repair \
+    --targets run-examples/src/config_store_memory_leak.cpp run-examples/src/config_store_null_ptr.cpp run-examples/src/config_store_uninit_var.cpp \
+    --test-classes ConfigStoreMemoryLeakTest ConfigStoreNullPtrTest ConfigStoreUninitVarTest \
+    --infer-report-path output/infer-out/report.json --failed-tests "$OUTPUT_DIR/test-results.xml" --use-infer --include-infer-in-prompt
 else
-    python3 -m src.llm.repair --failed-tests "$OUTPUT_DIR/failed_tests.txt"
+    python3 -m src.llm.repair \
+    --targets run-examples/src/config_store_memory_leak.cpp run-examples/src/config_store_null_ptr.cpp run-examples/src/config_store_uninit_var.cpp \
+    --test-classes ConfigStoreMemoryLeakTest ConfigStoreNullPtrTest ConfigStoreUninitVarTest \
+    --failed-tests "$OUTPUT_DIR/test-results.xml"
 fi
 
 # Step 6: Verify fixes with tests
 print_step "6" "Verifying fixes with tests"
+
+print_info "Generating build system and compilation database..."
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B "$BUILD_DIR" -S .
+print_success "CMake configuration complete"
+cmake --build "$BUILD_DIR" --config Debug
 
 cd "$BUILD_DIR"
 print_info "Running tests again to verify fixes..."

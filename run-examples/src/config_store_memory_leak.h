@@ -1,5 +1,5 @@
-#ifndef CONFIG_STORE_H
-#define CONFIG_STORE_H
+#ifndef CONFIG_STORE_MEMORY_LEAK_H
+#define CONFIG_STORE_MEMORY_LEAK_H
 
 #include <iostream>
 #include <vector>
@@ -20,7 +20,7 @@
  * The class allows storing and retrieving values of different types (int, float, string, vector)
  * using string keys. It also provides a buffer for numeric operations.
  */
-class ConfigStore
+class ConfigStoreMemoryLeak
 {
 public:
     /**
@@ -100,12 +100,12 @@ public:
      * @brief Constructor with optional buffer size
      * @param size Size of the internal buffer (default: 10)
      */
-    ConfigStore(int size = 10);
+    ConfigStoreMemoryLeak(int size = 10);
 
     /**
      * @brief Destructor, releases allocated memory
      */
-    ~ConfigStore();
+    ~ConfigStoreMemoryLeak();
 
     /**
      * @brief Store an integer value with the given key
@@ -142,7 +142,7 @@ public:
      * @param key The key to store the value under
      * @param value The string value to store
      */
-    void setString(const std::string &key, const std::string &value);
+    void setString(const std::string &key, const std::string* value);
 
     /**
      * @brief Retrieve a string value by key
@@ -186,4 +186,4 @@ public:
     int sumBuffer(int start, int end);
 };
 
-#endif // CONFIG_STORE_H
+#endif // CONFIG_STORE_MEMORY_LEAK_H

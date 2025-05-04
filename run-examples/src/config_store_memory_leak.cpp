@@ -1,9 +1,9 @@
-#include "config_store_null_ptr.h"
+#include "config_store_memory_leak.h"
 
 // ConfigValue implementation
-ConfigStoreNullPtr::ConfigValue::ConfigValue() : type(TYPE_INT), data(nullptr) {}
+ConfigStoreMemoryLeak::ConfigValue::ConfigValue() : type(TYPE_INT), data(nullptr) {}
 
-ConfigStoreNullPtr::ConfigValue::ConfigValue(const ConfigValue& other) : type(other.type), data(nullptr) {
+ConfigStoreMemoryLeak::ConfigValue::ConfigValue(const ConfigValue& other) : type(other.type), data(nullptr) {
     if (other.data != nullptr) {
         switch (other.type) {
             case TYPE_INT:
@@ -22,7 +22,7 @@ ConfigStoreNullPtr::ConfigValue::ConfigValue(const ConfigValue& other) : type(ot
     }
 }
 
-ConfigStoreNullPtr::ConfigValue& ConfigStoreNullPtr::ConfigValue::operator=(const ConfigValue& other) {
+ConfigStoreMemoryLeak::ConfigValue& ConfigStoreMemoryLeak::ConfigValue::operator=(const ConfigValue& other) {
     if (this != &other) {
         // 释放当前资源
         cleanup();
@@ -52,7 +52,7 @@ ConfigStoreNullPtr::ConfigValue& ConfigStoreNullPtr::ConfigValue::operator=(cons
     return *this;
 }
 
-void ConfigStoreNullPtr::ConfigValue::cleanup() {
+void ConfigStoreMemoryLeak::ConfigValue::cleanup() {
     if (data != nullptr) {
         switch (type) {
             case TYPE_INT:
@@ -72,12 +72,12 @@ void ConfigStoreNullPtr::ConfigValue::cleanup() {
     }
 }
 
-ConfigStoreNullPtr::ConfigValue::~ConfigValue() {
+ConfigStoreMemoryLeak::ConfigValue::~ConfigValue() {
     cleanup();
 }
 
-// ConfigStoreNullPtr implementation
-ConfigStoreNullPtr::ConfigStoreNullPtr(int size) : buffer_size(size), initialized(false) {
+// ConfigStoreMemoryLeak implementation
+ConfigStoreMemoryLeak::ConfigStoreMemoryLeak(int size) : buffer_size(size), initialized(false) {
     buffer = new int[buffer_size];
     for (int i = 0; i < buffer_size; i++) {
         buffer[i] = 0;
@@ -85,23 +85,19 @@ ConfigStoreNullPtr::ConfigStoreNullPtr(int size) : buffer_size(size), initialize
     initialized = true;
 }
 
-ConfigStoreNullPtr::~ConfigStoreNullPtr() {
+ConfigStoreMemoryLeak::~ConfigStoreMemoryLeak() {
     delete[] buffer;
     // 不需要手动清理config_map，ConfigValue的析构函数会处理数据清理
 }
 
-void ConfigStoreNullPtr::setInt(const std::string& key, int value) {
-    // FIXME: 空指针 int* p = (int*)malloc(sizeof(int));
-    int* p = nullptr;
-    *p = value;
-
+void ConfigStoreMemoryLeak::setInt(const std::string& key, int value) {
     ConfigValue config_value;
     config_value.type = TYPE_INT;
-    config_value.data = p;
+    config_value.data = new int(value);
     config_map[key] = config_value;
 }
 
-int ConfigStoreNullPtr::getInt(const std::string& key) {
+int ConfigStoreMemoryLeak::getInt(const std::string& key) {
     auto it = config_map.find(key);
     if (it == config_map.end()) {
         throw std::runtime_error("Key not found");
@@ -118,14 +114,14 @@ int ConfigStoreNullPtr::getInt(const std::string& key) {
     return *static_cast<int*>(it->second.data);
 }
 
-void ConfigStoreNullPtr::setFloat(const std::string& key, float value) {
+void ConfigStoreMemoryLeak::setFloat(const std::string& key, float value) {
     ConfigValue config_value;
     config_value.type = TYPE_FLOAT;
     config_value.data = new float(value);
     config_map[key] = config_value;
 }
 
-float ConfigStoreNullPtr::getFloat(const std::string& key) {
+float ConfigStoreMemoryLeak::getFloat(const std::string& key) {
     auto it = config_map.find(key);
     if (it == config_map.end()) {
         throw std::runtime_error("Key not found");
@@ -142,17 +138,17 @@ float ConfigStoreNullPtr::getFloat(const std::string& key) {
     return *static_cast<float*>(it->second.data);
 }
 
-void ConfigStoreNullPtr::setString(const std::string& key,const std::string* value) {
+void ConfigStoreMemoryLeak::setString(const std::string& key, const std::string* value) {
     if (value == nullptr || value->empty()) {
         return;
-    } 
+    }
     ConfigValue config_value;
     config_value.type = TYPE_STRING;
     config_value.data = new std::string(*value);
     config_map[key] = config_value;
 }
 
-std::string ConfigStoreNullPtr::getString(const std::string& key) {
+std::string ConfigStoreMemoryLeak::getString(const std::string& key) {
     auto it = config_map.find(key);
     if (it == config_map.end()) {
         return "";
@@ -169,14 +165,14 @@ std::string ConfigStoreNullPtr::getString(const std::string& key) {
     return *static_cast<std::string*>(it->second.data);
 }
 
-void ConfigStoreNullPtr::setVector(const std::string& key, const std::vector<int>& value) {
+void ConfigStoreMemoryLeak::setVector(const std::string& key, const std::vector<int>& value) {
     ConfigValue config_value;
     config_value.type = TYPE_VECTOR;
     config_value.data = new std::vector<int>(value);
     config_map[key] = config_value;
 }
 
-std::vector<int> ConfigStoreNullPtr::getVector(const std::string& key) {
+std::vector<int> ConfigStoreMemoryLeak::getVector(const std::string& key) {
     auto it = config_map.find(key);
     if (it == config_map.end()) {
         return std::vector<int>();
@@ -193,8 +189,9 @@ std::vector<int> ConfigStoreNullPtr::getVector(const std::string& key) {
     return *static_cast<std::vector<int>*>(it->second.data);
 }
 
-void ConfigStoreNullPtr::processBuffer(int index, int value) {
-    int c = 0;
+void ConfigStoreMemoryLeak::processBuffer(int index, int value) {
+    int* p;
+    p = (int*)malloc(sizeof(int));
 
     if (index < 0 || index >= buffer_size) {
         throw std::out_of_range("Index out of bounds");
@@ -203,7 +200,7 @@ void ConfigStoreNullPtr::processBuffer(int index, int value) {
     }
 }
 
-int ConfigStoreNullPtr::sumBuffer(int start, int end) {
+int ConfigStoreMemoryLeak::sumBuffer(int start, int end) {
     if (!initialized) {
         throw std::runtime_error("Buffer not initialized");
     }
@@ -221,16 +218,4 @@ int ConfigStoreNullPtr::sumBuffer(int start, int end) {
         sum += buffer[i];
     }
     return sum;
-} 
-
-
-// TODO: 
-// static void dereference_null(int* ptr) {
-//     std::cout << "Value: " << *ptr << std::endl; // 可能解引用空指针
-// }
-
-// static int dereference_null_main() {
-//     int* p = nullptr;
-//     dereference_null(p); // 传递空指针
-//     return 0;
-// }
+}

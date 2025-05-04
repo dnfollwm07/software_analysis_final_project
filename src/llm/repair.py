@@ -8,6 +8,7 @@ import re
 from pathlib import Path
 from typing import Dict, Optional, List, Set
 
+from .test_results_parser import TestResultsParser
 from src.llm import logger
 from .infer_report_processor import process_infer_report
 from .llm import get_code_from_result, request_llm
@@ -31,14 +32,13 @@ def load_config(config_path: str = "config.json") -> Dict:
         logger.warning(f"Failed to load configuration from {config_path}: {e}")
         return {"rules": []}
 
-def repair_file(file_path: str, modified_content: Dict, failed_tests: Optional[List[str]] = None) -> Optional[str]:
+def repair_file(file_path: str, modified_content: Dict) -> Optional[str]:
     """
     Use LLM to repair a file based on the Infer issues and failed tests.
     
     Args:
         file_path: Path to the file to repair
         modified_content: Content of the file with Infer issue comments
-        failed_tests: List of failed test names
         
     Returns:
         Fixed content if successful, None otherwise
@@ -67,10 +67,10 @@ def repair_file(file_path: str, modified_content: Dict, failed_tests: Optional[L
     
     # Add failed tests information if available
     failed_tests_section = ""
-    if failed_tests:
+    if modified_content['failed_tests'] is not None and len(modified_content['failed_tests']) > 0:
         failed_tests_section = f"""
 Failed Tests:
-{chr(10).join(failed_tests)}
+{"\n".join([f"- {test['name']}\n{test['filtered_output']}\n" for test in modified_content['failed_tests']])}
 
 Please ensure your fixes address these test failures while maintaining the original functionality.
 """
@@ -112,10 +112,12 @@ Language: {language}  # Added context for language-specific fixes
 """
     
     # Print the complete prompt
-    logger.info("Generated prompt:")
-    logger.info("=" * 80)
-    logger.info(prompt)
-    logger.info("=" * 80)
+    logger.debug("Generated prompt:")
+    logger.debug("=" * 80)
+    logger.debug(prompt)
+    logger.debug("=" * 80)
+
+    # return modified_content['content']
     
     # Request fix from LLM
     logger.info(f"Requesting LLM to fix issues in {file_path}")
@@ -157,24 +159,18 @@ def print_colored_diff(diff_content: str, file_path: str) -> None:
         new_result += "\n"
     logger.info("\n" + new_result)
 
-def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = None, failed_tests_path: Optional[str] = None) -> Dict[str, str]:
+def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = None) -> Dict[str, str]:
     """
     Repair all files with Infer issues using LLM.
     
     Args:
         modified_files: Dictionary mapping file paths to content with Infer comments
         output_dir: Directory to write fixed files to (if None, overwrite original)
-        failed_tests_path: Path to file containing failed test names
         
     Returns:
         Dictionary mapping file paths to fixed content
     """
     # Load failed tests if provided
-    failed_tests = None
-    if failed_tests_path and os.path.exists(failed_tests_path):
-        with open(failed_tests_path, 'r') as f:
-            failed_tests = [line.strip() for line in f if line.strip()]
-        logger.info(f"Loaded {len(failed_tests)} failed tests from {failed_tests_path}")
     
     fixed_files = {}
     total_files = len(modified_files)
@@ -193,7 +189,7 @@ def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = Non
         except Exception as e:
             logger.warning(f"Could not read original file for diff: {e}")
         
-        fixed_content = repair_file(file_path, modified_content, failed_tests)
+        fixed_content = repair_file(file_path, modified_content)
         
         repair_time = time.time() - start_time
         
@@ -254,66 +250,85 @@ def generate_diff(file_path: str, original_content: str, fixed_content: str) -> 
 
 def main():
     parser = argparse.ArgumentParser(description='Repair code based on Infer report')
-    parser.add_argument('report_path', nargs='?', help='Path to Infer report.json file (optional if not using Infer)')
+    parser.add_argument('--infer-report-path', help='Path to Infer report.json file (optional if not using Infer)')
     parser.add_argument('--output-dir', help='Directory to write fixed files to (if not provided, will overwrite original files)')
     parser.add_argument('--failed-tests', help='Path to file containing failed test names')
+    parser.add_argument('--targets', nargs='+', help='List of target paths to repair')
+    parser.add_argument('--test-classes', nargs='+', help='List of test class names corresponding to target paths')
     parser.add_argument('--use-infer', action='store_true', help='Whether to use Infer results in the repair process')
     parser.add_argument('--include-infer-in-prompt', action='store_true', help='Whether to include Infer results in the prompt')
     
+    
     args = parser.parse_args()
+    
+    # Validate target paths and test classes
+    if args.targets and args.test_classes:
+        if len(args.targets) != len(args.test_classes):
+            logger.error("Number of target paths must match number of test class names")
+            return
+        target_test_map = dict(zip(args.targets, args.test_classes))
+    else:
+        target_test_map = {}
+    
+    logger.info(f"Target test map: {target_test_map}")
     
     total_start_time = time.time()
     
     # Process files based on whether we're using Infer
     modified_files = {}
     process_time = 0
+
+    test_results_parser = TestResultsParser(args.failed_tests)
+    # handle Test
+    for file_path, test_class in target_test_map.items():
+        failed_tests = test_results_parser.get_failed_test_info_by_test_class(test_class)
+        if not failed_tests or len(failed_tests) == 0:
+            logger.info(f"No failed tests found for {test_class}")
+            continue
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except Exception as e:
+            logger.error(f"Could not read file {file_path}: {e}")
+            raise Exception(f"Could not read file {file_path}: {e}")
+        
+        modified_files[file_path] = {
+            'content': content,
+            'lintList': [],
+            'testClass': test_class,
+            'failed_tests': test_results_parser.get_failed_test_info_by_test_class(test_class)
+        }
     
     if args.use_infer and args.include_infer_in_prompt:
-        if not args.report_path:
-            logger.error("report_path is required when using Infer and including it in the prompt")
+        if not args.infer_report_path:
+            logger.error("infer_report_path is required when using Infer and including it in the prompt")
             return
             
         # Process Infer report
-        logger.info(f"Processing Infer report: {args.report_path}")
+        logger.info(f"Processing Infer report: {args.infer_report_path}")
         process_start_time = time.time()
-        modified_files = process_infer_report(args.report_path)
+        infer_modified_files = process_infer_report(args.infer_report_path)
         process_time = time.time() - process_start_time
         
-        if not modified_files:
+        if not infer_modified_files:
             logger.info(f"No issues found to repair (processing took {process_time:.2f}s)")
-            return
-        
-        logger.info(f"Found {len(modified_files)} files with issues (processing took {process_time:.2f}s)")
-    else:
-        # Directly read source files
-        logger.info("Reading source files directly (Infer not used or not included in prompt)")
-        process_start_time = time.time()
-        
-        # Get all C++ source files
-        source_files = []
-        for root, _, files in os.walk("run-examples/src"):
-            for file in files:
-                if file.endswith(('.cpp', '.h', '.hpp')):
-                    source_files.append(os.path.join(root, file))
-        
-        # Read each file
-        for file_path in source_files:
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                modified_files[file_path] = {
-                    'content': content,
-                    'lintList': []  # Empty list since we're not using Infer
-                }
-            except Exception as e:
-                logger.warning(f"Could not read file {file_path}: {e}")
-        
-        process_time = time.time() - process_start_time
-        logger.info(f"Read {len(modified_files)} source files (processing took {process_time:.2f}s)")
-    
+        else:
+            for file_path, modified_content in infer_modified_files.items():
+                if file_path in modified_files:
+                    modified_files[file_path]['content'] = modified_content['content']
+                    modified_files[file_path]['lintList'] = modified_content['lintList']
+                else:
+                    modified_files[file_path] = {
+                        'content': modified_content['content'],
+                        'lintList': modified_content['lintList'],
+                        'testClass': '',
+                        'failed_tests': []
+                    }
+            logger.info(f"Found {len(infer_modified_files)} files with issues (processing took {process_time:.2f}s)")
+            logger.debug(f"Modified files: {modified_files}")
     # Repair files with issues
     repair_start_time = time.time()
-    fixed_files = repair_files(modified_files, args.output_dir, args.failed_tests)
+    fixed_files = repair_files(modified_files, args.output_dir)
     repair_time = time.time() - repair_start_time
     
     # Print summary
