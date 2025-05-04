@@ -68,9 +68,10 @@ def repair_file(file_path: str, modified_content: Dict) -> Optional[str]:
     # Add failed tests information if available
     failed_tests_section = ""
     if modified_content['failed_tests'] is not None and len(modified_content['failed_tests']) > 0:
+        filtered_output_str = "\n".join([f"- {test['name']}\n{test['filtered_output']}\n" for test in modified_content['failed_tests']])
         failed_tests_section = f"""
 Failed Tests:
-{"\n".join([f"- {test['name']}\n{test['filtered_output']}\n" for test in modified_content['failed_tests']])}
+{filtered_output_str}
 
 Please ensure your fixes address these test failures while maintaining the original functionality.
 """
