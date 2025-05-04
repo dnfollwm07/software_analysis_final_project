@@ -46,7 +46,7 @@ def repair_file(file_path: str, modified_content: Dict, failed_tests: Optional[L
     language = "C++"
     
     # Extract bug types from the modified content
-    bug_types = modified_content['lintList']
+    bug_types = modified_content.get('lintList', [])
     
     # Load custom fix prompts from config
     config_rules = load_config().get("rules", [])
@@ -75,12 +75,18 @@ Failed Tests:
 Please ensure your fixes address these test failures while maintaining the original functionality.
 """
     
-    prompt = f"""
-As a senior code quality engineer, carefully inspect the following code file with Infer static analysis warnings. 
+    # Add Infer warnings section if there are any warnings
+    infer_warnings_section = ""
+    if bug_types:
+        infer_warnings_section = """
 Each warning is marked with an end-of-line comment containing '//[INFER_WARNING] <bug_type_hum>:<Mqualifier>'.
+"""
+    
+    prompt = f"""
+As a senior code quality engineer, carefully inspect the following code file.{infer_warnings_section}
 
 Requirements:
-1. Resolve all warnings while strictly preserving original functionality
+1. Resolve all issues while strictly preserving original functionality
 2. Maintain existing code style and formatting
 3. Prioritize safe fixes that prevent potential runtime errors
 4. Use minimal code changes to address each issue
@@ -104,6 +110,12 @@ Language: {language}  # Added context for language-specific fixes
 - Keep original comments unless they reference warnings
 - Ensure exact syntax validation for {language}
 """
+    
+    # Print the complete prompt
+    logger.info("Generated prompt:")
+    logger.info("=" * 80)
+    logger.info(prompt)
+    logger.info("=" * 80)
     
     # Request fix from LLM
     logger.info(f"Requesting LLM to fix issues in {file_path}")
@@ -242,25 +254,62 @@ def generate_diff(file_path: str, original_content: str, fixed_content: str) -> 
 
 def main():
     parser = argparse.ArgumentParser(description='Repair code based on Infer report')
-    parser.add_argument('report_path', help='Path to Infer report.json file')
+    parser.add_argument('report_path', nargs='?', help='Path to Infer report.json file (optional if not using Infer)')
     parser.add_argument('--output-dir', help='Directory to write fixed files to (if not provided, will overwrite original files)')
     parser.add_argument('--failed-tests', help='Path to file containing failed test names')
+    parser.add_argument('--use-infer', action='store_true', help='Whether to use Infer results in the repair process')
+    parser.add_argument('--include-infer-in-prompt', action='store_true', help='Whether to include Infer results in the prompt')
     
     args = parser.parse_args()
     
     total_start_time = time.time()
     
-    # Process Infer report
-    logger.info(f"Processing Infer report: {args.report_path}")
-    process_start_time = time.time()
-    modified_files = process_infer_report(args.report_path)
-    process_time = time.time() - process_start_time
+    # Process files based on whether we're using Infer
+    modified_files = {}
+    process_time = 0
     
-    if not modified_files:
-        logger.info(f"No issues found to repair (processing took {process_time:.2f}s)")
-        return
-    
-    logger.info(f"Found {len(modified_files)} files with issues (processing took {process_time:.2f}s)")
+    if args.use_infer and args.include_infer_in_prompt:
+        if not args.report_path:
+            logger.error("report_path is required when using Infer and including it in the prompt")
+            return
+            
+        # Process Infer report
+        logger.info(f"Processing Infer report: {args.report_path}")
+        process_start_time = time.time()
+        modified_files = process_infer_report(args.report_path)
+        process_time = time.time() - process_start_time
+        
+        if not modified_files:
+            logger.info(f"No issues found to repair (processing took {process_time:.2f}s)")
+            return
+        
+        logger.info(f"Found {len(modified_files)} files with issues (processing took {process_time:.2f}s)")
+    else:
+        # Directly read source files
+        logger.info("Reading source files directly (Infer not used or not included in prompt)")
+        process_start_time = time.time()
+        
+        # Get all C++ source files
+        source_files = []
+        for root, _, files in os.walk("run-examples/src"):
+            for file in files:
+                if file.endswith(('.cpp', '.h', '.hpp')):
+                    source_files.append(os.path.join(root, file))
+        
+        # Read each file
+        for file_path in source_files:
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                modified_files[file_path] = {
+                    'content': content,
+                    'lintList': []  # Empty list since we're not using Infer
+                }
+            except Exception as e:
+                logger.warning(f"Could not read file {file_path}: {e}")
+        
+        process_time = time.time() - process_start_time
+        logger.info(f"Read {len(modified_files)} source files (processing took {process_time:.2f}s)")
     
     # Repair files with issues
     repair_start_time = time.time()

@@ -176,9 +176,9 @@ cd ..
 # Step 5: Run code repair with LLM
 print_step "5" "Running LLM-assisted code repair"
 if [[ "$USE_INFER" == "true" && "$INCLUDE_INFER_IN_PROMPT" == "true" ]]; then
-  python3 -m src.llm.repair output/infer-out/report.json --failed-tests "$OUTPUT_DIR/failed_tests.txt"
+    python3 -m src.llm.repair output/infer-out/report.json --failed-tests "$OUTPUT_DIR/failed_tests.txt" --use-infer --include-infer-in-prompt
 else
-  python3 -m src.llm.repair --failed-tests "$OUTPUT_DIR/failed_tests.txt"
+    python3 -m src.llm.repair --failed-tests "$OUTPUT_DIR/failed_tests.txt"
 fi
 
 # Step 6: Verify fixes with tests
