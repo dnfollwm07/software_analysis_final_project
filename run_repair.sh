@@ -44,6 +44,7 @@ print_info() {
 # Function to reset examples directory
 reset_examples() {
   print_info "Resetting examples directory..."
+  rm -rf output
   rm -rf run-examples
   cp -r examples run-examples
   print_success "Examples directory reset complete"
@@ -121,6 +122,7 @@ if command -v infer &> /dev/null; then
   
   # Process Infer output to make it LLM-friendly
   print_info "Processing Infer output to make it more LLM-friendly..."
+  # TODO:Infer格式化
 
 else
   print_warning "Infer not found. Static analysis skipped."
@@ -142,6 +144,7 @@ print_info "Running all tests..."
 ctest -C Debug --output-on-failure --output-junit "$OUTPUT_DIR/test-results.xml" || true
 # tee "$OUTPUT_DIR/test_output.txt"
 
+# TODO: 补充examples/src/infer_case的单测
 cd ..
 
 print_success "Test execution complete."

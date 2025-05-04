@@ -125,24 +125,6 @@ class TestResultsParser:
         
         return detailed_info
 
-
-def parse_test_results(xml_file_path: str) -> Dict:
-    """Parse test results and return summary and failed test information.
-    
-    Args:
-        xml_file_path: Path to the JUnit XML test results file.
-        
-    Returns:
-        Dictionary containing test summary and failed test details.
-    """
-    parser = TestResultsParser(xml_file_path)
-    
-    return {
-        "summary": parser.get_test_summary(),
-        "failed_tests": parser.get_detailed_failed_test_info()
-    }
-
-
 if __name__ == "__main__":
     # Example usage
     
