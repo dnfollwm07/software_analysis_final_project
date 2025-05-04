@@ -31,13 +31,14 @@ def load_config(config_path: str = "config.json") -> Dict:
         logger.warning(f"Failed to load configuration from {config_path}: {e}")
         return {"rules": []}
 
-def repair_file(file_path: str, modified_content: Dict) -> Optional[str]:
+def repair_file(file_path: str, modified_content: Dict, failed_tests: Optional[List[str]] = None) -> Optional[str]:
     """
-    Use LLM to repair a file based on the Infer issues.
+    Use LLM to repair a file based on the Infer issues and failed tests.
     
     Args:
         file_path: Path to the file to repair
         modified_content: Content of the file with Infer issue comments
+        failed_tests: List of failed test names
         
     Returns:
         Fixed content if successful, None otherwise
@@ -64,6 +65,16 @@ def repair_file(file_path: str, modified_content: Dict) -> Optional[str]:
     if custom_fix_prompts:
         custom_prompts_section = "Custom fix guidelines:\n" + custom_fix_prompts + "\n\n"
     
+    # Add failed tests information if available
+    failed_tests_section = ""
+    if failed_tests:
+        failed_tests_section = f"""
+Failed Tests:
+{chr(10).join(failed_tests)}
+
+Please ensure your fixes address these test failures while maintaining the original functionality.
+"""
+    
     prompt = f"""
 As a senior code quality engineer, carefully inspect the following code file with Infer static analysis warnings. 
 Each warning is marked with an end-of-line comment containing '//[INFER_WARNING] <bug_type_hum>:<Mqualifier>'.
@@ -75,8 +86,10 @@ Requirements:
 4. Use minimal code changes to address each issue
 5. Validate solutions against the original code's intent
 6. You should only fix marked warnings, do not change other parts of the code
+7. Ensure fixes address any failed tests
 
 {custom_prompts_section}
+{failed_tests_section}
 
 Language: {language}  # Added context for language-specific fixes
 
@@ -132,17 +145,25 @@ def print_colored_diff(diff_content: str, file_path: str) -> None:
         new_result += "\n"
     logger.info("\n" + new_result)
 
-def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = None) -> Dict[str, str]:
+def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = None, failed_tests_path: Optional[str] = None) -> Dict[str, str]:
     """
     Repair all files with Infer issues using LLM.
     
     Args:
         modified_files: Dictionary mapping file paths to content with Infer comments
         output_dir: Directory to write fixed files to (if None, overwrite original)
+        failed_tests_path: Path to file containing failed test names
         
     Returns:
         Dictionary mapping file paths to fixed content
     """
+    # Load failed tests if provided
+    failed_tests = None
+    if failed_tests_path and os.path.exists(failed_tests_path):
+        with open(failed_tests_path, 'r') as f:
+            failed_tests = [line.strip() for line in f if line.strip()]
+        logger.info(f"Loaded {len(failed_tests)} failed tests from {failed_tests_path}")
+    
     fixed_files = {}
     total_files = len(modified_files)
     
@@ -160,7 +181,7 @@ def repair_files(modified_files: Dict[str, str], output_dir: Optional[str] = Non
         except Exception as e:
             logger.warning(f"Could not read original file for diff: {e}")
         
-        fixed_content = repair_file(file_path, modified_content)
+        fixed_content = repair_file(file_path, modified_content, failed_tests)
         
         repair_time = time.time() - start_time
         
@@ -223,6 +244,7 @@ def main():
     parser = argparse.ArgumentParser(description='Repair code based on Infer report')
     parser.add_argument('report_path', help='Path to Infer report.json file')
     parser.add_argument('--output-dir', help='Directory to write fixed files to (if not provided, will overwrite original files)')
+    parser.add_argument('--failed-tests', help='Path to file containing failed test names')
     
     args = parser.parse_args()
     
@@ -242,17 +264,12 @@ def main():
     
     # Repair files with issues
     repair_start_time = time.time()
-    fixed_files = repair_files(modified_files, args.output_dir)
+    fixed_files = repair_files(modified_files, args.output_dir, args.failed_tests)
     repair_time = time.time() - repair_start_time
     
     # Print summary
     total_time = time.time() - total_start_time
-    
-    logger.info(f"Repair Summary:")
-    logger.info(f"- Repaired {len(fixed_files)} out of {len(modified_files)} files with issues")
-    logger.info(f"- Processing time: {process_time:.2f}s")
-    logger.info(f"- Repair time: {repair_time:.2f}s")
-    logger.info(f"- Total execution time: {total_time:.2f}s")
+    logger.info(f"Total repair time: {total_time:.2f}s (processing: {process_time:.2f}s, repair: {repair_time:.2f}s)")
     
     if fixed_files:
         logger.info("Successfully repaired files:")
