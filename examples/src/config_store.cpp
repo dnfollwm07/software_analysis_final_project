@@ -1,9 +1,9 @@
 #include "config_store.h"
 
 // ConfigValue implementation
-ConfigStore::ConfigValue::ConfigValue() : type(TYPE_INT), data(nullptr) {}
+ConfigValue::ConfigValue() : type(TYPE_INT), data(nullptr) {}
 
-ConfigStore::ConfigValue::ConfigValue(const ConfigValue& other) : type(other.type), data(nullptr) {
+ConfigValue::ConfigValue(const ConfigValue& other) : type(other.type), data(nullptr) {
     if (other.data != nullptr) {
         switch (other.type) {
             case TYPE_INT:
@@ -22,7 +22,7 @@ ConfigStore::ConfigValue::ConfigValue(const ConfigValue& other) : type(other.typ
     }
 }
 
-ConfigStore::ConfigValue& ConfigStore::ConfigValue::operator=(const ConfigValue& other) {
+ConfigValue& ConfigValue::operator=(const ConfigValue& other) {
     if (this != &other) {
         // 释放当前资源
         cleanup();
@@ -52,7 +52,7 @@ ConfigStore::ConfigValue& ConfigStore::ConfigValue::operator=(const ConfigValue&
     return *this;
 }
 
-void ConfigStore::ConfigValue::cleanup() {
+void ConfigValue::cleanup() {
     if (data != nullptr) {
         switch (type) {
             case TYPE_INT:
@@ -72,7 +72,7 @@ void ConfigStore::ConfigValue::cleanup() {
     }
 }
 
-ConfigStore::ConfigValue::~ConfigValue() {
+ConfigValue::~ConfigValue() {
     cleanup();
 }
 
@@ -196,21 +196,22 @@ void ConfigStore::processBuffer(int index, int value) {
     }
 }
 
-int ConfigStore::sumBuffer() {
+int ConfigStore::sumBuffer(int start, int end) {
     if (!initialized) {
         throw std::runtime_error("Buffer not initialized");
     }
+
+    if (start < 0 || start > end) {
+        throw std::out_of_range("Invalid range");
+    }
+
+    if (end > buffer_size) {
+        throw std::runtime_error("Buffer overflow detected");
+    }
     
-    // 由于这个测试期望失败（在测试代码中有FAIL断言），
-    // 修复的版本应该抛出异常以验证测试通过
-    throw std::runtime_error("Buffer overflow detected");
-    
-    // 下面是正常工作的代码，但测试期望它抛出异常
-    /*
     int sum = 0;
-    for (int i = 0; i < buffer_size; i++) {
+    for (int i = start; i < end; i++) {
         sum += buffer[i];
     }
     return sum;
-    */
 } 

@@ -1,6 +1,6 @@
 # 添加测试源文件
 set(TEST_SOURCES
-    test_sample_code.cpp
+    test_config_store.cpp
 )
 
 # 添加测试可执行文件

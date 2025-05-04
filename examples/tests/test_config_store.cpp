@@ -58,6 +58,7 @@ TEST_F(ConfigStoreTest, VectorStorage) {
     std::vector<int> test_vec = {1, 2, 3, 4, 5};
     config.setVector("test_key", test_vec);
     std::vector<int> value = config.getVector("test_key");
+    EXPECT_FALSE(test_vec.data() == value.data()) << "test_vec.data() == value.data()";
     EXPECT_EQ(value, test_vec);
 }
 
@@ -164,7 +165,7 @@ TEST_F(ConfigStoreTest, SumBuffer) {
     
     // 方法1：如果实现添加了边界检查并抛出异常
     try {
-        int sum = config.sumBuffer();
+        int sum = config.sumBuffer(0, 11);
         
         // 如果没有抛出异常，无法直接验证结果的正确性
         // 因为原始实现有未初始化内存访问和越界问题

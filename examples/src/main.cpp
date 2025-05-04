@@ -68,10 +68,4 @@ int main() {
     delete[] values;
     return 0;
 } 
-#endif // TESTING 
-
-
-void test() {
-  int *s = NULL;
-  *s = 42;
-}
+#endif // TESTING
