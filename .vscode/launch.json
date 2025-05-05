@@ -10,16 +10,6 @@
             "request": "launch",
             "module": "src.llm.repair",
             "args": [
-                "--targets",
-                "run-examples/src/config_store_memory_leak.cpp",
-                "run-examples/src/config_store_null_ptr.cpp",
-                "run-examples/src/config_store_uninit_var.cpp",
-
-                "--test-classes",
-                "ConfigStoreMemoryLeakTest",
-                "ConfigStoreNullPtrTest",
-                "ConfigStoreUninitVarTest",
-
                 "--infer-report-path",
                 "output/infer-out/report.json",
                 "--failed-tests",
@@ -29,21 +19,28 @@
             ],
         },
         {
+            "name": "python: repair-infer-debug",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.llm.repair",
+            "args": [
+                "--infer-report-path",
+                "output/infer-out/report.json",
+                "--failed-tests",
+                "output/test-results.xml",
+                "--use-infer",
+                "--include-infer-in-prompt"
+            ],
+            "env": {
+                "USE_DEBUG_MODE": "true"
+            }
+        },
+        {
             "name": "python: repair",
             "type": "debugpy",
             "request": "launch",
             "module": "src.llm.repair",
             "args": [
-                "--targets",
-                "run-examples/src/config_store_memory_leak.cpp",
-                "run-examples/src/config_store_null_ptr.cpp",
-                "run-examples/src/config_store_uninit_var.cpp",
-                
-                "--test-classes",
-                "ConfigStoreMemoryLeakTest",
-                "ConfigStoreNullPtrTest",
-                "ConfigStoreUninitVarTest",
-
                 "--failed-tests",
                 "output/test-results.xml"
             ],

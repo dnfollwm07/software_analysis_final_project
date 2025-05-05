@@ -15,6 +15,7 @@ from .infer_report_processor import process_infer_report
 from .llm import get_code_from_result, request_llm
 
 NO_REQUEST_LLM = os.getenv("NO_REQUEST_LLM", "0").lower() == "1"
+USE_INFER = False
 
 def load_config(config_path: str = "config.json") -> Dict:
     """
@@ -114,10 +115,16 @@ Language: {language}
 - Keep original comments unless they reference warnings
 - Ensure exact syntax validation for {language}
 """
+    if os.getenv("USE_DEBUG_MODE", "false") == "true":
+        new_path = file_path.replace("run-examples", "debug/test-infer" if USE_INFER else "debug/test")
+        if os.path.exists(new_path):
+            with open(new_path, "r") as f:
+                return f.read()
 
     if NO_REQUEST_LLM:
         logger.info(f"Skipping LLM request for {file_path}, because NO_REQUEST_LLM is set to 1")
         return modified_content['content']
+        
     
     # Request fix from LLM
     logger.info(f"Requesting LLM to fix issues in {file_path}")
@@ -320,6 +327,9 @@ def main():
     parser.add_argument('--include-infer-in-prompt', action='store_true', help='Whether to include Infer results in the prompt')
     
     args = parser.parse_args()
+    
+    global USE_INFER
+    USE_INFER = args.use_infer
     
     target_test_map = {}
 
