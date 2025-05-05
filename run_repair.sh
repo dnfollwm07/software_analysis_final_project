@@ -48,8 +48,15 @@ reset_examples() {
   rm -rf run-examples
   cp -r examples run-examples
 
-  sed -i '/\/\*.*FIXME/,/\*\//d' run-examples/src/*.cpp
-  sed -i '/\/\/.*FIXME/d' run-examples/src/*.cpp
+  if [[ "$(uname)" == "Darwin" ]]; then
+    # macOS
+    sed -i '' '/\/\*.*FIXME/,/\*\//d' run-examples/src/*.cpp
+    sed -i '' '/\/\/.*FIXME/d' run-examples/src/*.cpp
+  else
+    # Linux
+    sed -i '/\/\*.*FIXME/,/\*\//d' run-examples/src/*.cpp
+    sed -i '/\/\/.*FIXME/d' run-examples/src/*.cpp
+  fi
   print_success "Examples directory reset complete"
 }
 
@@ -210,14 +217,14 @@ cmake --build "$BUILD_DIR" --config Debug
 
 cd "$BUILD_DIR"
 print_info "Running tests again to verify fixes..."
-ctest -C Debug --output-on-failure --output-junit "$OUTPUT_DIR/test-results-after-fix.xml" || true
 
+TEST_RESULT_FILE="$OUTPUT_DIR/test-results-after-fix.xml"
 # Check if all tests passed after fixes
-if grep -q "failures=\"0\"" "$OUTPUT_DIR/test-results-after-fix.xml"; then
+if ctest -C Debug --output-on-failure --output-junit $TEST_RESULT_FILE; then
     print_success "All tests passed after LLM fixes!"
 else
     print_warning "Some tests still failed after LLM fixes."
-    print_info "Please review the test results in $OUTPUT_DIR/test-results-after-fix.xml"
+    print_info "Please review the test results in $TEST_RESULT_FILE"
 fi
 
 cd ..
