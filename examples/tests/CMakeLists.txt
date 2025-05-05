@@ -4,7 +4,10 @@ set(TEST_SOURCES
     test_config_store_null_ptr.cpp
     test_config_store_uninit_var.cpp
     test_config_store_memory_leak.cpp
-    test_calendar_format.cpp
+    # test_calendar_format.cpp
+    test_uninit_var.cpp
+    test_dangling_pointer.cpp
+    test_vector_invalid.cpp
 )
 
 # 添加测试可执行文件

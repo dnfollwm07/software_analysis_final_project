@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
-project(software_analysis_final_project)
+project(software_analysis_final_project LANGUAGES C CXX)
 
 # 设置 C++ 标准
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 设置C标准
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # 主要源代码目录
 add_subdirectory(run-examples/src)

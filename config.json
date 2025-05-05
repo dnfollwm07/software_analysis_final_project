@@ -1,8 +1,8 @@
 {
     "rules": [
         {
-            "lintType": "Stack Variable Address Escape",
-            "fixPrompt": "std::make_shared fixed"
+            "lintType": "Vector Invalidation",
+            "fixPrompt": "push_back may cause the vector to reallocate memory, invalidating previously saved pointers. The correct approach is: First complete all modifications to the vector, then obtain references to its elements."
         }
     ]
 }

@@ -74,6 +74,8 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "queue": "cpp",
+        "ranges": "cpp"
     }
 }

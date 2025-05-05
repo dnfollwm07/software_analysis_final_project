@@ -220,16 +220,4 @@ int ConfigStoreNullPtr::sumBuffer(int start, int end) {
         sum += buffer[i];
     }
     return sum;
-} 
-
-
-// TODO: 
-// static void dereference_null(int* ptr) {
-//     std::cout << "Value: " << *ptr << std::endl; // 可能解引用空指针
-// }
-
-// static int dereference_null_main() {
-//     int* p = nullptr;
-//     dereference_null(p); // 传递空指针
-//     return 0;
-// }
+}

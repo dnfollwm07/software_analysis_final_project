@@ -10,27 +10,26 @@ from .logger import logger
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 def request_llm(prompt: str) -> str:
-    logger.debug(f"Running LLM...\n\n{prompt}")
+    logger.debug(f"Running LLM...,prompt:\n\n{prompt}")
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     if OPENAI_API_KEY:
 
         OPENAI_API_URL = os.getenv("OPENAI_API_URL")
         if not OPENAI_API_URL:
             OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
-        logger.debug("Running GPT-4 API..." + OPENAI_API_URL)
+        model = os.getenv("OPENAI_MODEL", "qwen-plus")
+        logger.info(f"Running LLL API, url: {OPENAI_API_URL}, model: {model}")
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {OPENAI_API_KEY}"
         }
         
         payload = {
-            "model": os.getenv("OPENAI_MODEL", "qwen-plus"),
+            "model": model,
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7
         }
 
-        logger.debug(prompt)
-        
         try:
             response = requests.post(OPENAI_API_URL, headers=headers, json=payload)
             response.raise_for_status()

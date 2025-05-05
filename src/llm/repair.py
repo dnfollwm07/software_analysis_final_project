@@ -6,7 +6,8 @@ import difflib
 import json
 import re
 from pathlib import Path
-from typing import Dict, Optional, List, Set
+from typing import Dict, Optional, List, Set, Tuple
+import subprocess
 
 from .test_results_parser import TestResultsParser
 from .logger import logger
@@ -69,7 +70,7 @@ def repair_file(file_path: str, modified_content: Dict) -> Optional[str]:
     
     # Add failed tests information if available
     failed_tests_section = ""
-    if modified_content['failed_tests'] is not None and len(modified_content['failed_tests']) > 0:
+    if len(modified_content.get('failed_tests', [])) > 0:
         filtered_output_str = "\n".join([f"- {test['name']}\n{test['filtered_output']}\n" for test in modified_content['failed_tests']])
         failed_tests_section = f"""
 Failed Tests:
@@ -81,6 +82,7 @@ Please ensure your fixes address these test failures while maintaining the origi
     # Add Infer warnings section if there are any warnings
     infer_warnings_section = "" if bug_types else "Each warning is marked with an end-of-line comment containing '//[INFER_WARNING] <bug_type_hum>:<Mqualifier>'."
     summary_section = "" if modified_content.get('summary') is None else f"Infer warnings summary:\n{modified_content['summary']}"
+    code = modified_content['content']
 
     prompt = f"""
 As a senior code quality engineer, carefully inspect the following code file.{infer_warnings_section}
@@ -101,7 +103,7 @@ Language: {language}
 
 # File content with warnings
 ```cpp
-{modified_content['content']}
+{code}
 ```
 
 {summary_section}
@@ -112,12 +114,6 @@ Language: {language}
 - Keep original comments unless they reference warnings
 - Ensure exact syntax validation for {language}
 """
-    
-    # Print the complete prompt
-    logger.debug("Generated prompt:")
-    logger.debug("=" * 80)
-    logger.debug(prompt)
-    logger.debug("=" * 80)
 
     if NO_REQUEST_LLM:
         logger.info(f"Skipping LLM request for {file_path}, because NO_REQUEST_LLM is set to 1")
@@ -132,8 +128,71 @@ Language: {language}
         return None
     
     fixed_content = get_code_from_result(fixed_content)
+
+    is_fixed, code = fix_cpp_syntax_with_llm(fixed_content)
+    if not is_fixed or not code:
+        logger.error(f"Failed to fix syntax errors for {file_path}")
+        return modified_content['content']
         
-    return fixed_content
+    return code
+
+
+def fix_cpp_syntax_with_llm(cpp_code: str, max_retry_times: int = 3, retry_times: int = 0)->Tuple[bool, str]:
+    """
+    Fix C++ syntax errors using g++ compiler.
+    
+    Args:
+        cpp_code: C++ source code as string
+    """
+    if retry_times >= max_retry_times:
+        return False, cpp_code
+
+    error_msg = check_cpp_syntax(cpp_code)
+    if error_msg:
+        logger.info(f"Fixing syntax errors with LLM, retry times: {retry_times + 1}, error message: {error_msg}")
+        prompt = f"""Act as a C++ expert to fix syntax errors by:
+1. Analyzing compilation error messages
+2. Locating exact problematic code lines
+3. Applying minimal necessary corrections
+4. Preserving original code logic
+
+Input code:
+```cpp
+{cpp_code}
+```
+
+Compiler errors:
+{error_msg}
+
+Output only:Corrected working code"""
+        fixed_code = get_code_from_result(request_llm(prompt))
+        if not fixed_code:
+            return False, cpp_code
+        return fix_cpp_syntax_with_llm(fixed_code, max_retry_times, retry_times + 1)
+    else:
+        return True, cpp_code
+
+
+
+def check_cpp_syntax(cpp_code: str)->str:
+    """
+    Check if C++ code string has valid syntax using g++ compiler.
+    
+    Args:
+        cpp_code: C++ source code as string
+        
+    """
+    result = subprocess.run(
+        ["g++", "-fsyntax-only", "-x", "c++", "-I./run-examples/src", "-"],
+        input=cpp_code.encode(),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if result.returncode == 0:
+        return ""
+    else:
+        return result.stderr.decode()
+
 
 def print_colored_diff(diff_content: str, file_path: str) -> None:
     """
@@ -257,21 +316,34 @@ def main():
     parser.add_argument('--infer-report-path', help='Path to Infer report.json file (optional if not using Infer)')
     parser.add_argument('--output-dir', help='Directory to write fixed files to (if not provided, will overwrite original files)')
     parser.add_argument('--failed-tests', help='Path to file containing failed test names')
-    parser.add_argument('--targets', nargs='+', help='List of target paths to repair')
-    parser.add_argument('--test-classes', nargs='+', help='List of test class names corresponding to target paths')
     parser.add_argument('--use-infer', action='store_true', help='Whether to use Infer results in the repair process')
     parser.add_argument('--include-infer-in-prompt', action='store_true', help='Whether to include Infer results in the prompt')
     
     args = parser.parse_args()
     
-    # Validate target paths and test classes
-    if args.targets and args.test_classes:
-        if len(args.targets) != len(args.test_classes):
-            logger.error("Number of target paths must match number of test class names")
-            return
-        target_test_map = dict(zip(args.targets, args.test_classes))
-    else:
-        target_test_map = {}
+    target_test_map = {}
+
+    src_dir = "run-examples/src"
+    cpp_files = []
+    try:
+        for file in os.listdir(src_dir):
+            if file.endswith(".cpp"):
+                cpp_path = os.path.join(src_dir, file)
+                # Convert to relative path
+                rel_path = os.path.relpath(cpp_path)
+                cpp_files.append(rel_path)
+        logger.info(f"Found {len(cpp_files)} .cpp files in {src_dir}")
+    except Exception as e:
+        logger.error(f"Error reading directory {src_dir}: {e}")
+        return
+    
+    # Map each cpp file to its test class name
+    for cpp_file in cpp_files:
+        base_name = os.path.splitext(os.path.basename(cpp_file))[0]
+        # Convert snake_case to PascalCase and append "Test"
+        test_class = ''.join(word.title() for word in base_name.split('_')) + 'Test'
+        target_test_map[cpp_file] = test_class
+
     
     logger.info(f"Target test map: {target_test_map}")
     
@@ -282,6 +354,7 @@ def main():
     process_time = 0
 
     test_results_parser = TestResultsParser(args.failed_tests)
+    
     # handle Test
     for file_path, test_class in target_test_map.items():
         failed_tests = test_results_parser.get_failed_test_info_by_test_class(test_class)

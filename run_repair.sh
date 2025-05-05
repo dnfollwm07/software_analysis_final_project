@@ -41,10 +41,18 @@ print_info() {
   echo -e "${MAGENTA}ℹ $1${NC}"
 }
 
+BUILD_DIR="build"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OUTPUT_DIR="$PROJECT_ROOT/output"
+mkdir -p $OUTPUT_DIR
+
+# File to track the pipeline run count
+RUN_COUNT_FILE="$OUTPUT_DIR/run_count.txt"
+
 # Function to reset examples directory
 reset_examples() {
   print_info "Resetting examples directory..."
-  rm -rf output
+  rm -rf $OUTPUT_DIR/*
   rm -rf run-examples
   cp -r examples run-examples
 
@@ -57,13 +65,11 @@ reset_examples() {
     sed -i '/\/\*.*FIXME/,/\*\//d' run-examples/src/*.cpp
     sed -i '/\/\/.*FIXME/d' run-examples/src/*.cpp
   fi
+  
+  rm -f "$RUN_COUNT_FILE"
+  
   print_success "Examples directory reset complete"
 }
-
-BUILD_DIR="build"
-PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUTPUT_DIR="$PROJECT_ROOT/output"
-mkdir -p $OUTPUT_DIR
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -116,118 +122,142 @@ done
 USE_INFER=${USE_INFER:-false}
 INCLUDE_INFER_IN_PROMPT=${INCLUDE_INFER_IN_PROMPT:-false}
 
-print_header "LLM-Assisted Code Repair Pipeline"
-print_info "Build directory: ${BOLD}$BUILD_DIR${NC}"
-print_info "Use Infer: ${BOLD}$USE_INFER${NC}"
-print_info "Include Infer in prompt: ${BOLD}$INCLUDE_INFER_IN_PROMPT${NC}"
 
-# Create necessary directories
-mkdir -p results logs
+# Initialize run count if file doesn't exist
+if [ ! -f "$RUN_COUNT_FILE" ]; then
+  PIPELINE_RUN_COUNT=0
+else 
+  PIPELINE_RUN_COUNT=$(cat "$RUN_COUNT_FILE")
+fi
 
-# Create build directory if it doesn't exist
-mkdir -p "$BUILD_DIR"
+# Flag to control the pipeline loop
+SHOULD_CONTINUE=true
 
-# Step 1: CMake Configure
-print_step "1" "CMake Configure"
-print_info "Generating build system and compilation database..."
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B "$BUILD_DIR" -S .
-print_success "CMake configuration complete"
+while [ "$SHOULD_CONTINUE" = true ]; do
+  SHOULD_CONTINUE=false
+  # Increment and save the run count for next time if continuing
+  PIPELINE_RUN_COUNT=$((PIPELINE_RUN_COUNT + 1))
+  echo "$PIPELINE_RUN_COUNT" > "$RUN_COUNT_FILE"
+  
+  print_header "LLM-Assisted Code Repair Pipeline"
+  print_info "Build directory: ${BOLD}$BUILD_DIR${NC}"
+  print_info "Use Infer: ${BOLD}$USE_INFER${NC}"
+  print_info "Include Infer in prompt: ${BOLD}$INCLUDE_INFER_IN_PROMPT${NC}"
+  print_info "Pipeline run count: ${BOLD}$PIPELINE_RUN_COUNT${NC}"
 
+  # Create necessary directories
+  mkdir -p results logs
 
-# Step 2: Static Analysis
-print_step "2" "Running static analysis"
-if [[ "$USE_INFER" == "true" ]]; then
-  if command -v infer &> /dev/null; then
-    INFER_OUTPUT_DIR="$OUTPUT_DIR/infer-out"
-    print_info "Running Infer static analyzer..."
-    infer run --skip-analysis-in-path "build/_deps" \
-      --skip-analysis-in-path "run-examples/tests" \
-      --reactive \
-      --compilation-database "$BUILD_DIR/compile_commands.json" \
-      -o "$INFER_OUTPUT_DIR"
+  # Create build directory if it doesn't exist
+  mkdir -p "$BUILD_DIR"
 
-    print_success "Infer analysis complete. Results in 'infer-out' directory."
-    
-    # Process Infer output to make it LLM-friendly
-    print_info "Processing Infer output to make it more LLM-friendly..."
-
-    # Process Infer output to make it LLM-friendly
-    print_info "Processing Infer output to make it more LLM-friendly..."
-    INFER_PROCESSED_FILE="$OUTPUT_DIR/infer_processed.json"
-    python3 -m src.llm.infer_processor --infer-dir "$INFER_OUTPUT_DIR" --output-file "$INFER_PROCESSED_FILE"
+  # Step 1: CMake Configure
+  print_step "1" "CMake Configure"
+  print_info "Generating build system and compilation database..."
+  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B "$BUILD_DIR" -S .
+  print_success "CMake configuration complete"
 
 
-    if [ -f "$INFER_PROCESSED_FILE" ]; then
-      print_success "Processed Infer results saved to '$INFER_PROCESSED_FILE'"
+  # Step 2: Static Analysis
+  print_step "2" "Running static analysis"
+  if [[ "$USE_INFER" == "true" ]]; then
+    if command -v infer &> /dev/null; then
+      INFER_OUTPUT_DIR="$OUTPUT_DIR/infer-out"
+      print_info "Running Infer static analyzer..."
+      infer run \
+        --enable-issue-type ALL \
+        --skip-analysis-in-path "build/_deps" \
+        --skip-analysis-in-path "run-examples/tests" \
+        --reactive \
+        --compilation-database "$BUILD_DIR/compile_commands.json" \
+        -o "$INFER_OUTPUT_DIR"
+
+      print_success "Infer analysis complete. Results in 'infer-out' directory."
+
+      # Process Infer output to make it LLM-friendly
+      print_info "Processing Infer output to make it more LLM-friendly..."
+      INFER_PROCESSED_FILE="$OUTPUT_DIR/infer_processed.json"
+      python3 -m src.llm.infer_processor --infer-dir "$INFER_OUTPUT_DIR" --output-file "$INFER_PROCESSED_FILE"
+
+
+      if [ -f "$INFER_PROCESSED_FILE" ]; then
+        print_success "Processed Infer results saved to '$INFER_PROCESSED_FILE'"
+      else
+        print_warning "Failed to process Infer results. Using raw output."
+      fi
     else
-      print_warning "Failed to process Infer results. Using raw output."
+      print_warning "Infer not found. Static analysis skipped."
+      print_info "Please install Infer: https://fbinfer.com/"
     fi
   else
-    print_warning "Infer not found. Static analysis skipped."
-    print_info "Please install Infer: https://fbinfer.com/"
+    print_info "Skipping Infer static analysis as requested"
   fi
-else
-  print_info "Skipping Infer static analysis as requested"
-fi
 
-# Step 3: Build the project with CMake
-print_step "3" "Building the project"
-print_info "Compiling code..."
-cmake --build "$BUILD_DIR" --config Debug
-print_success "Build successful"
+  # Step 3: Build the project with CMake
+  print_step "3" "Building the project"
+  print_info "Compiling code..."
+  cmake --build "$BUILD_DIR" --config Debug
+  print_success "Build successful"
 
-# Step 4: Run tests with CTest
-print_step "4" "Running tests"
+  # Step 4: Run tests with CTest
+  print_step "4" "Running tests"
 
-cd "$BUILD_DIR"
-# Run all tests
-print_info "Running all tests..."
-ctest -C Debug --output-on-failure --output-junit "$OUTPUT_DIR/test-results.xml" || true
+  cd "$BUILD_DIR"
+  # Run all tests
+  print_info "Running all tests..."
+  ctest -C Debug --output-on-failure --output-junit "$OUTPUT_DIR/test-results.xml" || true
 
-# Check if all tests passed
-if grep -q "failures=\"0\"" "$OUTPUT_DIR/test-results.xml"; then
-    print_success "All tests passed! No need for code repair."
-    print_header "End of Pipeline"
-    exit 0
-fi
+  # Check if all tests passed
+  if grep -q "failures=\"0\"" "$OUTPUT_DIR/test-results.xml"; then
+      print_success "All tests passed! No need for code repair."
+      print_header "End of Pipeline"
+      exit 0
+  fi
 
-cd ..
+  cd ..
 
-# Step 5: Run code repair with LLM
-print_step "5" "Running LLM-assisted code repair"
-if [[ "$USE_INFER" == "true" && "$INCLUDE_INFER_IN_PROMPT" == "true" ]]; then
-    python3 -m src.llm.repair \
-    --targets run-examples/src/config_store_memory_leak.cpp run-examples/src/config_store_null_ptr.cpp run-examples/src/config_store_uninit_var.cpp \
-    --test-classes ConfigStoreMemoryLeakTest ConfigStoreNullPtrTest ConfigStoreUninitVarTest \
-    --infer-report-path output/infer-out/report.json --failed-tests "$OUTPUT_DIR/test-results.xml" --use-infer --include-infer-in-prompt
-else
-    python3 -m src.llm.repair \
-    --targets run-examples/src/config_store_memory_leak.cpp run-examples/src/config_store_null_ptr.cpp run-examples/src/config_store_uninit_var.cpp \
-    --test-classes ConfigStoreMemoryLeakTest ConfigStoreNullPtrTest ConfigStoreUninitVarTest \
-    --failed-tests "$OUTPUT_DIR/test-results.xml"
-fi
+  # Step 5: Run code repair with LLM
+  print_step "5" "Running LLM-assisted code repair"
+  if [[ "$USE_INFER" == "true" && "$INCLUDE_INFER_IN_PROMPT" == "true" ]]; then
+      python3 -m src.llm.repair \
+      --infer-report-path output/infer-out/report.json \
+      --failed-tests "$OUTPUT_DIR/test-results.xml" \
+      --use-infer --include-infer-in-prompt
+  else
+      python3 -m src.llm.repair --failed-tests "$OUTPUT_DIR/test-results.xml"
+  fi
 
-# Step 6: Verify fixes with tests
-print_step "6" "Verifying fixes with tests"
+  # Step 6: Verify fixes with tests
+  print_step "6" "Verifying fixes with tests"
 
-print_info "Generating build system and compilation database..."
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B "$BUILD_DIR" -S .
-print_success "CMake configuration complete"
-cmake --build "$BUILD_DIR" --config Debug
+  print_info "Generating build system and compilation database..."
+  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B "$BUILD_DIR" -S .
+  print_success "CMake configuration complete"
+  cmake --build "$BUILD_DIR" --config Debug
 
-cd "$BUILD_DIR"
-print_info "Running tests again to verify fixes..."
+  cd "$BUILD_DIR"
+  print_info "Running tests again to verify fixes..."
 
-TEST_RESULT_FILE="$OUTPUT_DIR/test-results-after-fix.xml"
-# Check if all tests passed after fixes
-if ctest -C Debug --output-on-failure --output-junit $TEST_RESULT_FILE; then
-    print_success "All tests passed after LLM fixes!"
-else
-    print_warning "Some tests still failed after LLM fixes."
-    print_info "Please review the test results in $TEST_RESULT_FILE"
-fi
+  TEST_RESULT_FILE="$OUTPUT_DIR/test-results-after-fix.xml"
+  # Check if all tests passed after fixes
+  if ctest -C Debug --output-on-failure --output-junit $TEST_RESULT_FILE; then
+      print_success "All tests passed after LLM fixes!"
+  else
+      print_warning "Some tests still failed after LLM fixes."
+      print_info "Please review the test results in $TEST_RESULT_FILE"
+      
+      # Ask user if they want to restart the pipeline from step 1
+      read -p "$(echo -e ${YELLOW}Would you like to restart the pipeline from step 1 \(current run count: $PIPELINE_RUN_COUNT\)? [y/N]:${NC} )" restart
+      if [[ "$restart" == "y" || "$restart" == "Y" ]]; then
+          cd ..
+          print_info "Restarting pipeline from step 1..."
+          SHOULD_CONTINUE=true
+          continue
+      fi
+  fi
 
-cd ..
+  cd ..
 
-print_success "Pipeline execution complete."
-print_header "End of Pipeline" 
+  print_success "Pipeline execution complete."
+  print_header "End of Pipeline"
+done 
