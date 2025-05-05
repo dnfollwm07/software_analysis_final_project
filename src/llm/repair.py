@@ -9,9 +9,11 @@ from pathlib import Path
 from typing import Dict, Optional, List, Set
 
 from .test_results_parser import TestResultsParser
-from src.llm import logger
+from .logger import logger
 from .infer_report_processor import process_infer_report
 from .llm import get_code_from_result, request_llm
+
+NO_REQUEST_LLM = os.getenv("NO_REQUEST_LLM", "0").lower() == "1"
 
 def load_config(config_path: str = "config.json") -> Dict:
     """
@@ -77,12 +79,9 @@ Please ensure your fixes address these test failures while maintaining the origi
 """
     
     # Add Infer warnings section if there are any warnings
-    infer_warnings_section = ""
-    if bug_types:
-        infer_warnings_section = """
-Each warning is marked with an end-of-line comment containing '//[INFER_WARNING] <bug_type_hum>:<Mqualifier>'.
-"""
-    
+    infer_warnings_section = "" if bug_types else "Each warning is marked with an end-of-line comment containing '//[INFER_WARNING] <bug_type_hum>:<Mqualifier>'."
+    summary_section = "" if modified_content.get('summary') is None else f"Infer warnings summary:\n{modified_content['summary']}"
+
     prompt = f"""
 As a senior code quality engineer, carefully inspect the following code file.{infer_warnings_section}
 
@@ -98,12 +97,14 @@ Requirements:
 {custom_prompts_section}
 {failed_tests_section}
 
-Language: {language}  # Added context for language-specific fixes
+Language: {language}
 
 # File content with warnings
 ```cpp
 {modified_content['content']}
 ```
+
+{summary_section}
 
 **Important:**
 - Only output the complete fixed code
@@ -118,7 +119,9 @@ Language: {language}  # Added context for language-specific fixes
     logger.debug(prompt)
     logger.debug("=" * 80)
 
-    # return modified_content['content']
+    if NO_REQUEST_LLM:
+        logger.info(f"Skipping LLM request for {file_path}, because NO_REQUEST_LLM is set to 1")
+        return modified_content['content']
     
     # Request fix from LLM
     logger.info(f"Requesting LLM to fix issues in {file_path}")
@@ -259,7 +262,6 @@ def main():
     parser.add_argument('--use-infer', action='store_true', help='Whether to use Infer results in the repair process')
     parser.add_argument('--include-infer-in-prompt', action='store_true', help='Whether to include Infer results in the prompt')
     
-    
     args = parser.parse_args()
     
     # Validate target paths and test classes
@@ -323,7 +325,8 @@ def main():
                         'content': modified_content['content'],
                         'lintList': modified_content['lintList'],
                         'testClass': '',
-                        'failed_tests': []
+                        'failed_tests': [],
+                        'summary': modified_content['summary']
                     }
             logger.info(f"Found {len(infer_modified_files)} files with issues (processing took {process_time:.2f}s)")
             logger.debug(f"Modified files: {modified_files}")

@@ -131,17 +131,30 @@ print_success "CMake configuration complete"
 print_step "2" "Running static analysis"
 if [[ "$USE_INFER" == "true" ]]; then
   if command -v infer &> /dev/null; then
+    INFER_OUTPUT_DIR="$OUTPUT_DIR/infer-out"
     print_info "Running Infer static analyzer..."
     infer run --skip-analysis-in-path "build/_deps" \
       --skip-analysis-in-path "run-examples/tests" \
       --reactive \
       --compilation-database "$BUILD_DIR/compile_commands.json" \
-      -o "$OUTPUT_DIR/infer-out"
+      -o "$INFER_OUTPUT_DIR"
 
     print_success "Infer analysis complete. Results in 'infer-out' directory."
     
     # Process Infer output to make it LLM-friendly
     print_info "Processing Infer output to make it more LLM-friendly..."
+
+    # Process Infer output to make it LLM-friendly
+    print_info "Processing Infer output to make it more LLM-friendly..."
+    INFER_PROCESSED_FILE="$OUTPUT_DIR/infer_processed.json"
+    python3 -m src.llm.infer_processor --infer-dir "$INFER_OUTPUT_DIR" --output-file "$INFER_PROCESSED_FILE"
+
+
+    if [ -f "$INFER_PROCESSED_FILE" ]; then
+      print_success "Processed Infer results saved to '$INFER_PROCESSED_FILE'"
+    else
+      print_warning "Failed to process Infer results. Using raw output."
+    fi
   else
     print_warning "Infer not found. Static analysis skipped."
     print_info "Please install Infer: https://fbinfer.com/"

@@ -1,11 +1,11 @@
 import json
 import os
-import argparse
-import logging
 from collections import defaultdict
 from pathlib import Path
+from .logger import logger
+from typing import Dict, List, Any, Optional
+import json
 
-from src.llm import logger
 
 def get_comment_syntax(file_path):
     """
@@ -66,6 +66,8 @@ def process_infer_report(report_path):
             file_groups[file_path].append(entry)
     
     logger.info(f"Found issues in {len(file_groups)} files")
+
+    infer_processor_manager = InferProcessManager()
     
     # Store modified content
     modified_files = {}
@@ -146,10 +148,45 @@ def process_infer_report(report_path):
             modified_files[file_path] = {
                 'content': ''.join(modified_content),
                 'lintList': lint_list,
+                'summary': infer_processor_manager.summarize_issues_str(file_path),
             }
             logger.info(f"Processed {file_path}: modified {len(modified_lines)} lines")
     
     return modified_files
+
+
+class InferProcessManager:
+    def __init__(self, infer_processed_path = "output/infer_processed.json"):
+        self.infer_processed_path = infer_processed_path
+        self.infer_processed = self.read_infer_processed()
+    
+    def read_infer_processed(self):
+        with open(self.infer_processed_path, 'r') as f:
+            return json.load(f)
+
+    def summarize_issues(self, target_path: str) -> List[Dict[str, Any]]:
+        summarized = []
+        for issue in self.infer_processed:
+            if issue.get("location", {}).get("file") != target_path:
+                continue
+
+            context = issue.get("context", {})
+            snippet = "\n".join(
+                context.get("before", []) +
+                [">>> " + context.get("target_line", "")] +
+                context.get("after", [])
+            )
+            summarized.append({
+                "location": issue.get("location"),
+                "description": issue.get("description"),
+                "issue_type": issue.get("issue_type"),
+                "code_snippet": snippet,
+                "suggestions": issue.get("analysis", {}).get("fix_suggestions", [])
+            })
+        return summarized
+    
+    def summarize_issues_str(self, target_path: str) -> str:
+        return json.dumps(self.summarize_issues(target_path), indent=2)
 
 if __name__ == "__main__":
     modified_files = process_infer_report("output/infer-out/report.json")

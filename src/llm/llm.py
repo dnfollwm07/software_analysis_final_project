@@ -5,9 +5,8 @@ from pathlib import Path
 import requests
 import json
 import re
-import logging
 
-from src.llm import logger
+from .logger import logger
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 def request_llm(prompt: str) -> str:

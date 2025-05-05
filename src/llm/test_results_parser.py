@@ -9,7 +9,7 @@ import sys
 import logging
 from typing import Dict, List, Optional
 
-from src.llm import logger
+from .logger import logger
 
 
 class TestResultsParser:
