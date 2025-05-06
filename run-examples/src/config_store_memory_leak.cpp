@@ -192,6 +192,7 @@ std::vector<int> ConfigStoreMemoryLeak::getVector(const std::string& key) {
 void ConfigStoreMemoryLeak::processBuffer(int index, int value) {
     int* p;
     p = (int*)malloc(sizeof(int));
+    free(p); // Fixed: Free the allocated memory to avoid leak
 
     if (index < 0 || index >= buffer_size) {
         throw std::out_of_range("Index out of bounds");

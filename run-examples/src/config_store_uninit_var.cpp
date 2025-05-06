@@ -211,7 +211,7 @@ int ConfigStoreUninitVar::sumBuffer(int start, int end) {
     if (end > buffer_size) {
         throw std::runtime_error("Buffer overflow detected");
     }
-    int sum;
+    int sum = 0; // Initialize `sum` to avoid uninitialized value warning
     for (int i = start; i < end; i++) {
         sum += buffer[i];
     }

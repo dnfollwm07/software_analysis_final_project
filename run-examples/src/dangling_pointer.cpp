@@ -1,8 +1,8 @@
 #include <iostream>
 #include "dangling_pointer.h"
 
-int *createInt(int defaultalue)
+int *createInt(int defaultValue)
 {
-    int x = defaultalue;
-    return &x;
+    int *x = new int(defaultValue);
+    return x;
 }

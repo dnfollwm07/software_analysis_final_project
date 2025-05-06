@@ -4,9 +4,7 @@
 
 int pushReturnHead(std::vector<int> &vec)
 {
-
-  int *elt = &vec[1];
-  int *y = elt;
+  int *y = &vec[1];
   vec.push_back(100);
   int result = *y;
   return result;

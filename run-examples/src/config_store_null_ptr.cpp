@@ -5,7 +5,7 @@ ConfigStoreNullPtr::ConfigValue::ConfigValue() : type(TYPE_INT), data(nullptr) {
 
 ConfigStoreNullPtr::ConfigValue::ConfigValue(const ConfigValue& other) : type(other.type), data(nullptr) {
     if (other.data != nullptr) {
-        switch (other.type) {
+        switch (type) {
             case TYPE_INT:
                 data = new int(*static_cast<int*>(other.data));
                 break;
@@ -91,7 +91,7 @@ ConfigStoreNullPtr::~ConfigStoreNullPtr() {
 }
 
 void ConfigStoreNullPtr::setInt(const std::string& key, int value) {
-    int* p = nullptr;
+    int* p = new int(value); // Fixed: Allocate memory to avoid null dereference
     *p = value;
 
     ConfigValue config_value;
@@ -141,7 +141,7 @@ float ConfigStoreNullPtr::getFloat(const std::string& key) {
     return *static_cast<float*>(it->second.data);
 }
 
-void ConfigStoreNullPtr::setString(const std::string& key,const std::string* value) {
+void ConfigStoreNullPtr::setString(const std::string& key, const std::string* value) {
     if (value == nullptr || value->empty()) {
         return;
     } 

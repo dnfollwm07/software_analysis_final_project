@@ -3,7 +3,7 @@
 
 static int processLevel3(int value, int mod)
 {
-    int v;
+    int v = 0; // Initialize `v` to prevent uninitialized read
     if (v % 2 == 0)
     {
         v = 1;
@@ -14,7 +14,7 @@ static int processLevel3(int value, int mod)
 
 static int processLevel2(int value)
 {
-    int modifier;
+    int modifier = 0; // Initialize `modifier` to prevent uninitialized read
 
     if (value > 100)
     {
@@ -30,7 +30,7 @@ static int processLevel1(int input)
 
 int myCalculate(int input)
 {
-    int temp;
+    int temp = 0; // Initialize `temp` to prevent uninitialized read
     if (input > 0)
     {
         temp += processLevel1(input + 5);
