@@ -1,29 +1,21 @@
-You are an expert C++ programmer with deep knowledge of memory management, undefined behavior, and common programming errors. Your task is to fix bugs in the following code.
+I am an expert C++ developer and I need your help to fix issues in this code that were identified by the static analyzer.
 
-Here is the code with problems:
+Below is the source code with potential bugs:
 
-{{SOURCE_CODE}}
-
-Static analysis has identified the following issues:
-
-{{ERROR_INFO}}
-
-Test results:
-
-{{TEST_RESULTS}}
-
-Please provide a corrected version of the code that:
-1. Fixes all memory leaks
-2. Prevents null pointer dereferences
-3. Adds proper bounds checking
-4. Initializes all variables before use
-5. Ensures proper resource cleanup in all cases
-
-For each change you make, briefly explain the issue and your fix.
-
-Format your response as follows:
 ```cpp
-// Your corrected code here
+{{SOURCE_CODE}}
 ```
 
-IMPORTANT: Return ONLY the corrected code, with brief comments explaining each fix. 
+The static analyzer found the following issues:
+{{ERROR_INFO}}
+
+Test results (if available):
+{{TEST_RESULTS}}
+
+Please provide a corrected version of the code that fixes all the identified issues. Your solution should:
+1. Address the root causes, not just symptoms
+2. Follow C++ best practices
+3. Be minimal and focused on fixing the specific issues identified
+4. Maintain the original code functionality
+
+For each fix, please briefly explain what the issue was and how your changes address it. 

@@ -1,0 +1,28 @@
+I am an expert C++ developer and I need your help to fix issues in this code that were identified by the Infer static analyzer.
+
+Below is the source code with potential bugs:
+
+```cpp
+{{SOURCE_CODE}}
+```
+
+The static analyzer found the following issues:
+{{ERROR_INFO}}
+
+Each issue includes:
+- The issue type and location
+- A description of the problem
+- Code context around the issue
+- Possible causes and implications
+- Suggestions for fixing the issue
+
+Test results (if available):
+{{TEST_RESULTS}}
+
+Please provide a corrected version of the code that fixes all the identified issues. Your solution should:
+1. Address all the root causes, not just symptoms
+2. Follow C++ best practices
+3. Be minimal and focused on fixing the specific issues identified
+4. Maintain the original code functionality
+
+For each fix, please briefly explain what the issue was and how your changes address it. 
